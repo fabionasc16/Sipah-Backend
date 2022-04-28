@@ -1,0 +1,13 @@
+# Build, IDE settings and installation folders
+node_modules
+dist
+.vscode
+.idea
+
+# Logs and Error Files from Yarn
+yarn-error.log
+yarn.lock
+yarn.log
+
+# Environment files
+.env
