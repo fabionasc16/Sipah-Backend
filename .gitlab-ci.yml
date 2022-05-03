@@ -8,4 +8,4 @@ deploy:      # This job runs in the deploy stage.
   tags:
     - ses_23
   only:
-    - master  
+    - main  
