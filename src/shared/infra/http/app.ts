@@ -6,8 +6,11 @@ import morgan from 'morgan';
 import 'express-async-errors';
 import { AppError } from '@shared/errors/AppError';
 import { appRoutes } from '@shared/infra/http/routes';
+import connection from '@shared/infra/mongo';
 
 import '@shared/container';
+
+connection();
 
 const app = express();
 app.use(cors());
