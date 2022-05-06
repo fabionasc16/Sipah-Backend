@@ -2,7 +2,8 @@ import { ICreateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/ICrea
 
 interface ICadastroPacienteRepository {
   create(data: ICreateCadastroPacienteDTO): Promise<any>;
-  list(): Promise<any[]>;
+  load(): Promise<any[]>;
+  loadPaciente(nome_paciente: string): Promise<any>;
 }
 
 export { ICadastroPacienteRepository };
