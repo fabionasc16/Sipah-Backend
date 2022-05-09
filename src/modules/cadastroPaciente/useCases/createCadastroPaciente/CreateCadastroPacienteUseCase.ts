@@ -72,7 +72,7 @@ class CreateCadastroPacienteUseCase {
         },
       );
       if (!cadastroCaracteristicas.id) {
-        throw new AppError(Messages.ERROR_SAVE_PACIENTE);
+        throw new AppError(Messages.ERROR_SAVING_PACIENTE);
       }
 
       const cadastroPaciente = await this.cadastroPaciente.create({

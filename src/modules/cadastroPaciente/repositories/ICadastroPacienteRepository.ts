@@ -5,7 +5,8 @@ interface ICadastroPacienteRepository {
   create(data: ICreateCadastroPacienteDTO): Promise<any>;
   load(): Promise<any[]>;
   loadPaciente(nome_paciente: string): Promise<any>;
-  update(data: IUpdateCadastroPacienteDTO): Promise<any>;
+  loadById(id: string): Promise<any>;
+  update(data: IUpdateCadastroPacienteDTO): Promise<void>;
 }
 
 export { ICadastroPacienteRepository };

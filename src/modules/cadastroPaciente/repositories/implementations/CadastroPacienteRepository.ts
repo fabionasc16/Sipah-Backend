@@ -37,8 +37,13 @@ class CadastroPacienteRepository implements ICadastroPacienteRepository {
     return resultset;
   }
 
-  async update(data: IUpdateCadastroPacienteDTO): Promise<any> {
-    const updatedData = await paciente.findByIdAndUpdate(
+  async loadById(id: string): Promise<any> {
+    const data = await paciente.findById(id);
+    return data;
+  }
+
+  async update(data: IUpdateCadastroPacienteDTO): Promise<void> {
+    await paciente.findByIdAndUpdate(
       { _id: data.id },
       {
         hora_entrada: data.hora_entrada,
@@ -53,7 +58,6 @@ class CadastroPacienteRepository implements ICadastroPacienteRepository {
         sexo: data.sexo,
       },
     );
-    return updatedData;
   }
 }
 
