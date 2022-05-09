@@ -48,13 +48,6 @@ class CreateCadastroPacienteUseCase {
   ) {}
 
   async execute(data: IRequest): Promise<any> {
-    const pacienteExists = await this.cadastroPaciente.loadPaciente(
-      data.nome_paciente,
-    );
-    if (pacienteExists) {
-      throw new AppError(Messages.PACIENTE_ALREADY_EXISTS);
-    }
-
     try {
       const cadastroCaracteristicas = await this.cadastroCaracteristicas.create(
         {

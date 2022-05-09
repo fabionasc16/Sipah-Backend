@@ -1,4 +1,5 @@
-import { ICreateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/ICreateCadastroPacienteDTO';
+import { ICreateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/pacientes/ICreateCadastroPacienteDTO';
+import { IUpdateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/pacientes/IUpdateCadastroPacienteDTO';
 import { paciente } from '@modules/cadastroPaciente/models/Paciente';
 import { ICadastroPacienteRepository } from '@modules/cadastroPaciente/repositories/ICadastroPacienteRepository';
 
@@ -34,6 +35,25 @@ class CadastroPacienteRepository implements ICadastroPacienteRepository {
     });
 
     return resultset;
+  }
+
+  async update(data: IUpdateCadastroPacienteDTO): Promise<any> {
+    const updatedData = await paciente.findByIdAndUpdate(
+      { _id: data.id },
+      {
+        hora_entrada: data.hora_entrada,
+        tipo_entrada: data.tipo_entrada,
+        nome_paciente: data.nome_paciente,
+        nome_mae: data.nome_mae,
+        data_nascimento: data.data_nascimento,
+        rg_paciente: data.rg_paciente,
+        cpf_paciente: data.cpf_paciente,
+        cns_paciente: data.cns_paciente,
+        nacionalidade: data.nacionalidade,
+        sexo: data.sexo,
+      },
+    );
+    return updatedData;
   }
 }
 

@@ -1,4 +1,4 @@
-import { ICreateCadastroCaracteristicasDTO } from '@modules/cadastroPaciente/dtos/ICreateCaracteristicasPacienteDTO';
+import { ICreateCadastroCaracteristicasDTO } from '@modules/cadastroPaciente/dtos/caracteristicas/ICreateCaracteristicasPacienteDTO';
 import { caracteristicas } from '@modules/cadastroPaciente/models/Caracteristicas';
 import { ICadastroCaracteristicasRepository } from '@modules/cadastroPaciente/repositories/ICadastroCaracteristicasRepository';
 
@@ -27,6 +27,11 @@ class CadastroCaracteristicasRepository
       condicoes_encontrado: data.condicoes_encontrado,
     });
 
+    return caracteristicasPaciente;
+  }
+
+  async load(): Promise<any[]> {
+    const caracteristicasPaciente = await caracteristicas.find();
     return caracteristicasPaciente;
   }
 }
