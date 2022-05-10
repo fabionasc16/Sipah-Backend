@@ -68,7 +68,9 @@ class CreateCadastroPacienteController {
       bairro,
       condicoes_encontrado,
     });
-    return response.status(201).json(result);
+    return response
+      .status(201)
+      .json({ acknowledge: true, status: 'created', content: result });
   }
 }
 

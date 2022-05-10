@@ -6,6 +6,9 @@ export enum Messages {
   PACIENTE_NOT_FOUND = 'Nenhum paciente foi encontrado no sistema com as informações passadas. Verifique os dados e tente novamente',
   CHARACTERISTICS_NOT_FOUND = 'Nenhuma característica foi encontrada no sistema com as informações passadas. Verifique os dados e tente novamente',
 
+  // * Parâmetros ausentes
+  MISSING_PARAMETERS = 'Os seguintes parâmetros são necessários para a execução da operação',
+
   // * Rotas Inexistentes
   ROUTE_NOT_FOUND = 'A rota informada não existe no sistema. Verifique a URL e tente novamente',
 

@@ -38,7 +38,7 @@ class CadastroPacienteRepository implements ICadastroPacienteRepository {
   }
 
   async loadById(id: string): Promise<any> {
-    const data = await paciente.findById(id);
+    const data = await paciente.findById(id).populate('caracteristicas');
     return data;
   }
 
@@ -58,6 +58,10 @@ class CadastroPacienteRepository implements ICadastroPacienteRepository {
         sexo: data.sexo,
       },
     );
+  }
+
+  async delete(id: string): Promise<void> {
+    await paciente.findByIdAndDelete(id);
   }
 }
 

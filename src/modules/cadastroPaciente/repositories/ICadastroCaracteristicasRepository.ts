@@ -6,6 +6,7 @@ interface ICadastroCaracteristicasRepository {
   load(): Promise<any[]>;
   loadById(id: string): Promise<any>;
   update(data: IUpdateCaracteristicasPacienteDTO): Promise<void>;
+  delete(id: string): Promise<void>;
 }
 
 export { ICadastroCaracteristicasRepository };

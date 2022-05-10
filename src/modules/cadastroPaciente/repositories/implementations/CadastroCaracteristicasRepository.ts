@@ -68,6 +68,10 @@ class CadastroCaracteristicasRepository
       },
     );
   }
+
+  async delete(id: string): Promise<void> {
+    await caracteristicas.findByIdAndDelete(id);
+  }
 }
 
 export { CadastroCaracteristicasRepository };

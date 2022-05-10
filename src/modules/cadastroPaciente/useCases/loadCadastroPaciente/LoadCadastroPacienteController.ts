@@ -8,7 +8,7 @@ class LoadCadastroPacienteController {
     const load = container.resolve(LoadCadastroPacienteUseCase);
     const data = await load.execute();
 
-    return response.status(200).json(data);
+    return response.status(200).json({ acknowledge: true, content: data });
   }
 }
 
