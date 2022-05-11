@@ -4,11 +4,12 @@ import { container } from 'tsyringe';
 
 class CreateCorCabeloController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const nameCorCabelo = request.body;
+    const { cor_cabelo } = request.body;
+    console.log(`From controller: ${cor_cabelo}`);
     const createCorCabeloUseCase = container.resolve(CreateCorCabeloUseCase);
-    const data = await createCorCabeloUseCase.execute(nameCorCabelo);
+    const data = await createCorCabeloUseCase.execute(cor_cabelo);
 
-    return response.status(200).json(data);
+    return response.status(201).json(data);
   }
 }
 

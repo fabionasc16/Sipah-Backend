@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
 dotenv.config({
-  path: './.env.dev',
+  path: './.env',
 });
 
 let database: mongoose.Connection;
