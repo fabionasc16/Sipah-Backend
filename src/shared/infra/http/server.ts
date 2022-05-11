@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import { app } from './app';
 
 dotenv.config({
-  path: './.env',
+  path: './.env.dev',
 });
 
 app.listen(process.env.PORT, () => {
