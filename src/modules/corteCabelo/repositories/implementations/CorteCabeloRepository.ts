@@ -1,13 +1,11 @@
-import { ICreateCorteCabeloDTO } from '@modules/corteCabelo/dtos/ICreateCorteCabeloDTO';
-import { IUpdateCorteCabeloDTO } from '@modules/corteCabelo/dtos/IUpdateCorteCabeloDTO';
 import { corteCabelo } from '@modules/corteCabelo/models/CorteCabelo';
 import { ICorteCabeloRepository } from '@modules/corteCabelo/repositories/ICorteCabeloRepository';
 import mongoose from 'mongoose';
 
 class CorteCabeloRepository implements ICorteCabeloRepository {
-  async create(data: ICreateCorteCabeloDTO): Promise<any> {
+  async create(corte_cabelo: string): Promise<any> {
     const result = await corteCabelo.create({
-      nameCorteCabelo: data.nameCorteCabelo,
+      corte_cabelo,
     });
     return result;
   }
@@ -17,9 +15,9 @@ class CorteCabeloRepository implements ICorteCabeloRepository {
     return data;
   }
 
-  async listByHairCut(nameCorteCabelo: string): Promise<any[]> {
+  async listByHairCut(corte_cabelo: string): Promise<any[]> {
     const data = await corteCabelo.findOne({
-      nameCorteCabelo,
+      corte_cabelo,
     });
     return data;
   }
@@ -31,11 +29,11 @@ class CorteCabeloRepository implements ICorteCabeloRepository {
     return data;
   }
 
-  async update(data: IUpdateCorteCabeloDTO): Promise<void> {
+  async update(id: string, corte_cabelo: string): Promise<void> {
     await corteCabelo.findByIdAndUpdate(
-      { _id: data.id },
+      { _id: id },
       {
-        nameCorteCabelo: data.nameCorteCabelo,
+        corte_cabelo,
         updated_at: new Date(),
       },
     );

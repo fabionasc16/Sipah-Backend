@@ -5,13 +5,10 @@ import { container } from 'tsyringe';
 class UpdateTipoCabeloController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { nameTipoCabelo } = request.body;
+    const { tipo_cabelo } = request.body;
 
     const updateTipoCabeloUseCase = container.resolve(UpdateTipoCabeloUseCase);
-    await updateTipoCabeloUseCase.execute({
-      id,
-      nameTipoCabelo,
-    });
+    await updateTipoCabeloUseCase.execute(id, tipo_cabelo);
 
     return response.status(204).send();
   }

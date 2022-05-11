@@ -3,18 +3,13 @@ import { injectable, inject } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
 
-interface IRequest {
-  id: string;
-  nameCorteCabelo?: string;
-}
-
 @injectable()
 class UpdateCorteCabeloUseCase {
   constructor(
     @inject('CorteCabeloRepository')
     private corteCabeloRepository: ICorteCabeloRepository,
   ) {}
-  async execute({ id, nameCorteCabelo }: IRequest): Promise<void> {
+  async execute(id: string, corte_cabelo: string): Promise<void> {
     if (!id) {
       throw new AppError('Provide an Product ID to update data');
     }
@@ -24,13 +19,13 @@ class UpdateCorteCabeloUseCase {
       throw new AppError('It not found in database', 404);
     }
 
-    if (nameCorteCabelo) {
-      corteCabeloId.nameCorteCabelo = nameCorteCabelo;
+    if (corte_cabelo) {
+      corteCabeloId.corte_cabelo = corte_cabelo;
     } else {
-      throw new AppError('There are not a nameCorteCabelo argument', 404);
+      throw new AppError('There are not a corte_cabelo argument', 404);
     }
 
-    await this.corteCabeloRepository.update(corteCabeloId);
+    await this.corteCabeloRepository.update(id, corte_cabelo);
   }
 }
 

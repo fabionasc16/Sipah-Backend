@@ -3,10 +3,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
 
-interface IRequest {
-  nameCorteCabelo: string;
-}
-
 @injectable()
 class CreateCorteCabeloUseCase {
   constructor(
@@ -14,18 +10,18 @@ class CreateCorteCabeloUseCase {
     private corteCabeloRepository: ICorteCabeloRepository,
   ) {}
 
-  async execute({ nameCorteCabelo }: IRequest): Promise<any> {
+  async execute(corte_cabelo: string): Promise<any> {
     const corteCabeloExists = await this.corteCabeloRepository.listByHairCut(
-      String(nameCorteCabelo),
+      corte_cabelo,
     );
 
     if (corteCabeloExists != null) {
       throw new AppError('This hair cut already registered!', 404);
     }
 
-    const corteCabeloCreated = await this.corteCabeloRepository.create({
-      nameCorteCabelo,
-    });
+    const corteCabeloCreated = await this.corteCabeloRepository.create(
+      corte_cabelo,
+    );
 
     return corteCabeloCreated;
   }

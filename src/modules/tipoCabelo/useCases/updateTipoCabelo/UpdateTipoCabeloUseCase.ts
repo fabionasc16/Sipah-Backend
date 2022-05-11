@@ -14,7 +14,7 @@ class UpdateTipoCabeloUseCase {
     @inject('TipoCabeloRepository')
     private tipoCabeloRepository: ITipoCabeloRepository,
   ) {}
-  async execute({ id, nameTipoCabelo }: IRequest): Promise<void> {
+  async execute(id: string, tipo_cabelo: string): Promise<void> {
     if (!id) {
       throw new AppError('Provide an Product ID to update data');
     }
@@ -24,13 +24,13 @@ class UpdateTipoCabeloUseCase {
       throw new AppError('It not found in database', 404);
     }
 
-    if (nameTipoCabelo) {
-      tipoCabeloId.nameTipoCabelo = nameTipoCabelo;
+    if (tipo_cabelo) {
+      tipoCabeloId.tipo_cabelo = tipo_cabelo;
     } else {
       throw new AppError('There are not a nameTipoCabelo argument', 404);
     }
 
-    await this.tipoCabeloRepository.update(tipoCabeloId);
+    await this.tipoCabeloRepository.update(id, tipo_cabelo);
   }
 }
 

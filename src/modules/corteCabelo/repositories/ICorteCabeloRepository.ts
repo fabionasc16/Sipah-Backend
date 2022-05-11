@@ -1,17 +1,14 @@
-import { ICreateCorteCabeloDTO } from '@modules/corteCabelo/dtos/ICreateCorteCabeloDTO';
-import { IUpdateCorteCabeloDTO } from '@modules/corteCabelo/dtos/IUpdateCorteCabeloDTO';
-
 interface ICorteCabeloRepository {
   // Create Method
-  create(data: ICreateCorteCabeloDTO): Promise<any>;
+  create(corte_cabelo: string): Promise<any>;
 
   // Listen Methods
   list(): Promise<any[]>;
   listById(id: string): Promise<any>;
-  listByHairCut(nameCorteCabelo: string): Promise<any>;
+  listByHairCut(corte_cabelo: string): Promise<any>;
 
   // Update Method
-  update(data: IUpdateCorteCabeloDTO): Promise<void>;
+  update(id: string, corte_cabelo: string): Promise<void>;
 
   // Delete Method
   delete(id: string): Promise<void>;

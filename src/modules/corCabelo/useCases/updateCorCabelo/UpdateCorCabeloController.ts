@@ -6,13 +6,10 @@ import { UpdateCorCabeloUseCase } from './UpdateCorCabeloUseCase';
 class UpdateCorCabeloController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { nameCorCabelo } = request.body;
+    const { cor_cabelo } = request.body;
 
     const updateCorCabeloUseCase = container.resolve(UpdateCorCabeloUseCase);
-    await updateCorCabeloUseCase.execute({
-      id,
-      nameCorCabelo,
-    });
+    await updateCorCabeloUseCase.execute(id, cor_cabelo);
 
     return response.status(204).send();
   }

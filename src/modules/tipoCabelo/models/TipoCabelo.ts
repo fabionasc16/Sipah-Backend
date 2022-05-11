@@ -3,7 +3,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const tipoCabeloSchema = new Schema({
-  nameTipoCabelo: {
+  __v: {
+    type: Number,
+    select: false,
+  },
+  tipo_cabelo: {
     type: mongoose.Schema.Types.String,
     length: 60,
   },

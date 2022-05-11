@@ -3,10 +3,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
 
-interface IRequest {
-  nameTipoCabelo: string;
-}
-
 @injectable()
 class CreateTipoCabeloUseCase {
   constructor(
@@ -14,18 +10,18 @@ class CreateTipoCabeloUseCase {
     private tipoCabeloRepository: ITipoCabeloRepository,
   ) {}
 
-  async execute({ nameTipoCabelo }: IRequest): Promise<any> {
+  async execute(tipo_cabelo: string): Promise<any> {
     const tipoCabeloExists = await this.tipoCabeloRepository.listByHairType(
-      String(nameTipoCabelo),
+      tipo_cabelo,
     );
 
     if (tipoCabeloExists != null) {
       throw new AppError('This hair type already registered!', 404);
     }
 
-    const tipoCabeloCreated = await this.tipoCabeloRepository.create({
-      nameTipoCabelo,
-    });
+    const tipoCabeloCreated = await this.tipoCabeloRepository.create(
+      tipo_cabelo,
+    );
 
     return tipoCabeloCreated;
   }

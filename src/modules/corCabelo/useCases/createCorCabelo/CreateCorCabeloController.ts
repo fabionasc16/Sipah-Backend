@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 class CreateCorCabeloController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { cor_cabelo } = request.body;
-    console.log(`From controller: ${cor_cabelo}`);
     const createCorCabeloUseCase = container.resolve(CreateCorCabeloUseCase);
     const data = await createCorCabeloUseCase.execute(cor_cabelo);
 

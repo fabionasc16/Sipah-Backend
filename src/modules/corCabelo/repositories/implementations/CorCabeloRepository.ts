@@ -1,13 +1,11 @@
-import { ICreateCorCabeloDTO } from '@modules/corCabelo/dtos/ICreateCorCabeloDTO';
-import { IUpdateCorCabeloDTO } from '@modules/corCabelo/dtos/IUpdateCorCabeloDTO';
 import { corCabelo } from '@modules/corCabelo/models/CorCabelo';
 import { ICorCabeloRepository } from '@modules/corCabelo/repositories/ICorCabeloRepository';
 import mongoose from 'mongoose';
 
 class CorCabeloRepository implements ICorCabeloRepository {
-  async create(data: ICreateCorCabeloDTO): Promise<any> {
+  async create(cor_cabelo: string): Promise<any> {
     const result = await corCabelo.create({
-      nameCorCabelo: data.nameCorCabelo,
+      cor_cabelo,
     });
     return result;
   }
@@ -17,9 +15,9 @@ class CorCabeloRepository implements ICorCabeloRepository {
     return data;
   }
 
-  async listByHairColor(nameCorCabelo: string): Promise<any[]> {
+  async listByHairColor(cor_cabelo: string): Promise<any[]> {
     const data = await corCabelo.findOne({
-      nameCorCabelo,
+      cor_cabelo,
     });
     return data;
   }
@@ -31,11 +29,11 @@ class CorCabeloRepository implements ICorCabeloRepository {
     return data;
   }
 
-  async update(data: IUpdateCorCabeloDTO): Promise<void> {
+  async update(id: string, cor_cabelo: string): Promise<void> {
     await corCabelo.findByIdAndUpdate(
-      { _id: data.id },
+      { _id: id },
       {
-        nameCorCabelo: data.nameCorCabelo,
+        cor_cabelo,
         updated_at: new Date(),
       },
     );

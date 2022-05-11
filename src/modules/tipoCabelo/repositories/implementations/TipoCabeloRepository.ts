@@ -1,13 +1,11 @@
-import { ICreateTipoCabeloDTO } from '@modules/tipoCabelo/dtos/ICreateTipoCabeloDTO';
-import { IUpdateTipoCabeloDTO } from '@modules/tipoCabelo/dtos/IUpdateTipoCabeloDTO';
 import { tipoCabelo } from '@modules/tipoCabelo/models/TipoCabelo';
 import { ITipoCabeloRepository } from '@modules/tipoCabelo/repositories/ITipoCabeloRepository';
 import mongoose from 'mongoose';
 
 class TipoCabeloRepository implements ITipoCabeloRepository {
-  async create(data: ICreateTipoCabeloDTO): Promise<any> {
+  async create(tipo_cabelo: string): Promise<any> {
     const result = await tipoCabelo.create({
-      nameTipoCabelo: data.nameTipoCabelo,
+      tipo_cabelo,
     });
     return result;
   }
@@ -17,9 +15,9 @@ class TipoCabeloRepository implements ITipoCabeloRepository {
     return data;
   }
 
-  async listByHairType(nameTipoCabelo: string): Promise<any[]> {
+  async listByHairType(tipo_cabelo: string): Promise<any[]> {
     const data = await tipoCabelo.findOne({
-      nameTipoCabelo,
+      tipo_cabelo,
     });
     return data;
   }
@@ -31,11 +29,11 @@ class TipoCabeloRepository implements ITipoCabeloRepository {
     return data;
   }
 
-  async update(data: IUpdateTipoCabeloDTO): Promise<void> {
+  async update(id: string, tipo_cabelo: string): Promise<void> {
     await tipoCabelo.findByIdAndUpdate(
-      { _id: data.id },
+      { _id: id },
       {
-        nameTipoCabelo: data.nameTipoCabelo,
+        tipo_cabelo,
         updated_at: new Date(),
       },
     );

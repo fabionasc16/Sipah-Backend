@@ -10,18 +10,15 @@ class CreateCorCabeloUseCase {
     private corCabeloRepository: ICorCabeloRepository,
   ) {}
 
-  async execute(nameCorCabelo: string): Promise<any> {
-    console.log(`From useCase: ${nameCorCabelo}`);
+  async execute(cor_cabelo: string): Promise<any> {
     const corCabeloExists = await this.corCabeloRepository.listByHairColor(
-      nameCorCabelo,
+      cor_cabelo,
     );
     if (corCabeloExists) {
       throw new AppError('This hair color already registered!', 404);
     }
 
-    const corCabeloCreated = await this.corCabeloRepository.create({
-      nameCorCabelo,
-    });
+    const corCabeloCreated = await this.corCabeloRepository.create(cor_cabelo);
 
     return corCabeloCreated;
   }

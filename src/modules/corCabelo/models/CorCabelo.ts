@@ -7,7 +7,7 @@ const corCabeloSchema = new Schema({
     type: Number,
     select: false,
   },
-  nameCorCabelo: {
+  cor_cabelo: {
     type: mongoose.Schema.Types.String,
     length: 60,
   },
