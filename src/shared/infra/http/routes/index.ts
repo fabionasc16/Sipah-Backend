@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { AppError } from '@shared/errors/AppError';
-import { Messages } from '@shared/messages/Messages';
-
-import { pacientesRoutes } from './cadastros/Pacientes.routes';
+import { pacientesRoutes } from '@shared/infra/http/routes/cadastros/Pacientes.routes';
+import { corCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorCabelo.routes';
+import { corteCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorteCabelo.routes';
+import { tipoCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/TipoCabelo.routes';
 
 const appRoutes = Router();
 
@@ -22,5 +22,11 @@ appRoutes.get('/', (request, response) => {
 
 // * -------------------- Rotas de Sistema - Pacientes --------------------
 appRoutes.use('/pacientes', pacientesRoutes);
+
+// * -------------------- Rotas de Sistema - Características --------------
+
+appRoutes.use('/corcabelo', corCabeloRoutes);
+appRoutes.use('/cortecabelo', corteCabeloRoutes);
+appRoutes.use('/tipocabelo', tipoCabeloRoutes);
 
 export { appRoutes };
