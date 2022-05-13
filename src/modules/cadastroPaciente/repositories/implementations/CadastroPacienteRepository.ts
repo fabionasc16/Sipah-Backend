@@ -1,6 +1,6 @@
 import { ICreateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/pacientes/ICreateCadastroPacienteDTO';
 import { IUpdateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/pacientes/IUpdateCadastroPacienteDTO';
-import { paciente } from '@modules/cadastroPaciente/models/Paciente';
+import { paciente } from '@modules/cadastroPaciente/models/Paciente.model';
 import { ICadastroPacienteRepository } from '@modules/cadastroPaciente/repositories/ICadastroPacienteRepository';
 
 class CadastroPacienteRepository implements ICadastroPacienteRepository {

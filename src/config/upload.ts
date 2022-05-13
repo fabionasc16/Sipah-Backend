@@ -1,52 +1,23 @@
-import { Request } from 'express-serve-static-core';
+import crypto from 'crypto';
 import fs from 'fs';
-import mime from 'mime-types';
-import multer, { Multer } from 'multer';
-import path from 'path';
+import multer from 'multer';
 
-export class UploadImages {
-  private urlimage: string = path.basename('images');
-  private code: any;
-
-  private storage(): multer.StorageEngine {
-    return multer.diskStorage({
-      destination: (req, file, callback) => {
-        this.code = req.query.code;
-        if (!fs.existsSync(this.urlimage)) {
-          fs.mkdirSync(this.urlimage);
-        }
-
-        callback(null, this.urlimage);
-      },
-      filename: (req, file, callback) => {
-        const type = mime.extension(file.mimetype);
-        callback(null, `${this.code}.${type}`);
-      },
-    });
-  }
-
-  private fileFilter() {
-    return (
-      req: Request,
-      file: Express.Multer.File,
-      callback: multer.FileFilterCallback,
-    ) => {
-      const type = mime.extension(file.mimetype);
-      const conditions = ['jpg', 'jpeg', 'png'];
-      if (conditions.includes(`${type}`)) {
-        callback(null, true);
-      }
-
-      callback(null, false);
-    };
-  }
-
-  get GetConfig(): multer.Options {
-    return {
-      storage: this.storage(),
-      fileFilter: this.fileFilter(),
-    };
-  }
+const folder = './images';
+if (!fs.existsSync(folder)) {
+  fs.mkdirSync(folder);
 }
 
-export const uploadImages = new UploadImages();
+const storage = multer.diskStorage({
+  destination: (request, file, callback) => {
+    callback(null, folder);
+  },
+  filename: (request, file, callback) => {
+    const fileHash = crypto.randomBytes(10).toString('hex'); // * Create a random hash to image name
+    const fileName = `${fileHash}-${file.originalname}`;
+
+    return callback(null, fileName);
+  },
+});
+
+const upload = multer({ storage });
+export { upload };
