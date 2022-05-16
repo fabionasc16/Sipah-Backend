@@ -1,8 +1,5 @@
 import { Router } from 'express';
 
-import { AppError } from '@shared/errors/AppError';
-import { Messages } from '@shared/messages/Messages';
-
 import { pacientesRoutes } from './cadastros/Pacientes.routes';
 
 const appRoutes = Router();

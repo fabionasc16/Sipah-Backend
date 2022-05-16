@@ -6,6 +6,7 @@ import { UpdateCadastroPacienteController } from '@modules/cadastroPaciente/useC
 import { UploadImagensPacienteController } from '@modules/cadastroPaciente/useCases/uploadImagensPaciente/UploadImagensPacienteController';
 import { upload } from 'config/upload';
 import { Router } from 'express';
+import multer from 'multer';
 
 const pacientesRoutes = Router();
 
@@ -27,7 +28,7 @@ pacientesRoutes.delete('/delete/:pacienteid', purge.handle);
 
 pacientesRoutes.post(
   '/upload/:pacienteid',
-  upload.array('arquivos', 3),
+  multer(upload.getConfig).single('arquivos'),
   uploads.handle,
 );
 

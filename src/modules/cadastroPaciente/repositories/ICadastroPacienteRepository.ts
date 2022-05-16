@@ -7,6 +7,7 @@ interface ICadastroPacienteRepository {
   loadPaciente(nome_paciente: string): Promise<any>;
   loadById(id: string): Promise<any>;
   update(data: IUpdateCadastroPacienteDTO): Promise<void>;
+  uploadImage(id: string, filename: string): Promise<any>;
   delete(id: string): Promise<void>;
 }
 

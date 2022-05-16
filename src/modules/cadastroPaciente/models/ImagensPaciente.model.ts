@@ -8,8 +8,7 @@ const imagens = new Schema({
     select: false,
   },
   imagens: {
-    type: mongoose.Schema.Types.Array,
-    default: [],
+    type: mongoose.Schema.Types.String,
   },
   paciente: {
     type: mongoose.Schema.Types.ObjectId,
