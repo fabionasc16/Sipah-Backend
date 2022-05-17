@@ -11,7 +11,7 @@ services:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: e[&W*Uc@GSVBruETSTW
+      MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW
     networks:
       - ticados
 
@@ -23,8 +23,10 @@ services:
       - 8081:8081
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: e[&W*Uc@GSVBruETSTW
-      ME_CONFIG_MONGODB_URL: 'mongodb://root:e[&W*Uc@GSVBruETSTW@192.168.107.55:27017'
+      ME_CONFIG_BASICAUTH_PASSWORD: e[&W*UcGSVBruETSTW
+      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@192.168.224.2:27017
+    depends_on:
+      - mongodb
     networks:
       - ticados
 
@@ -33,16 +35,16 @@ services:
     container_name: ticados_backend
     restart: always
     working_dir: /app
-    command: bash -c 'yarn install && yarn run:prod'
+    command: bash -c 'yarn install && yarn run:dev'
     volumes:
       - ./:/app
     environment:
       - NODE_ENV=development
       - PORT=3300
-      - MONGODB_DATABASE=nome-base
+      - MONGODB_DATABASE=ticados_ses
       - MONGODB_USER=root
-      - MONGODB_PASSWORD=e[&W*Uc@GSVBruETSTW
-      - MONGODB_HOST=mongodb://192.168.107.55:27017
+      - MONGODB_PASSWORD=e[&W*UcGSVBruETSTW
+      - MONGODB_HOST=mongodb://192.168.224.2:27017
     ports:
       - "3300:3300"
     networks:

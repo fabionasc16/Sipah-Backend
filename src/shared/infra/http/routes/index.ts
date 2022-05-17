@@ -1,15 +1,27 @@
 import { Router } from 'express';
 
-import { AppError } from '@shared/errors/AppError';
+import { pacientesRoutes } from '@shared/infra/http/routes/cadastros/Pacientes.routes';
+import { corCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorCabelo.routes';
+import { corteCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorteCabelo.routes';
+import { tipoCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/TipoCabelo.routes';
 
 const appRoutes = Router();
 
 appRoutes.get('/', (request, response) => {
-  return response.json({ message: 'Hello World' });
+  response.set('Content-Type', 'text/plain');
+  response.format({
+    'text/plain': () => response.send('API - Projeto Ticados v1 - SES-AM'),
+    'text/html': () =>
+      response.send('<h1>API - Projeto Ticados v1 - SES-AM</h1>'),
+    'application/json': () =>
+      response.send({ message: 'Aloha application/json' }),
+    default: () => response.status(406).send('Not acceptable'),
+  });
 });
 
-appRoutes.get('*', (request, response) => {
-  throw new AppError('A rota informada não existe.', 404);
-});
+appRoutes.use('/pacientes', pacientesRoutes);
+appRoutes.use('/corcabelo', corCabeloRoutes);
+appRoutes.use('/cortecabelo', corteCabeloRoutes);
+appRoutes.use('/tipocabelo', tipoCabeloRoutes);
 
 export { appRoutes };
