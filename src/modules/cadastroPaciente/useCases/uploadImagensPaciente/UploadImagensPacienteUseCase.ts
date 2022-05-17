@@ -1,4 +1,3 @@
-import { paciente } from '@modules/cadastroPaciente/models/Paciente.model';
 import { ICadastroPacienteRepository } from '@modules/cadastroPaciente/repositories/ICadastroPacienteRepository';
 import { inject, injectable } from 'tsyringe';
 

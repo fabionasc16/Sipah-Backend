@@ -16,7 +16,7 @@ export class Upload {
         callback(null, this.url);
       },
       filename: (request, file, callback) => {
-        callback(null, `${this.userid}-${file.originalname}`);
+        callback(null, `${this.userid}-${Date.now()}-${file.originalname}`);
       },
     });
   }
