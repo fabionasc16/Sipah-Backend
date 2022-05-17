@@ -2,6 +2,7 @@ import { ICorteCabeloRepository } from '@modules/caracteristicasPaciente/corteCa
 import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class ListCorteCabeloByIdUseCase {
@@ -12,12 +13,14 @@ class ListCorteCabeloByIdUseCase {
 
   async execute(id: string) {
     if (!id) {
-      throw new AppError('Please, to add a Id in query argument!', 400);
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID de Característica`,
+      );
     }
 
     const data = await this.corteCabeloRepository.listById(id);
-    if (data == null) {
-      throw new AppError('None Hair Cut was found in database!', 404);
+    if (!data) {
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     return data;

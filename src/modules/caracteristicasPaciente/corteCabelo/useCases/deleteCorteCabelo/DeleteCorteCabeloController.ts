@@ -11,7 +11,7 @@ class DeleteCorteCabeloController {
 
     await deleteCorteCabeloUseCase.execute(id);
 
-    return response.status(204).json();
+    return response.status(204).send();
   }
 }
 

@@ -8,23 +8,15 @@ import { Router } from 'express';
 const corteCabeloRoutes = Router();
 
 const createCorteCabeloController = new CreateCorteCabeloController();
-
 const deleteCorteCabeloController = new DeleteCorteCabeloController();
-
 const listAllCorteCabeloController = new ListAllCorteCabeloController();
-
 const updateCorteCabeloController = new UpdateCorteCabeloController();
-
 const listCorteCabeloByIdController = new ListCorteCabeloByIdController();
 
 corteCabeloRoutes.post('/', createCorteCabeloController.handle);
-
 corteCabeloRoutes.get('/', listAllCorteCabeloController.handle);
-
 corteCabeloRoutes.get('/:id', listCorteCabeloByIdController.handle);
-
 corteCabeloRoutes.put('/:id', updateCorteCabeloController.handle);
-
 corteCabeloRoutes.delete('/:id', deleteCorteCabeloController.handle);
 
 export { corteCabeloRoutes };

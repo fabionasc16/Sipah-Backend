@@ -2,6 +2,7 @@ import { ICorteCabeloRepository } from '@modules/caracteristicasPaciente/corteCa
 import { injectable, inject } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class UpdateCorteCabeloUseCase {
@@ -11,21 +12,24 @@ class UpdateCorteCabeloUseCase {
   ) {}
   async execute(id: string, corte_cabelo: string): Promise<void> {
     if (!id) {
-      throw new AppError('Provide an Product ID to update data');
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID de Característica`,
+      );
     }
 
     const corteCabeloId = await this.corteCabeloRepository.listById(id);
     if (!corteCabeloId) {
-      throw new AppError('It not found in database', 404);
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     if (corte_cabelo) {
       corteCabeloId.corte_cabelo = corte_cabelo;
-    } else {
-      throw new AppError('There are not a corte_cabelo argument', 404);
     }
 
-    await this.corteCabeloRepository.update(id, corte_cabelo);
+    await this.corteCabeloRepository.update(
+      corteCabeloId._id,
+      corteCabeloId.corte_cabelo,
+    );
   }
 }
 

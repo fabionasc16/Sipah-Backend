@@ -15,7 +15,7 @@ class CorteCabeloRepository implements ICorteCabeloRepository {
     return data;
   }
 
-  async listByHairCut(corte_cabelo: string): Promise<any[]> {
+  async listByHairCut(corte_cabelo: string): Promise<any> {
     const data = await corteCabelo.findOne({
       corte_cabelo,
     });

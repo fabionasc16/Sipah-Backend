@@ -13,6 +13,6 @@ const corteCabeloSchema = new Schema({
   },
 });
 
-const corteCabelo = mongoose.model('CorteCabelo', corteCabeloSchema);
+const corteCabelo = mongoose.model('cortecabelo', corteCabeloSchema);
 
 export { corteCabelo };

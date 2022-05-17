@@ -2,6 +2,7 @@ import { ICorteCabeloRepository } from '@modules/caracteristicasPaciente/corteCa
 import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class ListAllCorteCabeloUseCase {
@@ -11,10 +12,10 @@ class ListAllCorteCabeloUseCase {
   ) {}
 
   async execute(): Promise<any[]> {
-    const data = this.corteCabeloRepository.list();
+    const data = await this.corteCabeloRepository.list();
 
-    if (data == null) {
-      throw new AppError('No registered hair type in the database', 404);
+    if (data.length === 0) {
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     return data;
