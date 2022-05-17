@@ -1,6 +1,7 @@
 import { ICreateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/pacientes/ICreateCadastroPacienteDTO';
 import { IUpdateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/pacientes/IUpdateCadastroPacienteDTO';
-import { paciente } from '@modules/cadastroPaciente/models/Paciente';
+import { imagensPaciente } from '@modules/cadastroPaciente/models/ImagensPaciente.model';
+import { paciente } from '@modules/cadastroPaciente/models/Paciente.model';
 import { ICadastroPacienteRepository } from '@modules/cadastroPaciente/repositories/ICadastroPacienteRepository';
 
 class CadastroPacienteRepository implements ICadastroPacienteRepository {
@@ -58,6 +59,15 @@ class CadastroPacienteRepository implements ICadastroPacienteRepository {
         sexo: data.sexo,
       },
     );
+  }
+
+  async uploadImage(id: string, filename: string): Promise<any> {
+    const userImage = await imagensPaciente.create({
+      imagens: filename,
+      paciente: id,
+    });
+
+    return userImage;
   }
 
   async delete(id: string): Promise<void> {

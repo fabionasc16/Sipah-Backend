@@ -1,6 +1,6 @@
 import { ICreateCadastroCaracteristicasDTO } from '@modules/cadastroPaciente/dtos/caracteristicas/ICreateCaracteristicasPacienteDTO';
 import { IUpdateCaracteristicasPacienteDTO } from '@modules/cadastroPaciente/dtos/caracteristicas/IUpdateCaracteristicasPacienteDTO';
-import { caracteristicas } from '@modules/cadastroPaciente/models/Caracteristicas';
+import { caracteristicas } from '@modules/cadastroPaciente/models/Caracteristicas.model';
 import { ICadastroCaracteristicasRepository } from '@modules/cadastroPaciente/repositories/ICadastroCaracteristicasRepository';
 
 class CadastroCaracteristicasRepository
