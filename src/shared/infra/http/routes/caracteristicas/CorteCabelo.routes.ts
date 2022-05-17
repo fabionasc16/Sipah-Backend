@@ -1,8 +1,8 @@
-import { CreateCorteCabeloController } from '@modules/corteCabelo/useCases/createCorteCabelo/CreateCorteCabeloController';
-import { DeleteCorteCabeloController } from '@modules/corteCabelo/useCases/deleteCorteCabelo/DeleteCorteCabeloController';
-import { ListAllCorteCabeloController } from '@modules/corteCabelo/useCases/listAllCorteCabelo/ListAllCorteCabeloController';
-import { ListCorteCabeloByIdController } from '@modules/corteCabelo/useCases/listCorteCabeloById/ListCorteCabeloByIdController';
-import { UpdateCorteCabeloController } from '@modules/corteCabelo/useCases/updateCorteCabelo/UpdateCorteCabeloController';
+import { CreateCorteCabeloController } from '@modules/caracteristicasPaciente/corteCabelo/useCases/createCorteCabelo/CreateCorteCabeloController';
+import { DeleteCorteCabeloController } from '@modules/caracteristicasPaciente/corteCabelo/useCases/deleteCorteCabelo/DeleteCorteCabeloController';
+import { ListAllCorteCabeloController } from '@modules/caracteristicasPaciente/corteCabelo/useCases/listAllCorteCabelo/ListAllCorteCabeloController';
+import { ListCorteCabeloByIdController } from '@modules/caracteristicasPaciente/corteCabelo/useCases/listCorteCabeloById/ListCorteCabeloByIdController';
+import { UpdateCorteCabeloController } from '@modules/caracteristicasPaciente/corteCabelo/useCases/updateCorteCabelo/UpdateCorteCabeloController';
 import { Router } from 'express';
 
 const corteCabeloRoutes = Router();
