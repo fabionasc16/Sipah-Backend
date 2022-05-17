@@ -12,9 +12,6 @@ export enum Messages {
   // * Parâmetros ausentes
   MISSING_PARAMETERS = 'Os seguintes parâmetros são necessários para a execução da operação',
 
-  // * Rotas Inexistentes
-  ROUTE_NOT_FOUND = 'A rota informada não existe no sistema. Verifique a URL e tente novamente',
-
   // * Erros de Servidor
   INTERNAL_SERVER_ERROR = 'Ocorreu um erro inesperado no sistema. Contate o administrador do sistema para mais detalhes. Log do Erro:',
 }

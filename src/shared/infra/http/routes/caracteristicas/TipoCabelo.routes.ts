@@ -8,23 +8,15 @@ import { Router } from 'express';
 const tipoCabeloRoutes = Router();
 
 const createTipoCabeloController = new CreateTipoCabeloController();
-
 const deleteTipoCabeloController = new DeleteTipoCabeloController();
-
 const listAllTipoCabeloController = new ListAllTipoCabeloController();
-
 const listTipoCabeloByIdController = new ListTipoCabeloByIdController();
-
 const updateTipoCabeloController = new UpdateTipoCabeloController();
 
 tipoCabeloRoutes.post('/', createTipoCabeloController.handle);
-
 tipoCabeloRoutes.delete('/:id', deleteTipoCabeloController.handle);
-
 tipoCabeloRoutes.get('/', listAllTipoCabeloController.handle);
-
 tipoCabeloRoutes.get('/:id', listTipoCabeloByIdController.handle);
-
 tipoCabeloRoutes.put('/:id', updateTipoCabeloController.handle);
 
 export { tipoCabeloRoutes };

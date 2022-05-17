@@ -4,11 +4,6 @@ import { injectable, inject } from 'tsyringe';
 import { AppError } from '@shared/errors/AppError';
 import { Messages } from '@shared/messages/Messages';
 
-interface IRequest {
-  id: string;
-  nameTipoCabelo?: string;
-}
-
 @injectable()
 class UpdateTipoCabeloUseCase {
   constructor(

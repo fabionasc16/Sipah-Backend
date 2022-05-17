@@ -2,6 +2,7 @@ import { ICorCabeloRepository } from '@modules/corCabelo/repositories/ICorCabelo
 import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class ListCorCabeloByIdUseCase {
@@ -12,12 +13,14 @@ class ListCorCabeloByIdUseCase {
 
   async execute(id: string) {
     if (!id) {
-      throw new AppError('Please, to add a Id in query argument!', 400);
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID de Característica`,
+      );
     }
 
     const data = await this.corCabeloRepository.listById(id);
-    if (data == null) {
-      throw new AppError('None Hair Color was found in database!', 404);
+    if (!data) {
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     return data;

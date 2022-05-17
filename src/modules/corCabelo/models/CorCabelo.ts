@@ -13,6 +13,6 @@ const corCabeloSchema = new Schema({
   },
 });
 
-const corCabelo = mongoose.model('CorCabelo', corCabeloSchema);
+const corCabelo = mongoose.model('corcabelo', corCabeloSchema);
 
 export { corCabelo };

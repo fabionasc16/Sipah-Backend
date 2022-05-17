@@ -15,7 +15,7 @@ class CorCabeloRepository implements ICorCabeloRepository {
     return data;
   }
 
-  async listByHairColor(cor_cabelo: string): Promise<any[]> {
+  async listByHairColor(cor_cabelo: string): Promise<any> {
     const data = await corCabelo.findOne({
       cor_cabelo,
     });
@@ -34,7 +34,6 @@ class CorCabeloRepository implements ICorCabeloRepository {
       { _id: id },
       {
         cor_cabelo,
-        updated_at: new Date(),
       },
     );
   }

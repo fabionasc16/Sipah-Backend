@@ -2,6 +2,7 @@ import { ICorCabeloRepository } from '@modules/corCabelo/repositories/ICorCabelo
 import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class DeleteCorCabeloUseCase {
@@ -11,9 +12,14 @@ class DeleteCorCabeloUseCase {
   ) {}
 
   async execute(id: string): Promise<void> {
+    if (!id) {
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID de Característica`,
+      );
+    }
     const corCabelo = await this.corCabeloRepository.listById(id);
     if (!corCabelo) {
-      throw new AppError('Product not found', 404);
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     await this.corCabeloRepository.delete(id);

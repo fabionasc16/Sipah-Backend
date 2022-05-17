@@ -7,7 +7,6 @@ import { tipoCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/Tipo
 
 const appRoutes = Router();
 
-// ! -------------------- Rota principal do Sistema ----------------------
 appRoutes.get('/', (request, response) => {
   response.set('Content-Type', 'text/plain');
   response.format({
@@ -20,11 +19,7 @@ appRoutes.get('/', (request, response) => {
   });
 });
 
-// * -------------------- Rotas de Sistema - Pacientes --------------------
 appRoutes.use('/pacientes', pacientesRoutes);
-
-// * -------------------- Rotas de Sistema - Características --------------
-
 appRoutes.use('/corcabelo', corCabeloRoutes);
 appRoutes.use('/cortecabelo', corteCabeloRoutes);
 appRoutes.use('/tipocabelo', tipoCabeloRoutes);

@@ -2,6 +2,7 @@ import { ICorCabeloRepository } from '@modules/corCabelo/repositories/ICorCabelo
 import { injectable, inject } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class UpdateCorCabeloUseCase {
@@ -11,21 +12,24 @@ class UpdateCorCabeloUseCase {
   ) {}
   async execute(id: string, cor_cabelo: string): Promise<void> {
     if (!id) {
-      throw new AppError('Provide an cor_cabelo ID to update data');
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID de Característica`,
+      );
     }
 
     const corCabeloId = await this.corCabeloRepository.listById(id);
     if (!corCabeloId) {
-      throw new AppError('Product not found in database', 404);
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     if (cor_cabelo) {
       corCabeloId.cor_cabelo = cor_cabelo;
-    } else {
-      throw new AppError('There are not a cor_cabelo argument', 404);
     }
 
-    await this.corCabeloRepository.update(id, cor_cabelo);
+    await this.corCabeloRepository.update(
+      corCabeloId._id,
+      corCabeloId.cor_cabelo,
+    );
   }
 }
 
