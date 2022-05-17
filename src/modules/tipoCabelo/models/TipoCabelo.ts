@@ -13,6 +13,6 @@ const tipoCabeloSchema = new Schema({
   },
 });
 
-const tipoCabelo = mongoose.model('TipoCabelo', tipoCabeloSchema);
+const tipoCabelo = mongoose.model('tipocabelo', tipoCabeloSchema);
 
 export { tipoCabelo };

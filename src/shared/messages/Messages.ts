@@ -4,7 +4,10 @@ export enum Messages {
   ERROR_SAVING_PACIENTE = 'Erro ao recuperar as características informadas. Contate o administrador do sistema para mais detalhes',
   NO_PACIENTES_REGISTERED = 'Não há pacientes cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
   PACIENTE_NOT_FOUND = 'Nenhum paciente foi encontrado no sistema com as informações passadas. Verifique os dados e tente novamente',
+
+  // * Características de Pacientes
   CHARACTERISTICS_NOT_FOUND = 'Nenhuma característica foi encontrada no sistema com as informações passadas. Verifique os dados e tente novamente',
+  CHARACTERISTICS_ALREADY_EXISTS = 'Já existe uma característica registrada com essas informações. Verifique as informações e tente novamente',
 
   // * Parâmetros ausentes
   MISSING_PARAMETERS = 'Os seguintes parâmetros são necessários para a execução da operação',

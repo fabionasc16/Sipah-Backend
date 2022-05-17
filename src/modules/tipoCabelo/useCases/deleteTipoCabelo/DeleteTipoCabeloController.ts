@@ -9,7 +9,7 @@ class DeleteTipoCabeloController {
 
     await deleteTipoCabeloUseCase.execute(id);
 
-    return response.status(204).json();
+    return response.status(204).send();
   }
 }
 

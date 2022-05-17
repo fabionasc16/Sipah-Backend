@@ -2,6 +2,7 @@ import { ITipoCabeloRepository } from '@modules/tipoCabelo/repositories/ITipoCab
 import { injectable, inject } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 interface IRequest {
   id: string;
@@ -16,21 +17,24 @@ class UpdateTipoCabeloUseCase {
   ) {}
   async execute(id: string, tipo_cabelo: string): Promise<void> {
     if (!id) {
-      throw new AppError('Provide an Product ID to update data');
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID da Característica`,
+      );
     }
 
     const tipoCabeloId = await this.tipoCabeloRepository.listById(id);
     if (!tipoCabeloId) {
-      throw new AppError('It not found in database', 404);
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     if (tipo_cabelo) {
       tipoCabeloId.tipo_cabelo = tipo_cabelo;
-    } else {
-      throw new AppError('There are not a nameTipoCabelo argument', 404);
     }
 
-    await this.tipoCabeloRepository.update(id, tipo_cabelo);
+    await this.tipoCabeloRepository.update(
+      tipoCabeloId._id,
+      tipoCabeloId.tipo_cabelo,
+    );
   }
 }
 

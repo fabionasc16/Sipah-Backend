@@ -8,7 +8,7 @@ class CreateTipoCabeloController {
     const createTipoCabeloUseCase = container.resolve(CreateTipoCabeloUseCase);
     const data = await createTipoCabeloUseCase.execute(tipo_cabelo);
 
-    return response.status(200).json(data);
+    return response.status(201).json(data);
   }
 }
 
