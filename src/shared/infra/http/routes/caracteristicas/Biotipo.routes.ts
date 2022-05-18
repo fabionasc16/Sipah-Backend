@@ -1,8 +1,8 @@
-import { CreateBiotipoController } from '@modules/Biotipo/useCases/createBiotipo/CreateBiotipoController';
-import { DeleteBiotipoController } from '@modules/Biotipo/useCases/deleteBiotipo/DeleteBiotipoController';
-import { ListBiotipoController } from '@modules/Biotipo/useCases/listBiotipo/ListBiotipoController';
-import { ListBiotipoByIdController } from '@modules/Biotipo/useCases/listBiotipoById/ListBiotipoByIdController';
-import { UpdateBiotipoController } from '@modules/Biotipo/useCases/updateBiotipo/UpdateBiotipoController';
+import { CreateBiotipoController } from '@modules/caracteristicasPaciente/biotipo/useCases/createBiotipo/CreateBiotipoController';
+import { DeleteBiotipoController } from '@modules/caracteristicasPaciente/biotipo/useCases/deleteBiotipo/DeleteBiotipoController';
+import { ListBiotipoController } from '@modules/caracteristicasPaciente/biotipo/useCases/listBiotipo/ListBiotipoController';
+import { ListBiotipoByIdController } from '@modules/caracteristicasPaciente/biotipo/useCases/listBiotipoById/ListBiotipoByIdController';
+import { UpdateBiotipoController } from '@modules/caracteristicasPaciente/biotipo/useCases/updateBiotipo/UpdateBiotipoController';
 import { Router } from 'express';
 
 const biotipoRoutes = Router();

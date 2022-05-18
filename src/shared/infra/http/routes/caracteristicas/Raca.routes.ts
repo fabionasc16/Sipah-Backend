@@ -1,8 +1,8 @@
-import { CreateRacaController } from '@modules/Raca/useCases/createRaca/CreateRacaController';
-import { DeleteRacaController } from '@modules/Raca/useCases/deleteRaca/DeleteRacaController';
-import { ListRacaController } from '@modules/Raca/useCases/listRaca/ListRacaController';
-import { ListRacaByIdController } from '@modules/Raca/useCases/listRacaById/ListRacaByIdController';
-import { UpdateRacaController } from '@modules/Raca/useCases/updateRaca/UpdateRacaController';
+import { CreateRacaController } from '@modules/caracteristicasPaciente/raca/useCases/createRaca/CreateRacaController';
+import { DeleteRacaController } from '@modules/caracteristicasPaciente/raca/useCases/deleteRaca/DeleteRacaController';
+import { ListRacaController } from '@modules/caracteristicasPaciente/raca/useCases/listRaca/ListRacaController';
+import { ListRacaByIdController } from '@modules/caracteristicasPaciente/raca/useCases/listRacaById/ListRacaByIdController';
+import { UpdateRacaController } from '@modules/caracteristicasPaciente/raca/useCases/updateRaca/UpdateRacaController';
 import { Router } from 'express';
 
 const racaRoutes = Router();
