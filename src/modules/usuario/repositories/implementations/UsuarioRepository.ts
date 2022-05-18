@@ -33,9 +33,9 @@ class UsuarioRepository implements IUsuarioRepository {
     return cadastroUsuario;
   }
 
-  async listByCPF(cpf: string): Promise<any> {
+  async listByCPF(cpf_usuario: string): Promise<any[]> {
     const data = await usuario.findOne({
-      cpf,
+      cpf_usuario,
     });
     return data;
   }
@@ -44,6 +44,11 @@ class UsuarioRepository implements IUsuarioRepository {
     const data = await usuario.findById({
       id,
     });
+    return data;
+  }
+
+  async listAllUsuario(): Promise<any[]> {
+    const data = await usuario.find({});
     return data;
   }
 }

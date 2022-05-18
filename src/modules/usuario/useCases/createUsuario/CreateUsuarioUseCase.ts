@@ -33,37 +33,33 @@ class CreateUsuarioUseCase {
   ) {}
 
   async execute(data: IRequest): Promise<any> {
-    try {
-      const existCPF = await this.usuarioRepository.listByCPF(data.cpf_usuario);
-      if (existCPF.length) {
-        throw new AppError(Messages.USUARIO_ALREADY_EXISTS);
-      }
-
-      const cadastroUsuario = await this.usuarioRepository.create({
-        primeiro_nome: data.primeiro_nome,
-        nome_completo: data.nome_completo,
-        nome_mae: data.nome_mae,
-        nome_pai: data.nome_pai,
-        data_nascimento: data.data_nascimento,
-        sexo: data.sexo,
-        estado_civil: data.estado_civil,
-        nacionalidade: data.nacionalidade,
-        raca_etnia: data.raca_etnia,
-        cpf_usuario: data.cpf_usuario,
-        rg_usuario: data.rg_usuario,
-        tipo_usuario: data.tipo_usuario,
-        endereco_usuario_cep: data.endereco_usuario_cep,
-        endereco_usuario_logradouro: data.endereco_usuario_logradouro,
-        endereco_usuario_numero: data.endereco_usuario_numero,
-        endereco_usuario_bairro: data.endereco_usuario_bairro,
-        setor: data.setor,
-        unidade_usuario: data.unidade_usuario,
-      });
-
-      return cadastroUsuario;
-    } catch (e) {
-      throw new AppError(e.message, 500);
+    const existCPF = await this.usuarioRepository.listByCPF(data.cpf_usuario);
+    if (existCPF) {
+      throw new AppError(Messages.USUARIO_ALREADY_EXISTS, 400);
     }
+
+    const cadastroUsuario = await this.usuarioRepository.create({
+      primeiro_nome: data.primeiro_nome,
+      nome_completo: data.nome_completo,
+      nome_mae: data.nome_mae,
+      nome_pai: data.nome_pai,
+      data_nascimento: data.data_nascimento,
+      sexo: data.sexo,
+      estado_civil: data.estado_civil,
+      nacionalidade: data.nacionalidade,
+      raca_etnia: data.raca_etnia,
+      cpf_usuario: data.cpf_usuario,
+      rg_usuario: data.rg_usuario,
+      tipo_usuario: data.tipo_usuario,
+      endereco_usuario_cep: data.endereco_usuario_cep,
+      endereco_usuario_logradouro: data.endereco_usuario_logradouro,
+      endereco_usuario_numero: data.endereco_usuario_numero,
+      endereco_usuario_bairro: data.endereco_usuario_bairro,
+      setor: data.setor,
+      unidade_usuario: data.unidade_usuario,
+    });
+
+    return cadastroUsuario;
   }
 }
 
