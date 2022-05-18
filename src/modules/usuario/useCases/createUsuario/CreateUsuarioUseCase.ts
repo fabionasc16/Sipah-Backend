@@ -35,7 +35,7 @@ class CreateUsuarioUseCase {
   async execute(data: IRequest): Promise<any> {
     try {
       const existCPF = await this.usuarioRepository.listByCPF(data.cpf_usuario);
-      if (existCPF) {
+      if (existCPF.length) {
         throw new AppError(Messages.USUARIO_ALREADY_EXISTS);
       }
 
