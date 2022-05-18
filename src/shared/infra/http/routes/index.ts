@@ -4,6 +4,7 @@ import { pacientesRoutes } from '@shared/infra/http/routes/cadastros/Pacientes.r
 import { corCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorCabelo.routes';
 import { corteCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorteCabelo.routes';
 import { tipoCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/TipoCabelo.routes';
+import { usuarioRoutes } from '@shared/infra/http/routes/usuario/Usuario.routes';
 
 const appRoutes = Router();
 
@@ -28,5 +29,9 @@ appRoutes.use('/pacientes', pacientesRoutes);
 appRoutes.use('/corcabelo', corCabeloRoutes);
 appRoutes.use('/cortecabelo', corteCabeloRoutes);
 appRoutes.use('/tipocabelo', tipoCabeloRoutes);
+
+// * -------------------- Rotas de Sistema - Usuario --------------------
+
+appRoutes.use('/usuario', usuarioRoutes);
 
 export { appRoutes };

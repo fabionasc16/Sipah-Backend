@@ -8,6 +8,8 @@ import { ICorteCabeloRepository } from '@modules/corteCabelo/repositories/ICorte
 import { CorteCabeloRepository } from '@modules/corteCabelo/repositories/implementations/CorteCabeloRepository';
 import { TipoCabeloRepository } from '@modules/tipoCabelo/repositories/implementations/TipoCabeloRepository';
 import { ITipoCabeloRepository } from '@modules/tipoCabelo/repositories/ITipoCabeloRepository';
+import { UsuarioRepository } from '@modules/usuario/repositories/implementations/UsuarioRepository';
+import { IUsuarioRepository } from '@modules/usuario/repositories/IUsuarioRepository';
 import { container } from 'tsyringe';
 
 // * --------------------- Cadastro de Pacientes ---------------------
@@ -37,4 +39,11 @@ container.registerSingleton<ICorteCabeloRepository>(
 container.registerSingleton<ITipoCabeloRepository>(
   'TipoCabeloRepository',
   TipoCabeloRepository,
+);
+
+// * --------------------- Cadastro de Usuário ---------------------
+
+container.registerSingleton<IUsuarioRepository>(
+  'UsuarioRepository',
+  UsuarioRepository,
 );
