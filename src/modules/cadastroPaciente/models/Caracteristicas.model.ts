@@ -3,35 +3,33 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const cadastroCaracteristicas = new Schema({
+  __v: {
+    type: Number,
+    select: false,
+  },
   raca_etnia: {
     type: mongoose.Schema.Types.String,
-    length: 60,
   },
   cor_olhos: {
     type: mongoose.Schema.Types.String,
-    length: 60,
   },
   biotipo: {
     type: mongoose.Schema.Types.String,
-    length: 60,
   },
   cor_cabelos: {
     type: mongoose.Schema.Types.String,
-    length: 60,
   },
   tipo_cabelo: {
     type: mongoose.Schema.Types.String,
-    length: 60,
   },
   corte_cabelo: {
     type: mongoose.Schema.Types.String,
-    length: 60,
   },
   estatura_aproximada: {
-    type: mongoose.Schema.Types.Decimal128,
+    type: mongoose.Schema.Types.Number,
   },
   peso_aproximado: {
-    type: mongoose.Schema.Types.Decimal128,
+    type: mongoose.Schema.Types.Number,
   },
   idade_aproximada: {
     type: mongoose.Schema.Types.Number,
@@ -62,10 +60,6 @@ const cadastroCaracteristicas = new Schema({
   },
   condicoes_encontrado: {
     type: mongoose.Schema.Types.String,
-  },
-  paciente: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'paciente',
   },
 });
 

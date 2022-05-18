@@ -3,48 +3,43 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const cadastroPaciente = new Schema({
+  __v: {
+    type: Number,
+    select: false,
+  },
   data_entrada_unidade: {
     type: mongoose.Schema.Types.Date,
     default: Date.now,
   },
   hora_entrada: {
-    type: mongoose.Schema.Types.Date,
+    type: mongoose.Schema.Types.String,
   },
   tipo_entrada: {
-    type: String,
-    required: true,
-    length: 30,
+    type: mongoose.Schema.Types.String,
   },
   nome_paciente: {
-    type: String,
-    length: 100,
+    type: mongoose.Schema.Types.String,
   },
   nome_mae: {
-    type: String,
-    length: 100,
+    type: mongoose.Schema.Types.String,
   },
   data_nascimento: {
-    type: Date,
+    type: mongoose.Schema.Types.Date,
   },
   rg_paciente: {
-    type: String,
-    length: 40,
+    type: mongoose.Schema.Types.String,
   },
   cpf_paciente: {
-    type: String,
-    length: 40,
+    type: mongoose.Schema.Types.String,
   },
   cns_paciente: {
-    type: String,
-    length: 40,
+    type: mongoose.Schema.Types.String,
   },
   nacionalidade: {
-    type: String,
-    length: 40,
+    type: mongoose.Schema.Types.String,
   },
   sexo: {
-    type: String,
-    length: 10,
+    type: mongoose.Schema.Types.String,
   },
   caracteristicas: {
     type: mongoose.Schema.Types.ObjectId,

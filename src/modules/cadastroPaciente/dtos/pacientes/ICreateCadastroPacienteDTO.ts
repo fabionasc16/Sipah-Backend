@@ -1,13 +1,15 @@
 interface ICreateCadastroPacienteDTO {
-  hora_entrada: Date;
+  hora_entrada: string;
   tipo_entrada: string;
   nome_paciente: string;
   nome_mae: string;
-  data_nascimento: Date;
+  data_nascimento: string;
   rg_paciente: string;
   cpf_paciente: string;
   cns_paciente: string;
-  caracteristicas_id: string;
+  nacionalidade: string;
+  sexo: string;
+  caracteristicas: string;
 }
 
 export { ICreateCadastroPacienteDTO };
