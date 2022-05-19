@@ -10,11 +10,11 @@ const cadastroCaracteristicas = new Schema(
     },
     raca_etnia: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'racaetnia',
+      ref: 'raca_etnia',
     },
     cor_olhos: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'corolhos',
+      ref: 'cor_olhos',
     },
     biotipo: {
       type: mongoose.Schema.Types.ObjectId,
@@ -22,15 +22,15 @@ const cadastroCaracteristicas = new Schema(
     },
     cor_cabelos: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'corcabelo',
+      ref: 'cor_cabelo',
     },
     tipo_cabelo: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'tipocabelo',
+      ref: 'tipo_cabelo',
     },
     corte_cabelo: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'cortecabelo',
+      ref: 'corte_cabelo',
     },
     estatura_aproximada: {
       type: mongoose.Schema.Types.Number,

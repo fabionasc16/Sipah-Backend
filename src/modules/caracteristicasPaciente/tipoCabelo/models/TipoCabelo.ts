@@ -16,6 +16,6 @@ const tipoCabeloSchema = new Schema(
   { versionKey: false },
 );
 
-const tipoCabelo = mongoose.model('tipocabelo', tipoCabeloSchema);
+const tipoCabelo = mongoose.model('tipo_cabelo', tipoCabeloSchema);
 
 export { tipoCabelo };
