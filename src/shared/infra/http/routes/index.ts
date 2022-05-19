@@ -1,8 +1,10 @@
 import { Router } from 'express';
 
 import { pacientesRoutes } from '@shared/infra/http/routes/cadastros/Pacientes.routes';
+import { biotipoRoutes } from '@shared/infra/http/routes/caracteristicas/Biotipo.routes';
 import { corCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorCabelo.routes';
 import { corteCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorteCabelo.routes';
+import { racaEtniaRoutes } from '@shared/infra/http/routes/caracteristicas/RacaEtnia.routes';
 import { tipoCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/TipoCabelo.routes';
 
 const appRoutes = Router();
@@ -23,5 +25,7 @@ appRoutes.use('/pacientes', pacientesRoutes);
 appRoutes.use('/corcabelo', corCabeloRoutes);
 appRoutes.use('/cortecabelo', corteCabeloRoutes);
 appRoutes.use('/tipocabelo', tipoCabeloRoutes);
+appRoutes.use('/biotipo', biotipoRoutes);
+appRoutes.use('/racaetnia', racaEtniaRoutes);
 
 export { appRoutes };
