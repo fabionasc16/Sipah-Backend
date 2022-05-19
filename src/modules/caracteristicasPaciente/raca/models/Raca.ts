@@ -13,6 +13,6 @@ const RacaSchema = new Schema({
   },
 });
 
-const raca = mongoose.model('raca', RacaSchema);
+const raca = mongoose.model('raca_etnia', RacaSchema);
 
 export { raca };

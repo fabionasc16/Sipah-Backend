@@ -2,6 +2,7 @@ import { IBiotipoRepository } from '@modules/caracteristicasPaciente/biotipo/rep
 import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class CreateBiotipoUseCase {
@@ -10,13 +11,18 @@ class CreateBiotipoUseCase {
     private biotipoRepository: IBiotipoRepository,
   ) {}
 
-  async execute(bio_tipo: string): Promise<any> {
-    const biotipoExists = await this.biotipoRepository.list();
+  async execute(biotipo: string): Promise<any> {
+    if (!biotipo) {
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: Descrição do Biotipo`,
+      );
+    }
+    const biotipoExists = await this.biotipoRepository.listByBiotipo(biotipo);
     if (biotipoExists) {
-      throw new AppError('This hair color already registered!', 404);
+      throw new AppError(Messages.CHARACTERISTICS_ALREADY_EXISTS);
     }
 
-    const biotipoCreated = await this.biotipoRepository.create(bio_tipo);
+    const biotipoCreated = await this.biotipoRepository.create(biotipo);
 
     return biotipoCreated;
   }

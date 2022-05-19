@@ -13,6 +13,6 @@ const OlhosSchema = new Schema({
   },
 });
 
-const corolhos = mongoose.model('corOlhos', OlhosSchema);
+const corolhos = mongoose.model('cor_olhos', OlhosSchema);
 
 export { corolhos };

@@ -16,7 +16,7 @@ class RacaRepository implements IRacaRepository {
     return data;
   }
 
-  async listByHairColor(raca_etnia: string): Promise<any[]> {
+  async listByRacaEtnia(raca_etnia: string): Promise<any[]> {
     const data = await raca.findOne({
       raca_etnia,
     });

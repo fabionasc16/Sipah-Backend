@@ -2,6 +2,7 @@ import { IBiotipoRepository } from '@modules/caracteristicasPaciente/biotipo/rep
 import { injectable, inject } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class UpdateBiotipoUseCase {
@@ -9,23 +10,21 @@ class UpdateBiotipoUseCase {
     @inject('BiotipoRepository')
     private biotipoRepository: IBiotipoRepository,
   ) {}
-  async execute(id: string, bio_tipo: string): Promise<void> {
+  async execute(id: string, biotipo: string): Promise<void> {
     if (!id) {
-      throw new AppError('Provide an botype ID to update data');
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Biotipo`, 400);
     }
 
     const biotipoId = await this.biotipoRepository.listById(id);
     if (!biotipoId) {
-      throw new AppError('Product not found in database', 404);
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
-    if (bio_tipo) {
-      biotipoId.bio_tipo = bio_tipo;
-    } else {
-      throw new AppError('There are not a biotype argument', 404);
+    if (biotipo) {
+      biotipoId.biotipo = biotipo;
     }
 
-    await this.biotipoRepository.update(id, bio_tipo);
+    await this.biotipoRepository.update(biotipoId._id, biotipoId.biotipo);
   }
 }
 
