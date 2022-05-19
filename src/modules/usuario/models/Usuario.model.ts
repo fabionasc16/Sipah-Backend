@@ -13,63 +13,73 @@ const usuarioSchema = new Schema({
   hora_cadastro: {
     type: mongoose.Schema.Types.String,
   },
-  primeiro_nome: {
+  perfilUsuario: {
     type: mongoose.Schema.Types.String,
   },
-  nome_completo: {
+  setorUsuario: {
     type: mongoose.Schema.Types.String,
   },
-  nome_mae: {
+  unidadeUsuario: {
     type: mongoose.Schema.Types.String,
   },
-  nome_pai: {
+  priNome: {
     type: mongoose.Schema.Types.String,
   },
-  data_nascimento: {
+  sobreNome: {
+    type: mongoose.Schema.Types.String,
+  },
+  nomeMae: {
+    type: mongoose.Schema.Types.String,
+  },
+  nomePai: {
     type: mongoose.Schema.Types.String,
   },
   sexo: {
     type: mongoose.Schema.Types.String,
   },
-  estado_civil: {
+  estadoCivil: {
+    type: mongoose.Schema.Types.String,
+  },
+  raca: {
+    type: mongoose.Schema.Types.String,
+  },
+  dataNascimento: {
     type: mongoose.Schema.Types.String,
   },
   nacionalidade: {
     type: mongoose.Schema.Types.String,
   },
-  raca_etnia: {
+  rg: {
     type: mongoose.Schema.Types.String,
   },
-  cpf_usuario: {
-    type: mongoose.Schema.Types.String,
-    unique: true,
-  },
-  rg_usuario: {
+  cpf: {
     type: mongoose.Schema.Types.String,
   },
-  tipo_usuario: {
+  cep: {
     type: mongoose.Schema.Types.String,
   },
-  nome_usuario: {
+  logradouro: {
     type: mongoose.Schema.Types.String,
   },
-  endereco_usuario_cep: {
+  numero: {
     type: mongoose.Schema.Types.String,
   },
-  endereco_usuario_logradouro: {
+  bairro: {
     type: mongoose.Schema.Types.String,
   },
-  endereco_usuario_numero: {
+  municipio: {
     type: mongoose.Schema.Types.String,
   },
-  endereco_usuario_bairro: {
+  estado: {
     type: mongoose.Schema.Types.String,
   },
-  setor: {
-    type: mongoose.Schema.Types.String,
+  created_at: {
+    type: Date,
+    default: Date.now,
   },
-  unidade_usuario: {
-    type: mongoose.Schema.Types.String,
+  updated_at: {
+    type: Date,
+    default: Date.now,
   },
 });
 

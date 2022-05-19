@@ -10,13 +10,13 @@ class ListUsuarioByCPFUseCase {
     private usuarioRepository: IUsuarioRepository,
   ) {}
 
-  async execute(cpf_usuario: string): Promise<any> {
-    if (!cpf_usuario) {
+  async execute(cpf: string): Promise<any> {
+    if (!cpf) {
       throw new AppError('Please, to add a CPF in query argument!', 400);
     }
 
-    const data = await this.usuarioRepository.listByCPF(String(cpf_usuario));
-    if (data == null) {
+    const data = await this.usuarioRepository.listByCPF(String(cpf));
+    if (!data) {
       throw new AppError('None CPF was found in database!', 404);
     }
 
