@@ -5,7 +5,7 @@ import { ListRacaByIdController } from '@modules/caracteristicasPaciente/raca/us
 import { UpdateRacaController } from '@modules/caracteristicasPaciente/raca/useCases/updateRaca/UpdateRacaController';
 import { Router } from 'express';
 
-const racaRoutes = Router();
+const racaEtniaRoutes = Router();
 
 const createracaController = new CreateRacaController();
 const deleteracaController = new DeleteRacaController();
@@ -13,10 +13,10 @@ const listracaController = new ListRacaController();
 const listracaByIdController = new ListRacaByIdController();
 const updateracaController = new UpdateRacaController();
 
-racaRoutes.post('/', createracaController.handle);
-racaRoutes.delete('/:id', deleteracaController.handle);
-racaRoutes.get('/', listracaController.handle);
-racaRoutes.get('/:id', listracaByIdController.handle);
-racaRoutes.put('/:id', updateracaController.handle);
+racaEtniaRoutes.post('/', createracaController.handle);
+racaEtniaRoutes.delete('/:id', deleteracaController.handle);
+racaEtniaRoutes.get('/', listracaController.handle);
+racaEtniaRoutes.get('/:id', listracaByIdController.handle);
+racaEtniaRoutes.put('/:id', updateracaController.handle);
 
-export { racaRoutes };
+export { racaEtniaRoutes };

@@ -24,23 +24,87 @@ class CadastroPacienteRepository implements ICadastroPacienteRepository {
   }
 
   async load(): Promise<any[]> {
-    const data = await paciente.find().populate('caracteristicas');
+    const data = await paciente.aggregate([
+      { $project: { __v: 0 } },
+      {
+        $lookup: {
+          from: 'caracteristicas',
+          localField: 'caracteristicas',
+          foreignField: '_id',
+          pipeline: [
+            { $project: { __v: 0, _id: 0 } },
+            {
+              $lookup: {
+                from: 'corcabelos',
+                localField: 'cor_cabelos',
+                foreignField: '_id',
+                pipeline: [{ $project: { __v: 0, _id: 0 } }],
+                as: 'cor_cabelo',
+              },
+            },
+          ],
+          as: 'caracteristicas',
+        },
+      },
+    ]);
     return data;
   }
 
   async loadPaciente(nome_paciente: string): Promise<any> {
-    const resultset = await paciente.findOne({
-      where: {
-        nome_paciente,
+    const resultset = await paciente.aggregate([
+      { $match: { nome_paciente } },
+      { $project: { __v: 0 } },
+      {
+        $lookup: {
+          from: 'caracteristicas',
+          localField: 'caracteristicas',
+          foreignField: '_id',
+          pipeline: [
+            { $project: { __v: 0, _id: 0 } },
+            {
+              $lookup: {
+                from: 'corcabelos',
+                localField: 'cor_cabelos',
+                foreignField: '_id',
+                pipeline: [{ $project: { __v: 0, _id: 0 } }],
+                as: 'cor_cabelo',
+              },
+            },
+          ],
+          as: 'caracteristicas',
+        },
       },
-    });
+    ]);
 
     return resultset;
   }
 
   async loadById(id: string): Promise<any> {
-    const data = await paciente.findById(id).populate('caracteristicas');
-    return data;
+    const resultset = await paciente.aggregate([
+      { $match: { _id: id } },
+      { $project: { __v: 0 } },
+      {
+        $lookup: {
+          from: 'caracteristicas',
+          localField: 'caracteristicas',
+          foreignField: '_id',
+          pipeline: [
+            { $project: { __v: 0, _id: 0 } },
+            {
+              $lookup: {
+                from: 'corcabelos',
+                localField: 'cor_cabelos',
+                foreignField: '_id',
+                pipeline: [{ $project: { __v: 0, _id: 0 } }],
+                as: 'cor_cabelo',
+              },
+            },
+          ],
+          as: 'caracteristicas',
+        },
+      },
+    ]);
+    return resultset;
   }
 
   async update(data: IUpdateCadastroPacienteDTO): Promise<void> {

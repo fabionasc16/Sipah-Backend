@@ -2,19 +2,20 @@ import { IBiotipoRepository } from '@modules/caracteristicasPaciente/biotipo/rep
 import { inject, injectable } from 'tsyringe';
 
 import { AppError } from '@shared/errors/AppError';
+import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class ListBiotipoUseCase {
   constructor(
-    @inject('BiotpoRepository')
+    @inject('BiotipoRepository')
     private biotipoRepository: IBiotipoRepository,
   ) {}
 
   async execute(): Promise<any[]> {
-    const data = this.biotipoRepository.list();
+    const data = await this.biotipoRepository.list();
 
-    if (data == null) {
-      throw new AppError('No registered biotype in the database', 404);
+    if (data.length === 0) {
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
     }
 
     return data;

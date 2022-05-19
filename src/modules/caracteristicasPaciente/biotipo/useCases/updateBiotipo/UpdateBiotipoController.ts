@@ -6,15 +6,12 @@ import { UpdateBiotipoUseCase } from './UpdateBiotipoUseCase';
 class UpdateBiotipoController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { bio_tipo } = request.body;
+    const { biotipo } = request.body;
 
-    const updatebiotipoUseCase = container.resolve(UpdateBiotipoController);
-    await updatebiotipoUseCase.execute(id, bio_tipo);
+    const updatebiotipoUseCase = container.resolve(UpdateBiotipoUseCase);
+    await updatebiotipoUseCase.execute(id, biotipo);
 
     return response.status(204).send();
-  }
-  execute(id: string, bio_tipo: any) {
-    throw new Error('Method not implemented.');
   }
 }
 
