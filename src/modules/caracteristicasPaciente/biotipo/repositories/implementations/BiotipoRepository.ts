@@ -4,9 +4,9 @@ import mongoose from 'mongoose';
 import { IBiotipoRepository } from '../IBiotipoRepository';
 
 class BiotipoRepository implements IBiotipoRepository {
-  async create(bio_tipo: string): Promise<any> {
+  async create(desc_biotipo: string): Promise<any> {
     const result = await biotipo.create({
-      bio_tipo,
+      biotipo: desc_biotipo,
     });
     return result;
   }
@@ -30,12 +30,11 @@ class BiotipoRepository implements IBiotipoRepository {
     return data;
   }
 
-  async update(id: string, bio_tipo: string): Promise<void> {
+  async update(id: string, desc_biotipo: string): Promise<void> {
     await biotipo.findByIdAndUpdate(
       { _id: id },
       {
-        bio_tipo,
-        updated_at: new Date(),
+        biotipo: desc_biotipo,
       },
     );
   }

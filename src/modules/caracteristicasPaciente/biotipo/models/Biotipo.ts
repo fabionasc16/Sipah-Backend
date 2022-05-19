@@ -7,7 +7,7 @@ const BiotipoSchema = new Schema({
     type: Number,
     select: false,
   },
-  bio_tipo: {
+  biotipo: {
     type: mongoose.Schema.Types.String,
     length: 60,
   },
