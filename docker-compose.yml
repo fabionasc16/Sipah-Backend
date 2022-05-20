@@ -3,7 +3,7 @@ services:
 
   mongodb:
     image: mongo:5.0.8
-    container_name: mongodb_ticados
+    container_name: mongodb
     restart: always
     ports:
       - "27017:27017"
@@ -12,8 +12,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW
-    networks:
-      - ticados
+    network_mode: bridge
 
   mongo-express:
     image: mongo-express
@@ -24,11 +23,10 @@ services:
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: e[&W*UcGSVBruETSTW
-      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@192.168.224.2:27017
+      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.0.23:27017
     depends_on:
       - mongodb
-    networks:
-      - ticados
+    network_mode: bridge
 
   backend:
     image: node:16
@@ -41,18 +39,15 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3300
-      - MONGODB_DATABASE=ticados_ses
-      - MONGODB_USER=root
-      - MONGODB_PASSWORD=e[&W*UcGSVBruETSTW
-      - MONGODB_HOST=mongodb://192.168.224.2:27017
+      - MONGO_DBNAME=ticados_ses
+      - MONGO_USER=root
+      - MONGO_PASS=e[&W*UcGSVBruETSTW
+      - MONGO_URL=mongodb://10.200.0.23:27017
     ports:
       - "3300:3300"
-    networks:
-      - ticados
+    network_mode: bridge
+
 
 volumes:
   mongo_data:
 
-networks:
-  ticados:
-    driver: bridge
