@@ -6,6 +6,7 @@ import { corCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorCa
 import { corteCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorteCabelo.routes';
 import { racaEtniaRoutes } from '@shared/infra/http/routes/caracteristicas/RacaEtnia.routes';
 import { tipoCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/TipoCabelo.routes';
+import { usuarioRoutes } from '@shared/infra/http/routes/usuario/Usuario.routes';
 
 const appRoutes = Router();
 
@@ -27,5 +28,9 @@ appRoutes.use('/cortecabelo', corteCabeloRoutes);
 appRoutes.use('/tipocabelo', tipoCabeloRoutes);
 appRoutes.use('/biotipo', biotipoRoutes);
 appRoutes.use('/racaetnia', racaEtniaRoutes);
+
+// * -------------------- Rotas de Sistema - Usuario --------------------
+
+appRoutes.use('/usuario', usuarioRoutes);
 
 export { appRoutes };

@@ -14,6 +14,8 @@ import { RacaRepository } from '@modules/caracteristicasPaciente/raca/repositori
 import { IRacaRepository } from '@modules/caracteristicasPaciente/raca/repositories/IRacaRepository';
 import { TipoCabeloRepository } from '@modules/caracteristicasPaciente/tipoCabelo/repositories/implementations/TipoCabeloRepository';
 import { ITipoCabeloRepository } from '@modules/caracteristicasPaciente/tipoCabelo/repositories/ITipoCabeloRepository';
+import { UsuarioRepository } from '@modules/usuario/repositories/implementations/UsuarioRepository';
+import { IUsuarioRepository } from '@modules/usuario/repositories/IUsuarioRepository';
 import { container } from 'tsyringe';
 
 // * --------------------- Cadastro de Pacientes ---------------------
@@ -45,6 +47,12 @@ container.registerSingleton<ITipoCabeloRepository>(
   TipoCabeloRepository,
 );
 
+// * --------------------- Cadastro de Usuário ---------------------
+
+container.registerSingleton<IUsuarioRepository>(
+  'UsuarioRepository',
+  UsuarioRepository,
+);
 container.registerSingleton<IBiotipoRepository>(
   'BiotipoRepository',
   BiotipoRepository,
