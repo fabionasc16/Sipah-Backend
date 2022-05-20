@@ -3,7 +3,7 @@ services:
 
   ticados-mongodb:
     image: mongo:5.0.8
-    container_name: ticados_mongodb
+    container_name: ticados-mongodb
     restart: always
     ports:
       - "27017:27017"
@@ -16,7 +16,7 @@ services:
 
   ticados-mongo-express:
     image: mongo-express
-    container_name: mongo_express_ticados
+    container_name: mongo-express-ticados
     restart: always
     ports:
       - 8081:8081
@@ -25,12 +25,12 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: e[&W*UcGSVBruETSTW
       ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.7.23:27017
     depends_on:
-      - mongodb
+      - ticados-mongodb
     network_mode:  bridge2
 
   ticados-backend:
     image: node:16
-    container_name: ticados_backend
+    container_name: ticados-backend
     restart: always
     working_dir: /app
     command: bash -c 'npm install && npm run run:prod'
@@ -46,7 +46,8 @@ services:
     ports:
       - "3300:3300"
     network_mode: bridge2
-
+    depends_on:
+      - ticados-mongodb
 volumes:
   mongo_data:
 
