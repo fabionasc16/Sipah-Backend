@@ -44,7 +44,7 @@ services:
       - MONGO_PASS=e[&W*UcGSVBruETSTW
       - MONGO_URL=mongodb://10.200.7.23:27017
     ports:
-      - "3300:3300"
+      - "3301:3300"
     network_mode: susam0
 
 
