@@ -14,8 +14,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW   
 
   ticados-mongo-express:
-    image: ticados-mongo-express
-    container_name: mongo-express-ticados
+    image: mongo-express
+    container_name: ticados-mongo-express
     restart: always
     ports:
       - 8081:8081
