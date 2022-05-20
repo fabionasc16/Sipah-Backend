@@ -6,13 +6,13 @@ export enum Messages {
   NO_PACIENTES_REGISTERED = 'Não há pacientes cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
   NO_USUARIO_REGISTERED = 'Não há usuario cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
   PACIENTE_NOT_FOUND = 'Nenhum paciente foi encontrado no sistema com as informações passadas. Verifique os dados e tente novamente',
+
+  // * Características de Pacientes
   CHARACTERISTICS_NOT_FOUND = 'Nenhuma característica foi encontrada no sistema com as informações passadas. Verifique os dados e tente novamente',
+  CHARACTERISTICS_ALREADY_EXISTS = 'Já existe uma característica registrada com essas informações. Verifique as informações e tente novamente',
 
   // * Parâmetros ausentes
   MISSING_PARAMETERS = 'Os seguintes parâmetros são necessários para a execução da operação',
-
-  // * Rotas Inexistentes
-  ROUTE_NOT_FOUND = 'A rota informada não existe no sistema. Verifique a URL e tente novamente',
 
   // * Erros de Servidor
   INTERNAL_SERVER_ERROR = 'Ocorreu um erro inesperado no sistema. Contate o administrador do sistema para mais detalhes. Log do Erro:',

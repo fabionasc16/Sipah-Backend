@@ -1,14 +1,15 @@
 import { Router } from 'express';
 
 import { pacientesRoutes } from '@shared/infra/http/routes/cadastros/Pacientes.routes';
+import { biotipoRoutes } from '@shared/infra/http/routes/caracteristicas/Biotipo.routes';
 import { corCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorCabelo.routes';
 import { corteCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/CorteCabelo.routes';
+import { racaEtniaRoutes } from '@shared/infra/http/routes/caracteristicas/RacaEtnia.routes';
 import { tipoCabeloRoutes } from '@shared/infra/http/routes/caracteristicas/TipoCabelo.routes';
 import { usuarioRoutes } from '@shared/infra/http/routes/usuario/Usuario.routes';
 
 const appRoutes = Router();
 
-// ! -------------------- Rota principal do Sistema ----------------------
 appRoutes.get('/', (request, response) => {
   response.set('Content-Type', 'text/plain');
   response.format({
@@ -21,14 +22,12 @@ appRoutes.get('/', (request, response) => {
   });
 });
 
-// * -------------------- Rotas de Sistema - Pacientes --------------------
 appRoutes.use('/pacientes', pacientesRoutes);
-
-// * -------------------- Rotas de Sistema - Características --------------
-
 appRoutes.use('/corcabelo', corCabeloRoutes);
 appRoutes.use('/cortecabelo', corteCabeloRoutes);
 appRoutes.use('/tipocabelo', tipoCabeloRoutes);
+appRoutes.use('/biotipo', biotipoRoutes);
+appRoutes.use('/racaetnia', racaEtniaRoutes);
 
 // * -------------------- Rotas de Sistema - Usuario --------------------
 
