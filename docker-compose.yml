@@ -1,9 +1,9 @@
 version: '3.7'
 services:
 
-  mongodb:
+  ticados-mongodb:
     image: mongo:5.0.8
-    container_name: mongodb
+    container_name: ticados_mongodb
     restart: always
     ports:
       - "27017:27017"
@@ -12,9 +12,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW
-    network_mode: ticados-frontend_default
+    network_mode:  bridge2
 
-  mongo-express:
+  ticados-mongo-express:
     image: mongo-express
     container_name: mongo_express_ticados
     restart: always
@@ -26,9 +26,9 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.7.23:27017
     depends_on:
       - mongodb
-    network_mode: ticados-frontend_default
+    network_mode:  bridge2
 
-  backend:
+  ticados-backend:
     image: node:16
     container_name: ticados_backend
     restart: always
@@ -44,9 +44,8 @@ services:
       - MONGO_PASS=e[&W*UcGSVBruETSTW
       - MONGO_URL=mongodb://10.200.7.23:27017
     ports:
-      - "3301:3300"
-    network_mode: ticados-frontend_default
-
+      - "3300:3300"
+    network_mode: bridge2
 
 volumes:
   mongo_data:
