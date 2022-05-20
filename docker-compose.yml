@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
   ticados-mongodb:
-    image: mongo:5.0.8
+    image: mongo:4.4.6
     container_name: ticados-mongodb
     restart: always
     ports:
@@ -42,7 +42,7 @@ services:
       - MONGO_PASS=e[&W*UcGSVBruETSTW
       - MONGO_URL=mongodb://10.200.7.23:27017
     ports:
-      - "3300:3300"    
+      - "3301:3300"    
     depends_on:
       - ticados-mongodb
 volumes:
