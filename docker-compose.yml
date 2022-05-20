@@ -11,11 +11,10 @@ services:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW
-    network_mode:  bridge2
+      MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW   
 
   ticados-mongo-express:
-    image: mongo-express
+    image: ticados-mongo-express
     container_name: mongo-express-ticados
     restart: always
     ports:
@@ -25,8 +24,7 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: e[&W*UcGSVBruETSTW
       ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.7.23:27017
     depends_on:
-      - ticados-mongodb
-    network_mode:  bridge2
+      - ticados-mongodb    
 
   ticados-backend:
     image: node:16
@@ -44,8 +42,7 @@ services:
       - MONGO_PASS=e[&W*UcGSVBruETSTW
       - MONGO_URL=mongodb://10.200.7.23:27017
     ports:
-      - "3300:3300"
-    network_mode: bridge2
+      - "3300:3300"    
     depends_on:
       - ticados-mongodb
 volumes:
