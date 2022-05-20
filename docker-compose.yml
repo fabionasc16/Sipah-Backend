@@ -12,7 +12,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW
-    #network_mode: bridge
+    network_mode: bridge
 
   mongo-express:
     image: mongo-express
@@ -23,10 +23,10 @@ services:
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: e[&W*UcGSVBruETSTW
-      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.0.23:27017
+      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.7.23:27017
     depends_on:
       - mongodb
-    #network_mode: bridge
+    network_mode: bridge
 
   backend:
     image: node:16
@@ -42,10 +42,10 @@ services:
       - MONGO_DBNAME=ticados_ses
       - MONGO_USER=root
       - MONGO_PASS=e[&W*UcGSVBruETSTW
-      - MONGO_URL=mongodb://10.200.0.23:27017
+      - MONGO_URL=mongodb://10.200.7.23:27017
     ports:
       - "3300:3300"
-    #network_mode: bridge
+    network_mode: bridge
 
 
 volumes:
