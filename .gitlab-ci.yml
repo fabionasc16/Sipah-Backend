@@ -1,11 +1,11 @@
-stages:          # List of stages for jobs, and their order of execution
-  - deploy 
+stages: # List of stages for jobs, and their order of execution
+  - deploy
 
-deploy:      # This job runs in the deploy stage.
+deploy: # This job runs in the deploy stage.
   stage: deploy
   script:
     - docker-compose up -d --force-recreate
   tags:
-    - ses_23
+    - ses_27
   only:
-    - main  
+    - main
