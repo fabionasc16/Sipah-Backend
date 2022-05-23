@@ -1,39 +1,37 @@
 version: '3.7'
 services:
 
-  mongodb:
-    image: mongo:5.0.8
-    container_name: mongodb
+  ticados-mongodb:
+    image: mongo:4.4.6
+    container_name: ticados-mongodb
     restart: always
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW
-    network_mode: bridge
+      MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW   
 
-  mongo-express:
+  ticados-mongo-express:
     image: mongo-express
-    container_name: mongo_express_ticados
+    container_name: ticados-mongo-express
     restart: always
     ports:
       - 8081:8081
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: e[&W*UcGSVBruETSTW
-      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.0.23:27017
+      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.7.27:27018
     depends_on:
-      - mongodb
-    network_mode: bridge
+      - ticados-mongodb    
 
-  backend:
+  ticados-backend:
     image: node:16
-    container_name: ticados_backend
+    container_name: ticados-backend
     restart: always
     working_dir: /app
-    command: bash -c 'npm install && npm run run:dev'
+    command: bash -c 'npm install && npm run run:prod'
     volumes:
       - ./:/app
     environment:
@@ -42,12 +40,11 @@ services:
       - MONGO_DBNAME=ticados_ses
       - MONGO_USER=root
       - MONGO_PASS=e[&W*UcGSVBruETSTW
-      - MONGO_URL=mongodb://10.200.0.23:27017
+      - MONGO_URL=mongodb://10.200.7.27:27018
     ports:
-      - "3300:3300"
-    network_mode: bridge
-
-
+      - "3301:3300"    
+    depends_on:
+      - ticados-mongodb
 volumes:
   mongo_data:
 
