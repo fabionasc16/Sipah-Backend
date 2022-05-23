@@ -22,7 +22,7 @@ services:
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: e[&W*UcGSVBruETSTW
-      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.7.23:27017
+      ME_CONFIG_MONGODB_URL: mongodb://root:e[&W*UcGSVBruETSTW@10.200.7.27:27017
     depends_on:
       - ticados-mongodb    
 
@@ -40,7 +40,7 @@ services:
       - MONGO_DBNAME=ticados_ses
       - MONGO_USER=root
       - MONGO_PASS=e[&W*UcGSVBruETSTW
-      - MONGO_URL=mongodb://10.200.7.23:27017
+      - MONGO_URL=mongodb://10.200.7.27:27017
     ports:
       - "3301:3300"    
     depends_on:
