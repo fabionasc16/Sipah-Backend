@@ -38,7 +38,8 @@ class UsuarioRepository implements IUsuarioRepository {
   }
 
   async listByCPF(cpf: string): Promise<any[]> {
-    const data = await usuario.findOne({
+    // const data = await usuario.findOne({
+    const data = await usuario.find({
       cpf,
     });
     return data;
