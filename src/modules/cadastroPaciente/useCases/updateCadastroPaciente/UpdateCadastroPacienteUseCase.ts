@@ -1,11 +1,10 @@
-import { IUpdateCaracteristicasPacienteDTO } from '@modules/cadastroPaciente/dtos/caracteristicas/IUpdateCaracteristicasPacienteDTO';
-import { IUpdateCadastroPacienteDTO } from '@modules/cadastroPaciente/dtos/pacientes/IUpdateCadastroPacienteDTO';
-import { ICadastroCaracteristicasRepository } from '@modules/cadastroPaciente/repositories/ICadastroCaracteristicasRepository';
-import { ICadastroPacienteRepository } from '@modules/cadastroPaciente/repositories/ICadastroPacienteRepository';
+import { AppError } from 'AppError';
+import { IUpdateCadastroPacienteDTO } from 'dto/IUpdateCadastroPacienteDTO';
+import { IUpdateCaracteristicasPacienteDTO } from 'dto/IUpdateCaracteristicasPacienteDTO';
+import { Messages } from 'messages/Messages';
+import { ICadastroCaracteristicasRepository } from 'repository/ICadastroCaracteristicasRepository';
+import { ICadastroPacienteRepository } from 'repository/ICadastroPacienteRepository';
 import { injectable, inject } from 'tsyringe';
-
-import { AppError } from '@shared/errors/AppError';
-import { Messages } from '@shared/messages/Messages';
 
 interface IRequest {
   id: string;

@@ -1,9 +1,8 @@
-import { ICadastroCaracteristicasRepository } from '@modules/cadastroPaciente/repositories/ICadastroCaracteristicasRepository';
-import { ICadastroPacienteRepository } from '@modules/cadastroPaciente/repositories/ICadastroPacienteRepository';
+import { AppError } from 'AppError';
+import { Messages } from 'messages/Messages';
+import { ICadastroCaracteristicasRepository } from 'repository/ICadastroCaracteristicasRepository';
+import { ICadastroPacienteRepository } from 'repository/ICadastroPacienteRepository';
 import { injectable, inject } from 'tsyringe';
-
-import { AppError } from '@shared/errors/AppError';
-import { Messages } from '@shared/messages/Messages';
 
 interface IRequest {
   hora_entrada: string;

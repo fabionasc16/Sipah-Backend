@@ -1,5 +1,5 @@
-import { paciente } from '@modules/cadastroPaciente/models/Paciente.model';
 import { Request, Response } from 'express';
+import { paciente } from 'model/Paciente.model';
 import { container } from 'tsyringe';
 
 import { UploadImagensPacienteUseCase } from './UploadImagensPacienteUseCase';

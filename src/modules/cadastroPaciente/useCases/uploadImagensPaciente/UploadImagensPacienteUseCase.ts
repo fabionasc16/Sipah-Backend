@@ -1,8 +1,7 @@
-import { ICadastroPacienteRepository } from '@modules/cadastroPaciente/repositories/ICadastroPacienteRepository';
+import { AppError } from 'AppError';
+import { Messages } from 'messages/Messages';
+import { ICadastroPacienteRepository } from 'repository/ICadastroPacienteRepository';
 import { inject, injectable } from 'tsyringe';
-
-import { AppError } from '@shared/errors/AppError';
-import { Messages } from '@shared/messages/Messages';
 
 @injectable()
 class UploadImagensPacienteUseCase {
