@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-import { Caracteristica } from './Caracteristica.model';
-import { ICaracteristicaRepository } from './ICaracteristicaRepository';
+import { Caracteristica } from '../../model/Caracteristica.model';
+import { ICaracteristicaRepository } from '../../repository/ICaracteristicaRepository';
 
 class CaracteristicaRepository implements ICaracteristicaRepository {
   async create(name: string): Promise<any> {

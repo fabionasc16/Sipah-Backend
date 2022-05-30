@@ -1,14 +1,14 @@
-import { CaracteristicaRepository } from '@modules/caracteristica/CaracteristicaRepository';
-import { ICaracteristicaRepository } from '@modules/caracteristica/ICaracteristicaRepository';
+import { CaracteristicaRepository } from '../repository/implementations/CaracteristicaRepository';
+import { ICaracteristicaRepository } from 'repository/ICaracteristicaRepository';
 import { IPacienteRepository } from '@modules/paciente/IPacienteRepository';
 import { PacienteRepository } from '@modules/paciente/PacienteRepository';
-import { ITipoCaracteristicaRepository } from '@modules/tipoCaracteristica/ITipoCaracteristicaRepository';
-import { TipoCaracteristicaRepository } from '@modules/tipoCaracteristica/TipoCaracteristicaRepository';
+import { ITipoCaracteristicaRepository } from 'repository/ITipoCaracteristicaRepository';
+import { TipoCaracteristicaRepository } from 'repository/implementations/TipoCaracteristicaRepository';
 import { IUsuarioRepository } from '@modules/usuario/IUsuarioRepository';
 import { UsuarioRepository } from '@modules/usuario/UsuarioRepository';
-import { ICadastroCaracteristicasRepository } from 'repository/ICadastroCaracteristicasRepository';
+//import { ICadastroCaracteristicasRepository } from '../repository/ICaracteristicaRepository';
 import { ICadastroPacienteRepository } from 'repository/ICadastroPacienteRepository';
-import { CadastroCaracteristicasRepository } from 'repository/implementations/CadastroCaracteristicasRepository';
+//import { CadastroCaracteristicasRepository } from 'repository/implementations/CadastroCaracteristicasRepository';
 import { CadastroPacienteRepository } from 'repository/implementations/CadastroPacienteRepository';
 import { container } from 'tsyringe';
 
@@ -17,11 +17,6 @@ import { container } from 'tsyringe';
 container.registerSingleton<ICadastroPacienteRepository>(
   'CadastroPacienteRepository',
   CadastroPacienteRepository,
-);
-
-container.registerSingleton<ICadastroCaracteristicasRepository>(
-  'CadastroCaracteristicasRepository',
-  CadastroCaracteristicasRepository,
 );
 
 // * ------------------------ Características ------------------------

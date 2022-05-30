@@ -1,5 +1,3 @@
-import { TipoCaracteristicaRepository } from '@modules/tipoCaracteristica/TipoCaracteristicaRepository';
-
 interface ICaracteristicaRepository {
   create(name: string): Promise<any>;
   list(): Promise<any[]>;

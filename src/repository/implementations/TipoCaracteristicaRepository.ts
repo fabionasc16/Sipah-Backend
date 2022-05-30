@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-import { ITipoCaracteristicaRepository } from './ITipoCaracteristicaRepository';
-import { TipoCaracteristica } from './TipoCaracteristica.model';
+import { ITipoCaracteristicaRepository } from '../ITipoCaracteristicaRepository';
+import { TipoCaracteristica } from '../../model/TipoCaracteristica.model';
 
 class TipoCaracteristicaRepository implements ITipoCaracteristicaRepository {
   async create(name: string, id: string): Promise<any> {

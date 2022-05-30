@@ -1,20 +1,18 @@
-import { CreateCaracteristicaController } from '@modules/caracteristica/CreateCaracteristicaController';
-import { ListAllCaracteristicaController } from '@modules/caracteristica/ListAllCaracteristicaController';
+import { CaracteristicaController } from '../controller/Caracteristica.Controller';
 import { Router } from 'express';
 
 const caracteristicaRoutes = Router();
 
-const createCaracteristicaController = new CreateCaracteristicaController();
-const listAllCaracteristicaController = new ListAllCaracteristicaController();
+const caracteristicaController = new CaracteristicaController();
 
-caracteristicaRoutes.post('/', createCaracteristicaController.handle);
+caracteristicaRoutes.post('/', caracteristicaController.create);
 
-caracteristicaRoutes.get('/', listAllCaracteristicaController.handle);
+caracteristicaRoutes.get('/', caracteristicaController.list);
 
-caracteristicaRoutes.delete('/:id', createCaracteristicaController.handle);
+caracteristicaRoutes.delete('/:id', caracteristicaController.delete);
 
-caracteristicaRoutes.get('/:id', createCaracteristicaController.handle);
+caracteristicaRoutes.get('/:id', caracteristicaController.listById);
 
-caracteristicaRoutes.put('/:id', createCaracteristicaController.handle);
+caracteristicaRoutes.put('/:id', caracteristicaController.update);
 
 export { caracteristicaRoutes };
