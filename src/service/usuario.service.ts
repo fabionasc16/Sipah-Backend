@@ -17,10 +17,10 @@ export class UsuarioService {
         this.usuarioRepository.delete(query);
     }
     async listUsuarioById(id: string) {
-        this.usuarioRepository.listUsuarioById(id);
+        this.usuarioRepository.listById(id);
     }
     async listUsuarioByCPF(cpf: string) {
-        this.usuarioRepository.listUsuarioByCPF(cpf);
+        this.usuarioRepository.listByCPF(cpf);
     }
     async create(data: any) {
         const existCPF = await this.usuarioRepository.listByCPF(data.cpf);
