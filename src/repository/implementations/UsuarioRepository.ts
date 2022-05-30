@@ -1,38 +1,14 @@
 import { ICreateUsuarioDTO } from '@modules/usuario/ICreateUsuarioDTO';
 import { IUpdateUsuarioDTO } from '@modules/usuario/IUpdateUsuarioDTO';
-import { IUsuarioRepository } from '@modules/usuario/IUsuarioRepository';
-import { usuario } from '@modules/usuario/Usuario.model';
+import { IUsuarioRepository } from 'repository/IUsuarioRepository';
+import { usuario } from 'model/Usuario.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
 class UsuarioRepository implements IUsuarioRepository {
-  async create(data: ICreateUsuarioDTO): Promise<any> {
-    const cadastroUsuario = await usuario.create({
-      data_cadastro: moment().format('YYYY-MM-DD'),
-      hora_cadastro: moment().format('HH:mm:ss'),
-      perfilUsuario: data.perfilUsuario,
-      setorUsuario: data.setorUsuario,
-      unidadeUsuario: data.unidadeUsuario,
-      priNome: data.priNome,
-      sobreNome: data.sobreNome,
-      nomeMae: data.nomeMae,
-      nomePai: data.nomePai,
-      sexo: data.sexo,
-      estadoCivil: data.estadoCivil,
-      raca: data.raca,
-      dataNascimento: new Date(data.dataNascimento)
-        .toISOString()
-        .substring(0, 10),
-      nacionalidade: data.nacionalidade,
-      rg: data.rg,
-      cpf: data.cpf,
-      cep: data.cep,
-      logradouro: data.logradouro,
-      numero: data.numero,
-      bairro: data.bairro,
-      municipio: data.municipio,
-      estado: data.estado,
-    });
+  async create(usuario:any): Promise<any> {
+    
+    const cadastroUsuario = await usuario.create(usuario);
 
     return cadastroUsuario;
   }
@@ -51,9 +27,27 @@ class UsuarioRepository implements IUsuarioRepository {
     return data;
   }
 
-  async listAllUsuario(): Promise<any[]> {
-    const data = await usuario.find({});
-    return data;
+  async listAllUsuario(params:any){
+    let page = params.page!=null?(params.page-1):0;
+    let pageSize = params.pageSize!=null?params.pageSize:10;
+    let search = params.search!=null?params.search:'';
+    let filters = {};
+    
+    // Caso a uma palavra para busca seja enviada
+    if(search){
+      filters ={$or: [{nome:search},{cpf:search},{setorUsuario:search}]};
+    }
+  
+    let total = await usuario.countDocuments(filters).countDocuments();
+
+    let data = await usuario.find(
+      filters,
+      'nome cpf perfilUsuario setorUsuario',
+      {skip:page, limit: pageSize});
+
+    let result = await {'page': params.page,'pageSize': pageSize, 'total': total, 'data': data };
+
+    return result;
   }
 
   async delete(id: string): Promise<void> {

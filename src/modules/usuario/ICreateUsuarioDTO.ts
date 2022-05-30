@@ -2,7 +2,7 @@ interface ICreateUsuarioDTO {
   perfilUsuario: string;
   setorUsuario: string;
   unidadeUsuario: string;
-  priNome: string;
+  nome: string;
   sobreNome: string;
   nomeMae: string;
   nomePai: string;

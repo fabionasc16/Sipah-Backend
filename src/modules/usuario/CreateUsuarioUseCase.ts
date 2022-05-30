@@ -1,4 +1,4 @@
-import { IUsuarioRepository } from '@modules/usuario/IUsuarioRepository';
+import { IUsuarioRepository } from 'repository/IUsuarioRepository';
 import { AppError } from 'AppError';
 import { Messages } from 'messages/Messages';
 import { injectable, inject } from 'tsyringe';
@@ -7,7 +7,7 @@ interface IRequest {
   perfilUsuario: string;
   setorUsuario: string;
   unidadeUsuario: string;
-  priNome: string;
+  nome: string;
   sobreNome: string;
   nomeMae: string;
   nomePai: string;
@@ -33,7 +33,7 @@ class CreateUsuarioUseCase {
     private usuarioRepository: IUsuarioRepository,
   ) {}
 
-  async execute(data: IRequest): Promise<any> {
+  async execute(data: any): Promise<any> {
     const existCPF = await this.usuarioRepository.listByCPF(data.cpf);
     if (existCPF) {
       throw new AppError(Messages.USUARIO_ALREADY_EXISTS, 400);
@@ -43,7 +43,7 @@ class CreateUsuarioUseCase {
       perfilUsuario: data.perfilUsuario,
       setorUsuario: data.setorUsuario,
       unidadeUsuario: data.unidadeUsuario,
-      priNome: data.priNome,
+      nome: data.nome,
       sobreNome: data.sobreNome,
       nomeMae: data.nomeMae,
       nomePai: data.nomePai,

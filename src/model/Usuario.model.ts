@@ -22,10 +22,7 @@ const usuarioSchema = new Schema({
   unidadeUsuario: {
     type: mongoose.Schema.Types.String,
   },
-  priNome: {
-    type: mongoose.Schema.Types.String,
-  },
-  sobreNome: {
+  nome: {
     type: mongoose.Schema.Types.String,
   },
   nomeMae: {
@@ -71,6 +68,12 @@ const usuarioSchema = new Schema({
     type: mongoose.Schema.Types.String,
   },
   estado: {
+    type: mongoose.Schema.Types.String,
+  },
+  telefone: {
+    type: mongoose.Schema.Types.String,
+  },
+  email: {
     type: mongoose.Schema.Types.String,
   },
   created_at: {

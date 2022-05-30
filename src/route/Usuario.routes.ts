@@ -4,6 +4,7 @@ import { ListAllUsuarioController } from '@modules/usuario/ListAllUsuarioControl
 import { ListUsuarioByCPFController } from '@modules/usuario/ListUsuarioByCPFController';
 import { ListUsuarioByIdController } from '@modules/usuario/ListUsuarioByIdController';
 import { UpdateUsuarioController } from '@modules/usuario/UpdateUsuarioController';
+import { UsuarioController } from 'controller/usuario.controller';
 import { Router } from 'express';
 
 const usuarioRoutes = Router();
@@ -11,20 +12,21 @@ const usuarioRoutes = Router();
 const createUsuarioController = new CreateUsuarioController();
 const listUsuarioByCPFController = new ListUsuarioByCPFController();
 const listAllUsuarioController = new ListAllUsuarioController();
+const usuarioController = new UsuarioController();
 const deleteUsuarioController = new DeleteUsuarioController();
 const updateUsuarioController = new UpdateUsuarioController();
 const listUsuarioByIdController = new ListUsuarioByIdController();
 
-usuarioRoutes.post('/', createUsuarioController.handle);
+usuarioRoutes.post('/', usuarioController.createUsuario);
 
-usuarioRoutes.get('/', listAllUsuarioController.handle);
+usuarioRoutes.get('/', usuarioController.listAllUsuario);
 
-usuarioRoutes.get('/:id', listUsuarioByIdController.handle);
+usuarioRoutes.get('/:id', usuarioController.listUsuarioById);
 
-usuarioRoutes.get('/cpf/query', listUsuarioByCPFController.handle);
+usuarioRoutes.get('/cpf/query', usuarioController.listUsuarioByCPF);
 
-usuarioRoutes.delete('/:id', deleteUsuarioController.handle);
+usuarioRoutes.delete('/:id', usuarioController.deleteUsuario);
 
-usuarioRoutes.put('/:id', updateUsuarioController.handle);
+usuarioRoutes.put('/:id', usuarioController.updateUsuario);
 
 export { usuarioRoutes };
