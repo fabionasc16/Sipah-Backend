@@ -5,7 +5,7 @@ import { PacienteRepository } from '@modules/paciente/PacienteRepository';
 import { ITipoCaracteristicaRepository } from '@modules/tipoCaracteristica/ITipoCaracteristicaRepository';
 import { TipoCaracteristicaRepository } from '@modules/tipoCaracteristica/TipoCaracteristicaRepository';
 import { IUsuarioRepository } from 'repository/IUsuarioRepository';
-import { UsuarioRepository } from 'repository/implementations/UsuarioRepository';
+import { UsuarioRepository } from 'repository/implementations/usuario.repository';
 import { ICadastroCaracteristicasRepository } from 'repository/ICadastroCaracteristicasRepository';
 import { ICadastroPacienteRepository } from 'repository/ICadastroPacienteRepository';
 import { CadastroCaracteristicasRepository } from 'repository/implementations/CadastroCaracteristicasRepository';

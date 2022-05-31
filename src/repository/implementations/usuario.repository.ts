@@ -60,31 +60,11 @@ class UsuarioRepository implements IUsuarioRepository {
     });
   }
 
-  async update(data: IUpdateUsuarioDTO): Promise<void> {
+  async update(data: any): Promise<void> {
     await usuario.findByIdAndUpdate(
       { _id: data.id },
       {
-        perfilUsuario: data.perfilUsuario,
-        setorUsuario: data.setorUsuario,
-        unidadeUsuario: data.unidadeUsuario,
-        priNome: data.priNome,
-        sobreNome: data.sobreNome,
-        nomeMae: data.nomeMae,
-        nomePai: data.nomePai,
-        sexo: data.sexo,
-        estadoCivil: data.estadoCivil,
-        raca: data.raca,
-        dataNascimento: data.dataNascimento,
-        nacionalidade: data.nacionalidade,
-        rg: data.rg,
-        cpf: data.cpf,
-        cep: data.cep,
-        logradouro: data.logradouro,
-        numero: data.numero,
-        bairro: data.bairro,
-        municipio: data.municipio,
-        estado: data.estado,
-        updated_at: new Date(),
+        updated_at: new Date()
       },
     );
   }
