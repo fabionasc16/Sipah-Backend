@@ -23,12 +23,11 @@ class TipoCaracteristicaController {
     return response.status(204).json();
   }
 
-  async list(request: Request, response: Response): Promise<Response> {
+  async list(request: Request, response: Response): Promise<any> {
     const tipoCaracteristicaService = container.resolve(TipoCaracteristicaSerice);
-    const data = await tipoCaracteristicaService.list();
-
+    let data = await tipoCaracteristicaService.list(request.query);
     return response.status(200).json(data);
-  }
+}  
 
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;

@@ -28,14 +28,12 @@ class CaracteristicaController {
     return response.status(204).json();
   }
 
-  async list(request: Request, response: Response): Promise<Response> {
-    const caracteristicaService = container.resolve(
-      CaracteristicaService,
-    );
-    const data = await caracteristicaService.list();
-
+  async list(request: Request, response: Response): Promise<any> {
+    const caracteristicaService = container.resolve(CaracteristicaService);
+    let data = await caracteristicaService.list(request.query);
     return response.status(200).json(data);
-  }
+}  
+
 
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;

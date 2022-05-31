@@ -13,9 +13,29 @@ class TipoCaracteristicaRepository implements ITipoCaracteristicaRepository {
     return result;
   }
 
-  async list(): Promise<any[]> {
-    const data = await TipoCaracteristica.find({});
-    return data;
+  async list(params: any) {
+    let page = (params.page != null ? (params.page - 1) + '' : '0');
+    let pageSize = params.pageSize != null ? params.pageSize : '10';
+    let search = params.search != null ? params.search : '';
+    let filters = {};
+
+    // Caso a uma palavra para busca seja enviada
+    if (search) {
+      filters = { $or: [{ name: search }] };
+    }
+
+    let total = await TipoCaracteristica.countDocuments(filters);
+    let pageNumber = await parseInt(page);
+    let pageSizeNumber = await parseInt(pageSize);
+
+    let data = await TipoCaracteristica.find(
+      filters,
+      'name',
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber });
+
+    let result = await { 'page': params.page, 'pageSize': pageSize, 'total': total, 'data': data };
+
+    return result;
   }
 
   async listByTipoCaracteristica(name: string, id: string): Promise<any[]> {

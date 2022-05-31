@@ -48,14 +48,8 @@ class TipoCaracteristicaSerice {
     await this.tipoCaracteristicaRepository.delete(id);
   }
 
-  async list(): Promise<any[]> {
-    const data = await this.tipoCaracteristicaRepository.list();
-
-    if (data.length === 0) {
-      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
-    }
-
-    return data;
+  async list(params: any) {
+      return await this.tipoCaracteristicaRepository.list(params);
   }
 
   async listById(id: string) {

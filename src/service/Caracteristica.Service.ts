@@ -49,14 +49,8 @@ class CaracteristicaService {
     return caracteristicaCreated;
   }
 
-  async list(): Promise<any[]> {
-    const data = await this.caracteristicaRepository.list();
-
-    if (data.length === 0) {
-      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
-    }
-
-    return data;
+  async list(params: any) {
+    return await this.caracteristicaRepository.list(params);
   }
 
   async listById(id: string) {
