@@ -22,21 +22,21 @@ class UsuarioController {
     }
     
     async listUsuarioByCPF(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.listUsuarioByCPF(request.query);
+        let data = await UsuarioController.service.listUsuarioByCPF(request.params.id);
         return response.status(200).json(data);
     }
     
     async  listUsuarioById(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.listUsuarioById(request.query);
+        let data = await UsuarioController.service.listUsuarioById(request.params.cpf);
         return response.status(200).json(data);
     }
 
     async  deleteUsuario(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.deleteUsuario(request.query);
+        let data = await UsuarioController.service.deleteUsuario(request.params.id);
         return response.status(200).json(data);
     }
     async  updateUsuario(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.updateUsuario(request.query);
+        let data = await UsuarioController.service.updateUsuario(request.body);
         return response.status(200).json(data);
     }
 }

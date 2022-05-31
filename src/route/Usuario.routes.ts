@@ -9,13 +9,8 @@ import { Router } from 'express';
 
 const usuarioRoutes = Router();
 
-const createUsuarioController = new CreateUsuarioController();
-const listUsuarioByCPFController = new ListUsuarioByCPFController();
-const listAllUsuarioController = new ListAllUsuarioController();
 const usuarioController = new UsuarioController();
-const deleteUsuarioController = new DeleteUsuarioController();
-const updateUsuarioController = new UpdateUsuarioController();
-const listUsuarioByIdController = new ListUsuarioByIdController();
+
 
 usuarioRoutes.post('/', usuarioController.createUsuario);
 
@@ -23,7 +18,7 @@ usuarioRoutes.get('/', usuarioController.listAllUsuario);
 
 usuarioRoutes.get('/:id', usuarioController.listUsuarioById);
 
-usuarioRoutes.get('/cpf/query', usuarioController.listUsuarioByCPF);
+usuarioRoutes.get('/cpf/:query', usuarioController.listUsuarioByCPF);
 
 usuarioRoutes.delete('/:id', usuarioController.deleteUsuario);
 
