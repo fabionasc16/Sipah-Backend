@@ -10,7 +10,18 @@ interface IUpdatePacienteDTO {
   cns_paciente?: string;
   nacionalidade?: string;
   sexo?: string;
-  caracteristicas?: Array<string>;
+  estatura_aproximada: number;
+  peso_aproximado: number;
+  idade_aproximada: number;
+  condicoes_encontrado: string;
+  local_encontrado: string;
+  sinais_particulares: string;
+  acessorios_utilizados: string;
+  vestimentas: string;
+  tem_barba: number;
+  tem_bigode: number;
+  bairro: string;
+  deficiencias: string;
 }
 
 export { IUpdatePacienteDTO };

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { Caracteristica } from './Caracteristica.model';
+import { Caracteristica } from '../model/caracteristica.model';
 import { ICaracteristicaRepository } from './ICaracteristicaRepository';
 
 class CaracteristicaRepository implements ICaracteristicaRepository {

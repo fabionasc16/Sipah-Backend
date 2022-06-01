@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { pacientesRoutes } from 'route/Pacientes.routes';
+import { pacientesRoutes } from 'route/paciente.route';
 import { usuarioRoutes } from 'route/Usuario.routes';
 
-import { caracteristicaRoutes } from './Caracteristica.routes';
+import { caracteristicaRoutes } from './caracteristica.routes';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
 
 const appRoutes = Router();
