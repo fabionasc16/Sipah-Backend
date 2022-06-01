@@ -1,5 +1,5 @@
 import { imagensPaciente } from 'model/ImagensPaciente.model';
-import { Paciente } from 'model/paciente.model';
+import { Paciente } from 'model/Paciente.model';
 
 import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
 import { IUpdatePacienteDTO } from '../dto/IUpdatePacienteDTO';
@@ -35,67 +35,32 @@ class PacienteRepository implements IPacienteRepository {
     return cadastroPaciente;
   }
 
-  async list(): Promise<any[]> {
-    const data = await Paciente.find().populate('tipos_caracteristicas');
-    return data;
+  async list(params: any): Promise<any> {
+    let page = (params.page != null ? (params.page - 1) + '' : '0');
+    let pageSize = params.pageSize != null ? params.pageSize : '10';
+    let search = params.search != null ? params.search : '';
+    let filters = {};
+    // Caso a uma palavra para busca seja enviada
+    if (search) {
+      filters = { $or: [{ nome: search }, { cpf: search }, { setorUsuario: search }] };
+    }
+
+    let total = await Paciente.countDocuments(filters);
+    let pageNumber = await parseInt(page);
+    let pageSizeNumber = await parseInt(pageSize);
+
+    let data = await Paciente.find(
+      filters,
+      'nome cpf perfilUsuario setorUsuario',
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber }).populate('tipos_caracteristicas');
+
+    let result =  await { 'page': page, 'pageSize': pageSize, 'total': total, 'data': data };
+
+    return result;
+
   }
 
-  // async load(): Promise<any[]> {
-  //   const data = await Paciente.aggregate([
-  //     { $project: { __v: 0 } },
-  //     {
-  //       $lookup: {
-  //         from: 'caracteristicas',
-  //         localField: 'caracteristicas',
-  //         foreignField: '_id',
-  //         pipeline: [
-  //           { $project: { __v: 0, _id: 0 } },
-  //           {
-  //             $lookup: {
-  //               from: 'corcabelos',
-  //               localField: 'cor_cabelos',
-  //               foreignField: '_id',
-  //               pipeline: [{ $project: { __v: 0, _id: 0 } }],
-  //               as: 'cor_cabelo',
-  //             },
-  //           },
-  //         ],
-  //         as: 'caracteristicas',
-  //       },
-  //     },
-  //   ]);
-  //   return data;
-  // }
-
-  // async loadPaciente(nome_paciente: string): Promise<any> {
-  //   const resultset = await Paciente.aggregate([
-  //     { $match: { nome_paciente } },
-  //     { $project: { __v: 0 } },
-  //     {
-  //       $lookup: {
-  //         from: 'caracteristicas',
-  //         localField: 'caracteristicas',
-  //         foreignField: '_id',
-  //         pipeline: [
-  //           { $project: { __v: 0, _id: 0 } },
-  //           {
-  //             $lookup: {
-  //               from: 'corcabelos',
-  //               localField: 'cor_cabelos',
-  //               foreignField: '_id',
-  //               pipeline: [{ $project: { __v: 0, _id: 0 } }],
-  //               as: 'cor_cabelo',
-  //             },
-  //           },
-  //         ],
-  //         as: 'caracteristicas',
-  //       },
-  //     },
-  //   ]);
-
-  //   return resultset;
-  // }
-
+  
   async listById(id: string): Promise<any> {
     const paciente = await Paciente.findById(id).populate(
       'tipos_caracteristicas',
@@ -103,33 +68,7 @@ class PacienteRepository implements IPacienteRepository {
     return paciente;
   }
 
-  // async loadById(id: string): Promise<any> {
-  //   const resultset = await Paciente.aggregate([
-  //     { $match: { _id: id } },
-  //     { $project: { __v: 0 } },
-  //     {
-  //       $lookup: {
-  //         from: 'caracteristicas',
-  //         localField: 'caracteristicas',
-  //         foreignField: '_id',
-  //         pipeline: [
-  //           { $project: { __v: 0, _id: 0 } },
-  //           {
-  //             $lookup: {
-  //               from: 'corcabelos',
-  //               localField: 'cor_cabelos',
-  //               foreignField: '_id',
-  //               pipeline: [{ $project: { __v: 0, _id: 0 } }],
-  //               as: 'cor_cabelo',
-  //             },
-  //           },
-  //         ],
-  //         as: 'caracteristicas',
-  //       },
-  //     },
-  //   ]);
-  //   return resultset;
-  // }
+  
 
   async update(id: string, data: IUpdatePacienteDTO): Promise<void> {
     await Paciente.findByIdAndUpdate(
@@ -173,6 +112,15 @@ class PacienteRepository implements IPacienteRepository {
   async delete(id: string): Promise<void> {
     await Paciente.findByIdAndDelete(id);
   }
+
+  async listByCPF(cpf: string): Promise<any[]> {
+    const data = await Paciente.findOne({
+      cpf,
+    });
+    return data;
+  }
+
+
 }
 
 export { PacienteRepository };

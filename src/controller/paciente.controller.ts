@@ -63,9 +63,9 @@ class PacienteController {
       .json({ acknowledge: true, status: 'created', content: result });
   }
 
-  async list(request: Request, response: Response): Promise<Response> {
+  async list(request: Request, response: Response): Promise<any> {
     const list = container.resolve(PacienteService);
-    const data = await list.list();
+    let data = await list.list(request.query);
 
     return response.status(200).json(data);
   }

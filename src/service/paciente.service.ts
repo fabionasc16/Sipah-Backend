@@ -39,6 +39,14 @@ class PacienteService {
 
   async create(data: IRequest): Promise<any> {
     try {
+      
+      const cpfExists =
+        await this.pacienteRepository.listByCPF(data.cpf_paciente);
+      if (cpfExists) {
+        throw new AppError(Messages.PATIENT_ALREADY_EXISTS);
+      }
+
+
       const cadastroPaciente = await this.pacienteRepository.create({
         hora_entrada: data.hora_entrada,
         tipo_entrada: data.tipo_entrada,
@@ -76,8 +84,8 @@ class PacienteService {
     }
   }
 
-  async list(): Promise<any[]> {
-    const data = await this.pacienteRepository.list();
+  async list(params:any) {
+    const data = await this.pacienteRepository.list(params);
     if (data.length === 0) {
       throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
     }
@@ -103,7 +111,7 @@ class PacienteService {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
     }
 
-    const paciente = await this.pacienteRepository.loadById(id);
+    const paciente = await this.pacienteRepository.listById(id);
     if (!paciente) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }
