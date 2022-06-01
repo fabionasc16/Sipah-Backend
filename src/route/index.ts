@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { pacientesRoutes } from 'route/paciente.route';
-import { usuarioRoutes } from 'route/Usuario.routes';
 
 import { caracteristicaRoutes } from './caracteristica.routes';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
@@ -22,8 +21,6 @@ appRoutes.get('/', (request, response) => {
 appRoutes.use('/paciente', pacientesRoutes);
 
 // * -------------------- Rotas de Sistema - Usuario --------------------
-
-appRoutes.use('/usuario', usuarioRoutes);
 
 appRoutes.use('/caracteristica', caracteristicaRoutes);
 
