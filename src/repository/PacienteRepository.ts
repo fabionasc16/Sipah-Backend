@@ -1,5 +1,7 @@
 import { imagensPaciente } from 'model/ImagensPaciente.model';
 import { Paciente } from 'model/Paciente.model';
+import mongoose, { Mongoose } from 'mongoose';
+import { json } from 'stream/consumers';
 
 import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
 import { IUpdatePacienteDTO } from '../dto/IUpdatePacienteDTO';
@@ -36,39 +38,104 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async list(params: any): Promise<any> {
-    let page = (params.page != null ? (params.page - 1) + '' : '0');
-    let pageSize = params.pageSize != null ? params.pageSize : '10';
-    let search = params.search != null ? params.search : '';
-    let filters = {};
+    const page = params.page != null ? `${params.page - 1}` : '0';
+    const pageSize = params.pageSize != null ? params.pageSize : '10';
+    const search = params.search != null ? params.search : '';
+    let term = {};
     // Caso a uma palavra para busca seja enviada
     if (search) {
-      filters = { $or: [{ nome: search }, { cpf: search }, { setorUsuario: search }] };
+      term = {
+        $or: [
+          { nome_paciente: search },
+          { cpf_paciente: search },
+          { tipo_entrada: search },
+        ],
+      };
     }
 
-    let total = await Paciente.countDocuments(filters);
-    let pageNumber = await parseInt(page);
-    let pageSizeNumber = await parseInt(pageSize);
+    const $and = [];
+    if (params.tipo_entrada) {
+      $and.push({ tipo_entrada: params.tipo_entrada });
+    }
 
-    let data = await Paciente.find(
-      filters,
-      'nome cpf perfilUsuario setorUsuario',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber }).populate('tipos_caracteristicas');
+    if (params.cpf_paciente) {
+      $and.push({ cpf_paciente: params.cpf_paciente });
+    }
 
-    let result =  await { 'page': page, 'pageSize': pageSize, 'total': total, 'data': data };
+    if (params.tipos_caracteristicas) {
+      console.log('in');
+      params.tipos_caracteristicas.forEach(element => {
+        $and.push({ tipos_caracteristicas: element });
+      });
+    }
+
+    if ($and.length) {
+      Object.assign(term, { $and });
+    }
+
+    console.log('termo');
+    console.log(term);
+    // console.log($and);
+    const total = await Paciente.countDocuments(term);
+    const pageNumber = parseInt(page, 10);
+    const pageSizeNumber = parseInt(pageSize, 10);
+
+    const data = await Paciente.find(
+      term,
+      'nome_paciente cpf_paciente tipo_entrada rg_paciente',
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber },
+    ).populate({
+      path: 'tipos_caracteristicas',
+      populate: {
+        path: 'caracteristica',
+        model: 'Caracteristica',
+        select: 'name',
+      },
+    });
+
+    // const dataFilter = [];
+    // if (params.tipos_caracteristicas) {
+    //   dataFilter = data.filter(elemento => {
+    //     if (
+    //       elemento.tipos_caracteristicas.length &&
+    //       this.arrayCompare(
+    //         elemento.tipos_caracteristicas,
+    //         params.tipos_caracteristicas,
+    //       ) === params.tipos_caracteristicas.length
+    //     ) {
+    //       return true;
+    //     }
+    //     return false;
+    //   });
+    // }
+
+    // const dados = dataFilter.length ? dataFilter : data;
+    const result = await {
+      page,
+      pageSize,
+      total,
+      data,
+    };
 
     return result;
-
   }
 
-  
+  arrayCompare(first, last) {
+    let result = [];
+    // const result = await first.filter(item => {
+    result = first.filter(item => {
+      return last.indexOf(String(item._id)) > -1;
+    });
+
+    return result.length;
+  }
+
   async listById(id: string): Promise<any> {
     const paciente = await Paciente.findById(id).populate(
       'tipos_caracteristicas',
     );
     return paciente;
   }
-
-  
 
   async update(id: string, data: IUpdatePacienteDTO): Promise<void> {
     await Paciente.findByIdAndUpdate(
@@ -112,15 +179,6 @@ class PacienteRepository implements IPacienteRepository {
   async delete(id: string): Promise<void> {
     await Paciente.findByIdAndDelete(id);
   }
-
-  async listByCPF(cpf: string): Promise<any[]> {
-    const data = await Paciente.findOne({
-      cpf,
-    });
-    return data;
-  }
-
-
 }
 
 export { PacienteRepository };

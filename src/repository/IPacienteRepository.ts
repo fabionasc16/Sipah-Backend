@@ -5,7 +5,6 @@ interface IPacienteRepository {
   create(data: ICreatePacienteDTO): Promise<any>;
   list(params: any): any;
   listById(id: string): Promise<any>;
-  listByCPF(cpf: string): Promise<any>;
   delete(id: string): Promise<void>;
   update(id: string, data: IUpdatePacienteDTO): Promise<void>;
   uploadImage(id: string, filename: string): Promise<any>;

@@ -1,5 +1,6 @@
 import { AppError } from 'AppError';
 import { Messages } from 'messages/Messages';
+import { Paciente } from 'model/Paciente.model';
 import { injectable, inject } from 'tsyringe';
 
 import { IPacienteRepository } from '../repository/IPacienteRepository';
@@ -39,13 +40,13 @@ class PacienteService {
 
   async create(data: IRequest): Promise<any> {
     try {
-      
-      const cpfExists =
-        await this.pacienteRepository.listByCPF(data.cpf_paciente);
+      const cpfExists = await Paciente.findOne({
+        cpf_paciente: data.cpf_paciente,
+      });
+
       if (cpfExists) {
         throw new AppError(Messages.PATIENT_ALREADY_EXISTS);
       }
-
 
       const cadastroPaciente = await this.pacienteRepository.create({
         hora_entrada: data.hora_entrada,
@@ -84,7 +85,7 @@ class PacienteService {
     }
   }
 
-  async list(params:any) {
+  async list(params: any) {
     const data = await this.pacienteRepository.list(params);
     if (data.length === 0) {
       throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
