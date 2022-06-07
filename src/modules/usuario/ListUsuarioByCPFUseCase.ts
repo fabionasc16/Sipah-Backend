@@ -9,7 +9,7 @@ class ListUsuarioByCPFUseCase {
     private usuarioRepository: IUsuarioRepository,
   ) {}
 
-  async execute(cpf: string): Promise<any> {
+  async execute(cpf: string): Promise<any[]> {
     if (!cpf) {
       throw new AppError('Please, to add a CPF in query argument!', 400);
     }
