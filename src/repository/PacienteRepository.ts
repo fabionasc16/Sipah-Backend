@@ -54,12 +54,93 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     const $and = [];
+
+    if (params.hora_entrada) {
+      $and.push({ hora_entrada: params.hora_entrada });
+    }
+
     if (params.tipo_entrada) {
       $and.push({ tipo_entrada: params.tipo_entrada });
     }
 
+    if (params.nome_paciente) {
+      $and.push({ nome_paciente: params.nome_paciente });
+    }
+
+    if (params.nome_mae) {
+      $and.push({ nome_mae: params.nome_mae });
+    }
+
+    if (params.data_nascimento) {
+      $and.push({ data_nascimento: params.data_nascimento });
+    }
+
+    if (params.rg_paciente) {
+      $and.push({ rg_paciente: params.rg_paciente });
+    }
+
     if (params.cpf_paciente) {
       $and.push({ cpf_paciente: params.cpf_paciente });
+    }
+
+    if (params.cns_paciente) {
+      $and.push({ cns_paciente: params.cns_paciente });
+    }
+
+    if (params.nacionalidade) {
+      $and.push({ nacionalidade: params.nacionalidade });
+    }
+
+    if (params.sexo) {
+      $and.push({ sexo: params.sexo });
+    }
+
+    if (params.estatura_aproximada) {
+      $and.push({ estatura_aproximada: params.estatura_aproximada });
+    }
+
+    if (params.peso_aproximado) {
+      $and.push({ peso_aproximado: params.peso_aproximado });
+    }
+
+    if (params.idade_aproximada) {
+      $and.push({ idade_aproximada: params.idade_aproximada });
+    }
+
+    if (params.condicoes_encontrado) {
+      $and.push({ condicoes_encontrado: params.condicoes_encontrado });
+    }
+
+    if (params.local_encontrado) {
+      $and.push({ local_encontrado: params.local_encontrado });
+    }
+
+    if (params.sinais_particulares) {
+      $and.push({ sinais_particulares: params.sinais_particulares });
+    }
+
+    if (params.acessorios_utilizados) {
+      $and.push({ acessorios_utilizados: params.acessorios_utilizados });
+    }
+
+    if (params.vestimentas) {
+      $and.push({ vestimentas: params.vestimentas });
+    }
+
+    if (params.tem_barba) {
+      $and.push({ tem_barba: params.tem_barba });
+    }
+
+    if (params.tem_bigode) {
+      $and.push({ tem_bigode: params.tem_bigode });
+    }
+
+    if (params.bairro) {
+      $and.push({ bairro: params.bairro });
+    }
+
+    if (params.deficiencias) {
+      $and.push({ deficiencias: params.deficiencias });
     }
 
     if (params.tipos_caracteristicas) {

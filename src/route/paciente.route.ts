@@ -15,7 +15,7 @@ pacientesRoutes.delete('/delete/:id', pacienteController.delete);
 pacientesRoutes.put('/update/:id', pacienteController.update);
 
 pacientesRoutes.post(
-  '/upload/:pacienteid',
+  '/upload/:id',
   multer(upload.getConfig).single('arquivos'),
   pacienteController.uploadImagem,
 );

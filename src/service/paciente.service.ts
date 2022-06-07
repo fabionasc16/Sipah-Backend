@@ -234,17 +234,17 @@ class PacienteService {
     }
   }
 
-  async uploadImage(pacienteid: string, arquivo: string): Promise<void> {
-    if (!pacienteid) {
+  async uploadImage(id: string, arquivo: string): Promise<void> {
+    if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
     }
-    const paciente = await this.pacienteRepository.listById(pacienteid);
+    const paciente = await this.pacienteRepository.listById(id);
     if (!paciente) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }
 
     const response = await this.pacienteRepository.uploadImage(
-      pacienteid,
+      id,
       `./images/${arquivo}`,
     );
 
