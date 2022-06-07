@@ -1,7 +1,7 @@
 import { ICreateUsuarioDTO } from '@modules/usuario/ICreateUsuarioDTO';
 import { IUpdateUsuarioDTO } from '@modules/usuario/IUpdateUsuarioDTO';
 import { IUsuarioRepository } from 'repository/IUsuarioRepository';
-import { usuario } from 'model/Usuario.model';
+import { usuario } from 'model/usuario.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
@@ -30,7 +30,7 @@ class UsuarioRepository implements IUsuarioRepository {
   }
 
   async listAllUsuario(params: any) {
-    let page = (params.page != null ? (params.page - 1) + '' : '0');
+    let page = (params.page != null ? (params.page ) + '' : '1');
     let pageSize = params.pageSize != null ? params.pageSize : '10';
     let search = params.search != null ? params.search : '';
     let filters = {};
@@ -41,7 +41,7 @@ class UsuarioRepository implements IUsuarioRepository {
     }
 
     let total = await this.usuario.countDocuments(filters);
-    let pageNumber = await parseInt(page);
+    let pageNumber = await parseInt(page) - 1;
     let pageSizeNumber = await parseInt(pageSize);
 
     let data = await this.usuario.find(
@@ -49,7 +49,7 @@ class UsuarioRepository implements IUsuarioRepository {
       'nome cpf perfilUsuario setorUsuario',
       { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber });
 
-    let result = await { 'page': params.page, 'pageSize': pageSize, 'total': total, 'data': data };
+    let result = await { 'page': page, 'pageSize': pageSize, 'total': total, 'data': data };
 
     return result;
   }
