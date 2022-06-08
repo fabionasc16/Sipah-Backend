@@ -10,7 +10,7 @@ export class Upload {
   private storage(): multer.StorageEngine {
     return multer.diskStorage({
       destination: (request, file, callback) => {
-        this.userid = request.params.pacienteid;
+        this.userid = request.params.id;
         if (!fs.existsSync(this.url)) {
           fs.mkdirSync(this.url);
         }
