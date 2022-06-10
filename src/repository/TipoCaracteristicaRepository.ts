@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
+import { TipoCaracteristica } from '../model/TipoCaracteristica.model';
+import { ITipoCaracteristicaRepository } from './ITipoCaracteristicaRepository';
 
-import { Caracteristica } from '../../model/Caracteristica.model';
-import { ICaracteristicaRepository } from '../../repository/ICaracteristicaRepository';
-
-class CaracteristicaRepository implements ICaracteristicaRepository {
-  async create(name: string): Promise<any> {
-    const result = await Caracteristica.create({
+class TipoCaracteristicaRepository implements ITipoCaracteristicaRepository {
+  async create(name: string, id: string): Promise<any> {
+    const result = await TipoCaracteristica.create({
       name,
+      caracteristica: id,
     });
 
     return result;
@@ -23,36 +23,37 @@ class CaracteristicaRepository implements ICaracteristicaRepository {
       filters = { $or: [{ name: search }] };
     }
 
-    let total = await Caracteristica.countDocuments(filters);
+    let total = await TipoCaracteristica.countDocuments(filters);
     let pageNumber = await parseInt(page);
     let pageSizeNumber = await parseInt(pageSize);
 
-    let data = await Caracteristica.find(
+    let data = await TipoCaracteristica.find(
       filters,
       'name',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber }).populate('tipoCaracteristicas');
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber });
 
     let result = await { 'page': params.page, 'pageSize': pageSize, 'total': total, 'data': data };
 
     return result;
   }
 
-  async listByCaracteristica(name: string): Promise<any[]> {
-    const data = await Caracteristica.findOne({
+  async listByTipoCaracteristica(name: string, id: string): Promise<any[]> {
+    const data = await TipoCaracteristica.find({
       name,
+      caracteristica: new mongoose.Types.ObjectId(id),
     });
     return data;
   }
 
   async listById(id: string): Promise<any> {
-    const data = await Caracteristica.findById({
+    const data = await TipoCaracteristica.findById({
       _id: new mongoose.Types.ObjectId(id),
-    }).populate('tipoCaracteristicas');
+    });
     return data;
   }
 
   async update(id: string, name: string): Promise<void> {
-    await Caracteristica.findByIdAndUpdate(
+    await TipoCaracteristica.findByIdAndUpdate(
       { _id: id },
       {
         name,
@@ -61,10 +62,10 @@ class CaracteristicaRepository implements ICaracteristicaRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await Caracteristica.findByIdAndRemove({
+    await TipoCaracteristica.findByIdAndRemove({
       _id: new mongoose.Types.ObjectId(id),
     });
   }
 }
 
-export { CaracteristicaRepository };
+export { TipoCaracteristicaRepository };

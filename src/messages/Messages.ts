@@ -10,7 +10,7 @@ export enum Messages {
   // * Características de Pacientes
   CHARACTERISTICS_NOT_FOUND = 'Nenhuma característica foi encontrada no sistema com as informações passadas. Verifique os dados e tente novamente',
   CHARACTERISTICS_ALREADY_EXISTS = 'Já existe uma característica registrada com essas informações. Verifique as informações e tente novamente',
-
+  PATIENT_ALREADY_EXISTS = 'Já existe um paciente registrado com essas informações. Verifique as informações e tente novamente',
   // * Parâmetros ausentes
   MISSING_PARAMETERS = 'Os seguintes parâmetros são necessários para a execução da operação',
 

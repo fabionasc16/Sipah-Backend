@@ -10,6 +10,7 @@ const caracteristicaSchema = new Schema(
     },
     name: {
       type: mongoose.Schema.Types.String,
+      lowercase: true,
     },
     tipoCaracteristicas: [
       {

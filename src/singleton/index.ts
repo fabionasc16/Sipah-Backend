@@ -1,7 +1,9 @@
-import { CaracteristicaRepository } from '../repository/implementations/CaracteristicaRepository';
+import { CaracteristicaRepository } from 'repository/CaracteristicaRepository';
 import { ICaracteristicaRepository } from 'repository/ICaracteristicaRepository';
+import { IPacienteRepository } from 'repository/IPacienteRepository';
 import { ITipoCaracteristicaRepository } from 'repository/ITipoCaracteristicaRepository';
-import { TipoCaracteristicaRepository } from 'repository/implementations/TipoCaracteristicaRepository';
+import { PacienteRepository } from 'repository/PacienteRepository';
+import { TipoCaracteristicaRepository } from 'repository/TipoCaracteristicaRepository';
 import { container } from 'tsyringe';
 
 // * ------------------------ Características ------------------------
@@ -16,3 +18,9 @@ container.registerSingleton<ITipoCaracteristicaRepository>(
   TipoCaracteristicaRepository,
 );
 
+// * --------------------- Cadastro de Paciente ---------------------
+
+container.registerSingleton<IPacienteRepository>(
+  'PacienteRepository',
+  PacienteRepository,
+);

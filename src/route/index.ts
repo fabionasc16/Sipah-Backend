@@ -1,5 +1,5 @@
 import { Router } from 'express';
-
+import { pacientesRoutes } from 'route/paciente.route';
 import { caracteristicaRoutes } from './Caracteristica.routes';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
 
@@ -17,8 +17,9 @@ appRoutes.get('/', (request, response) => {
   });
 });
 
-// * -------------------- Rotas de Sistema - Usuario --------------------
+appRoutes.use('/paciente', pacientesRoutes);
 
+// * -------------------- Rotas de Sistema - Usuario --------------------
 
 appRoutes.use('/caracteristica', caracteristicaRoutes);
 

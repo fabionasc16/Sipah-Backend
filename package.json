@@ -2,7 +2,7 @@
   "name": "ticados-backend",
   "description": "API REST under development. Do not use for personal reasons",
   "version": "1.0.0",
-  "main": "dist/shared/infra/http/server.js",
+  "main": "dist/server.js",
   "private": true,
   "author": {
     "name": "André Lucas Freitas",

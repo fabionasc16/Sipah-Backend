@@ -1,6 +1,7 @@
 import fs from 'fs';
 import mime from 'mime-types';
 import multer from 'multer';
+import { Request } from "express-serve-static-core";
 
 export class Upload {
   private url = './images';
@@ -9,7 +10,7 @@ export class Upload {
   private storage(): multer.StorageEngine {
     return multer.diskStorage({
       destination: (request, file, callback) => {
-        this.userid = request.params.pacienteid;
+        this.userid = request.params.id;
         if (!fs.existsSync(this.url)) {
           fs.mkdirSync(this.url);
         }

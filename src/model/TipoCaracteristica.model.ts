@@ -10,6 +10,7 @@ const tipoCaracteristicaSchema = new Schema({
   name: {
     type: mongoose.Schema.Types.String,
     length: 60,
+    lowercase: true,
   },
   caracteristica: {
     type: mongoose.Schema.Types.ObjectId,
