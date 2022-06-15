@@ -1,10 +1,8 @@
-import { imagensPaciente } from '../model/ImagensPaciente.model';
 import { Paciente } from 'model/Paciente.model';
-import mongoose, { Mongoose } from 'mongoose';
-import { json } from 'stream/consumers';
 
 import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
 import { IUpdatePacienteDTO } from '../dto/IUpdatePacienteDTO';
+import { imagensPaciente } from '../model/ImagensPaciente.model';
 import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
@@ -32,6 +30,22 @@ class PacienteRepository implements IPacienteRepository {
       tem_bigode: data.tem_bigode,
       bairro: data.bairro,
       deficiencias: data.deficiencias,
+      contato_anonimo: data.contato_anonimo,
+      contato_nome: data.contato_nome,
+      contato_grau: data.contato_grau,
+      contato_telefone: data.contato_telefone,
+      contato_cpf: data.contato_cpf,
+      genero: data.genero,
+      genero_informado: data.genero_informado,
+      unidade_saude: data.unidade_saude,
+      nome_social: data.nome_social,
+      apelido: data.apelido,
+      vitima_abandono: data.vitima_abandono,
+      deseja_buscado: data.deseja_buscado,
+      estado_consciencia: data.estado_consciencia,
+      transtorno: data.transtorno,
+      sintoma_psiquico: data.sintoma_psiquico,
+      estado_psiquico: data.estado_psiquico,
     });
 
     return cadastroPaciente;
@@ -143,6 +157,70 @@ class PacienteRepository implements IPacienteRepository {
       $and.push({ deficiencias: params.deficiencias });
     }
 
+    if (params.contato_anonimo) {
+      $and.push({ contato_anonimo: params.contato_anonimo });
+    }
+
+    if (params.contato_nome) {
+      $and.push({ contato_nome: params.contato_nome });
+    }
+
+    if (params.contato_grau) {
+      $and.push({ contato_grau: params.contato_grau });
+    }
+
+    if (params.contato_telefone) {
+      $and.push({ contato_telefone: params.contato_telefone });
+    }
+
+    if (params.contato_cpf) {
+      $and.push({ contato_cpf: params.contato_cpf });
+    }
+
+    if (params.estado_psiquico) {
+      $and.push({ estado_psiquico: params.estado_psiquico });
+    }
+
+    if (params.genero) {
+      $and.push({ genero: params.genero });
+    }
+
+    if (params.genero_informado) {
+      $and.push({ genero_informado: params.genero_informado });
+    }
+
+    if (params.unidade_saude) {
+      $and.push({ unidade_saude: params.unidade_saude });
+    }
+
+    if (params.nome_social) {
+      $and.push({ nome_social: params.nome_social });
+    }
+
+    if (params.apelido) {
+      $and.push({ apelido: params.apelido });
+    }
+
+    if (params.vitima_abandono) {
+      $and.push({ vitima_abandono: params.vitima_abandono });
+    }
+
+    if (params.deseja_buscado) {
+      $and.push({ deseja_buscado: params.deseja_buscado });
+    }
+
+    if (params.estado_consciencia) {
+      $and.push({ estado_consciencia: params.estado_consciencia });
+    }
+
+    if (params.transtorno) {
+      $and.push({ transtorno: params.transtorno });
+    }
+
+    if (params.sintoma_psiquico) {
+      $and.push({ sintoma_psiquico: params.sintoma_psiquico });
+    }
+
     if (params.tipos_caracteristicas) {
       console.log('in');
       params.tipos_caracteristicas.forEach(element => {
@@ -244,6 +322,22 @@ class PacienteRepository implements IPacienteRepository {
         tem_bigode: data.tem_bigode,
         bairro: data.bairro,
         deficiencias: data.deficiencias,
+        contato_anonimo: data.contato_anonimo,
+        contato_nome: data.contato_nome,
+        contato_grau: data.contato_grau,
+        contato_telefone: data.contato_telefone,
+        contato_cpf: data.contato_cpf,
+        genero: data.genero,
+        genero_informado: data.genero_informado,
+        unidade_saude: data.unidade_saude,
+        nome_social: data.nome_social,
+        apelido: data.apelido,
+        vitima_abandono: data.vitima_abandono,
+        deseja_buscado: data.deseja_buscado,
+        estado_consciencia: data.estado_consciencia,
+        transtorno: data.transtorno,
+        sintoma_psiquico: data.sintoma_psiquico,
+        estado_psiquico: data.estado_psiquico,
       },
     );
   }
