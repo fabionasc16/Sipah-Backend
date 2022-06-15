@@ -1,28 +1,10 @@
-import { CaracteristicaRepository } from '@modules/caracteristica/CaracteristicaRepository';
-import { ICaracteristicaRepository } from '@modules/caracteristica/ICaracteristicaRepository';
-import { IPacienteRepository } from '@modules/paciente/IPacienteRepository';
-import { PacienteRepository } from '@modules/paciente/PacienteRepository';
-import { ITipoCaracteristicaRepository } from '@modules/tipoCaracteristica/ITipoCaracteristicaRepository';
-import { TipoCaracteristicaRepository } from '@modules/tipoCaracteristica/TipoCaracteristicaRepository';
-import { IUsuarioRepository } from 'repository/IUsuarioRepository';
-import { UsuarioRepository } from 'repository/implementations/usuario.repository';
-import { ICadastroCaracteristicasRepository } from 'repository/ICadastroCaracteristicasRepository';
-import { ICadastroPacienteRepository } from 'repository/ICadastroPacienteRepository';
-import { CadastroCaracteristicasRepository } from 'repository/implementations/CadastroCaracteristicasRepository';
-import { CadastroPacienteRepository } from 'repository/implementations/CadastroPacienteRepository';
+import { CaracteristicaRepository } from 'repository/CaracteristicaRepository';
+import { ICaracteristicaRepository } from 'repository/ICaracteristicaRepository';
+import { IPacienteRepository } from 'repository/IPacienteRepository';
+import { ITipoCaracteristicaRepository } from 'repository/ITipoCaracteristicaRepository';
+import { PacienteRepository } from 'repository/PacienteRepository';
+import { TipoCaracteristicaRepository } from 'repository/TipoCaracteristicaRepository';
 import { container } from 'tsyringe';
-
-// * --------------------- Cadastro de Pacientes ---------------------
-
-container.registerSingleton<ICadastroPacienteRepository>(
-  'CadastroPacienteRepository',
-  CadastroPacienteRepository,
-);
-
-container.registerSingleton<ICadastroCaracteristicasRepository>(
-  'CadastroCaracteristicasRepository',
-  CadastroCaracteristicasRepository,
-);
 
 // * ------------------------ Características ------------------------
 
@@ -37,11 +19,6 @@ container.registerSingleton<ITipoCaracteristicaRepository>(
 );
 
 // * --------------------- Cadastro de Usuário ---------------------
-
-container.registerSingleton<IUsuarioRepository>(
-  'UsuarioRepository',
-  UsuarioRepository,
-);
 
 container.registerSingleton<IPacienteRepository>(
   'PacienteRepository',

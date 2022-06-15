@@ -10,8 +10,8 @@ export class UsuarioService {
         this.usuarioRepository = new UsuarioRepository();
     }
 
-    async updateUsuario(query: any) {
-       return this.usuarioRepository.update(query);
+    async updateUsuario( id:string, query: any) {
+       return this.usuarioRepository.update(id, query);
     }
     async deleteUsuario(query: any) {
         return this.usuarioRepository.delete(query);

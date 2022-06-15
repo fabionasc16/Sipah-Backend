@@ -1,5 +1,5 @@
-import { ICreateUsuarioDTO } from '@modules/usuario/ICreateUsuarioDTO';
-import { IUpdateUsuarioDTO } from '@modules/usuario/IUpdateUsuarioDTO';
+//import { ICreateUsuarioDTO } from '@modules/usuario/ICreateUsuarioDTO';
+//import { IUpdateUsuarioDTO } from '@modules/usuario/IUpdateUsuarioDTO';
 import { IUsuarioRepository } from 'repository/IUsuarioRepository';
 import { usuario } from 'model/Usuario.model';
 import moment from 'moment';

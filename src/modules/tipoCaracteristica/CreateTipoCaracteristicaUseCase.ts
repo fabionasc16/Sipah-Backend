@@ -2,7 +2,7 @@ import { AppError } from 'AppError';
 import { Messages } from 'messages/Messages';
 import { inject, injectable } from 'tsyringe';
 
-import { ITipoCaracteristicaRepository } from './ITipoCaracteristicaRepository';
+import { ITipoCaracteristicaRepository } from '../../repository/ITipoCaracteristicaRepository';
 
 @injectable()
 class CreateTipoCaracteristicaUseCase {
