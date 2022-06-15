@@ -1,4 +1,5 @@
-{  "name": "ticados-backend",
+{
+  "name": "ticados-backend",
   "description": "API REST under development. Do not use for personal reasons",
   "version": "1.0.0",
   "main": "dist/server.js",
@@ -11,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "run:dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "run:prod": "tsc && node src/server.js",
+    "run:prod": "tsc && node dist/server.js",
     "run:lint": "eslint . --ext .ts,.js,.json",
     "run:lint-fix": "eslint . --ext .ts,.js,.json --fix"
   },

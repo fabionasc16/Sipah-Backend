@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { pacientesRoutes } from 'route/paciente.route';
-
 import { caracteristicaRoutes } from './Caracteristica.routes';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
 

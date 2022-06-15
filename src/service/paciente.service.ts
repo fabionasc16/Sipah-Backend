@@ -28,6 +28,22 @@ interface IRequest {
   local_encontrado: string;
   bairro: string;
   condicoes_encontrado: string;
+  contato_anonimo: number;
+  contato_nome: string;
+  contato_grau: string;
+  contato_telefone: string;
+  contato_cpf: string;
+  genero: string;
+  genero_informado: string;
+  unidade_saude: string;
+  nome_social: string;
+  apelido: string;
+  vitima_abandono: number;
+  deseja_buscado: number;
+  estado_consciencia: string;
+  transtorno: string;
+  sintoma_psiquico: string;
+  estado_psiquico: string;
   tipos_caracteristicas: any;
 }
 
@@ -71,6 +87,22 @@ class PacienteService {
         tem_bigode: data.tem_bigode,
         bairro: data.bairro,
         deficiencias: data.deficiencias,
+        contato_anonimo: data.contato_anonimo,
+        contato_nome: data.contato_nome,
+        contato_grau: data.contato_grau,
+        contato_telefone: data.contato_telefone,
+        contato_cpf: data.contato_cpf,
+        genero: data.genero,
+        genero_informado: data.genero_informado,
+        unidade_saude: data.unidade_saude,
+        nome_social: data.nome_social,
+        apelido: data.apelido,
+        vitima_abandono: data.vitima_abandono,
+        deseja_buscado: data.deseja_buscado,
+        estado_consciencia: data.estado_consciencia,
+        transtorno: data.transtorno,
+        sintoma_psiquico: data.sintoma_psiquico,
+        estado_psiquico: data.estado_psiquico,
       });
 
       await data.tipos_caracteristicas.map(async caracteristica => {

@@ -1,22 +1,18 @@
-import { CreateTipoCaracteristicaController } from '@modules/tipoCaracteristica/CreateTipoCaracteristicaController';
+import { TipoCaracteristicaController } from "../controller/TipoCaracteristica.Controller";
 import { Router } from 'express';
 
 const tipoCaracteristicaRoutes = Router();
 
-const createTipoCaracteristicaController =
-  new CreateTipoCaracteristicaController();
+const tipoCaracteristicaController =  new TipoCaracteristicaController();
 
-tipoCaracteristicaRoutes.post('/', createTipoCaracteristicaController.handle);
+tipoCaracteristicaRoutes.post('/', tipoCaracteristicaController.create);
 
-tipoCaracteristicaRoutes.delete(
-  '/:id',
-  createTipoCaracteristicaController.handle,
-);
+tipoCaracteristicaRoutes.delete('/:id', tipoCaracteristicaController.delete);
 
-tipoCaracteristicaRoutes.get('/', createTipoCaracteristicaController.handle);
+tipoCaracteristicaRoutes.get('/', tipoCaracteristicaController.list);
 
-tipoCaracteristicaRoutes.get('/:id', createTipoCaracteristicaController.handle);
+tipoCaracteristicaRoutes.get('/:id', tipoCaracteristicaController.listById);
 
-tipoCaracteristicaRoutes.put('/:id', createTipoCaracteristicaController.handle);
+tipoCaracteristicaRoutes.put('/:id', tipoCaracteristicaController.update);
 
 export { tipoCaracteristicaRoutes };

@@ -18,7 +18,7 @@ container.registerSingleton<ITipoCaracteristicaRepository>(
   TipoCaracteristicaRepository,
 );
 
-// * --------------------- Cadastro de Usuário ---------------------
+// * --------------------- Cadastro de Paciente ---------------------
 
 container.registerSingleton<IPacienteRepository>(
   'PacienteRepository',

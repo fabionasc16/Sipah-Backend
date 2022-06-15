@@ -78,6 +78,54 @@ const pacienteSchema = new Schema(
     condicoes_encontrado: {
       type: mongoose.Schema.Types.String,
     },
+    contato_anonimo: {
+      type: mongoose.Schema.Types.Number,
+    },
+    contato_nome: {
+      type: mongoose.Schema.Types.String,
+    },
+    contato_grau: {
+      type: mongoose.Schema.Types.String,
+    },
+    contato_telefone: {
+      type: mongoose.Schema.Types.String,
+    },
+    contato_cpf: {
+      type: mongoose.Schema.Types.String,
+    },
+    genero: {
+      type: mongoose.Schema.Types.String,
+    },
+    genero_informado: {
+      type: mongoose.Schema.Types.String,
+    },
+    unidade_saude: {
+      type: mongoose.Schema.Types.String,
+    },
+    nome_social: {
+      type: mongoose.Schema.Types.String,
+    },
+    apelido: {
+      type: mongoose.Schema.Types.String,
+    },
+    vitima_abandono: {
+      type: mongoose.Schema.Types.Number,
+    },
+    deseja_buscado: {
+      type: mongoose.Schema.Types.Number,
+    },
+    estado_consciencia: {
+      type: mongoose.Schema.Types.String,
+    },
+    transtorno: {
+      type: mongoose.Schema.Types.String,
+    },
+    sintoma_psiquico: {
+      type: mongoose.Schema.Types.String,
+    },
+    estado_psiquico: {
+      type: mongoose.Schema.Types.String,
+    },
     tipos_caracteristicas: [
       {
         type: mongoose.Schema.Types.ObjectId,
