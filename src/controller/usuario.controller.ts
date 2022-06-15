@@ -17,12 +17,12 @@ class UsuarioController {
     }   
     
     async createUsuario(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.create(request.query);
+        let data = await UsuarioController.service.create(request.body);
         return response.status(200).json(data);
     }
     
     async listUsuarioByCPF(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.listUsuarioByCPF(request.params.id);
+        let data = await UsuarioController.service.listUsuarioByCPF(request.params.cpf);
         return response.status(200).json(data);
     }
     
@@ -36,7 +36,7 @@ class UsuarioController {
         return response.status(200).json(data);
     }
     async  updateUsuario(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.updateUsuario(request.body);
+        let data = await UsuarioController.service.updateUsuario(request.params.id, request.body);
         return response.status(200).json(data);
     }
 }

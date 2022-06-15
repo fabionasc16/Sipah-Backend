@@ -11,16 +11,16 @@ export class UsuarioService {
     }
 
     async updateUsuario(query: any) {
-        this.usuarioRepository.update(query);
+       return this.usuarioRepository.update(query);
     }
     async deleteUsuario(query: any) {
-        this.usuarioRepository.delete(query);
+        return this.usuarioRepository.delete(query);
     }
     async listUsuarioById(id: string) {
-        this.usuarioRepository.listById(id);
+        return this.usuarioRepository.listById(id);
     }
     async listUsuarioByCPF(cpf: string) {
-        this.usuarioRepository.listByCPF(cpf);
+        return this.usuarioRepository.listByCPF(cpf);
     }
     async create(data: any) {
         const existCPF = await this.usuarioRepository.listByCPF(data.cpf);
@@ -30,7 +30,8 @@ export class UsuarioService {
         data.dataNascimento = new Date(data.dataNascimento)
             .toISOString()
             .substring(0, 10);
-        const cadastroUsuario = await this.usuarioRepository.create(data);
+            
+        return await this.usuarioRepository.create(data);
     }
 
     async listAllUsuario(params: any) {

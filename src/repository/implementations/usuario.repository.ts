@@ -1,7 +1,7 @@
 import { ICreateUsuarioDTO } from '@modules/usuario/ICreateUsuarioDTO';
 import { IUpdateUsuarioDTO } from '@modules/usuario/IUpdateUsuarioDTO';
 import { IUsuarioRepository } from 'repository/IUsuarioRepository';
-import { usuario } from 'model/usuario.model';
+import { usuario } from 'model/Usuario.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
@@ -9,6 +9,8 @@ class UsuarioRepository implements IUsuarioRepository {
   private usuario = usuario;
 
   async create(usuario: any): Promise<any> {
+    usuario.data_cadastro =  await moment().format('YYYY-MM-DD');
+    usuario.hora_cadastro = await moment().format('HH:mm:ss');
 
     const cadastroUsuario = await this.usuario.create(usuario);
 
@@ -17,7 +19,7 @@ class UsuarioRepository implements IUsuarioRepository {
 
   async listByCPF(cpf: string): Promise<any[]> {
     const data = await this.usuario.findOne({
-      cpf,
+      cpf
     });
     return data;
   }
@@ -60,9 +62,9 @@ class UsuarioRepository implements IUsuarioRepository {
     });
   }
 
-  async update(data: any): Promise<void> {
+  async update( id: string, data: any): Promise<void> {
     await usuario.findByIdAndUpdate(
-      { _id: data.id },
+      { _id: id },
       {
         updated_at: new Date()
       },

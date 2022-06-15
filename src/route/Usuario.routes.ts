@@ -16,9 +16,9 @@ usuarioRoutes.post('/', usuarioController.createUsuario);
 
 usuarioRoutes.get('/', usuarioController.listAllUsuario);
 
-usuarioRoutes.get('/:id', usuarioController.listUsuarioById);
+usuarioRoutes.get('/detalhes/:id', usuarioController.listUsuarioById);
 
-usuarioRoutes.get('/cpf/:query', usuarioController.listUsuarioByCPF);
+usuarioRoutes.get('/cpf/:cpf', usuarioController.listUsuarioByCPF);
 
 usuarioRoutes.delete('/:id', usuarioController.deleteUsuario);
 

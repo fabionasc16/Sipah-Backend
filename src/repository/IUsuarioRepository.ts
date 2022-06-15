@@ -8,7 +8,7 @@ interface IUsuarioRepository {
   listByCPF(cpf: string): Promise<any>;
   listAllUsuario(params:any): any;
   delete(id: string): Promise<void>;
-  update(data: IUpdateUsuarioDTO): Promise<void>;
+  update(id: string, data: IUpdateUsuarioDTO): Promise<void>;
 }
 
 export { IUsuarioRepository };
