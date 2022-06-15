@@ -1,7 +1,7 @@
 import fs from 'fs';
 import mime from 'mime-types';
 import multer from 'multer';
-import { Request } from "express-serve-static-core";
+import { Request } from 'express-serve-static-core';
 
 export class Upload {
   private url = './images';
