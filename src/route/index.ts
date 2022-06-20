@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { pacientesRoutes } from 'route/paciente.route';
+
 import { caracteristicaRoutes } from './Caracteristica.routes';
+import { pacientesRoutes } from './paciente.route';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
 
 const appRoutes = Router();
@@ -16,6 +17,8 @@ appRoutes.get('/', (request, response) => {
     default: () => response.status(406).send('Not acceptable'),
   });
 });
+
+appRoutes.use('/usuario', pacientesRoutes);
 
 appRoutes.use('/paciente', pacientesRoutes);
 
