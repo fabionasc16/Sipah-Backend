@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { caracteristicaRoutes } from './Caracteristica.routes';
 import { pacientesRoutes } from './paciente.route';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
+import { usuarioRoutes } from './Usuario.routes';
 
 const appRoutes = Router();
 
@@ -18,7 +19,7 @@ appRoutes.get('/', (request, response) => {
   });
 });
 
-appRoutes.use('/usuario', pacientesRoutes);
+appRoutes.use('/usuario', usuarioRoutes);
 
 appRoutes.use('/paciente', pacientesRoutes);
 

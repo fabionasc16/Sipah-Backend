@@ -26,7 +26,7 @@ class UsuarioController {
     }
 
     async listUsuarioById(request: Request, response: Response): Promise<any> {
-        let data = await UsuarioController.service.listUsuarioById(request.params.cpf);
+        let data = await UsuarioController.service.listUsuarioById(request.params.id);
         return response.status(200).json(data);
     }
 
