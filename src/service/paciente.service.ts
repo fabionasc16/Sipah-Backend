@@ -152,7 +152,7 @@ class PacienteService {
     await this.pacienteRepository.delete(id);
   }
 
-  async update(id: string, data: IRequest): Promise<void> {
+  async update(id: string, data: any): Promise<void> {
     const paciente = await this.pacienteRepository.listById(id);
     console.log(id);
     if (!paciente) {

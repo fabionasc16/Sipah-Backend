@@ -1,5 +1,5 @@
 import { ParsedQs } from "qs";
-import { UsuarioRepository } from "repository/implementations/usuario.repository";
+import { UsuarioRepository } from "repository/usuario.repository";
 import { AppError } from 'AppError';
 import { Messages } from "messages/Messages";
 
