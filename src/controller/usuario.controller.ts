@@ -3,7 +3,7 @@ import { UsuarioService } from 'service/usuario.service';
 
 
 
-class UsuarioController {
+class UsuarioController {   
   static service: UsuarioService;
   public constructor() {
 
@@ -36,6 +36,11 @@ class UsuarioController {
     }
     async updateUsuario(request: Request, response: Response): Promise<any> {
         let data = await UsuarioController.service.updateUsuario(request.params.id, request.body);
+        return response.status(200).json(data);
+    }
+
+    async mudarStatus(request: Request, response: Response): Promise<any> {
+        let data = await UsuarioController.service.mudarStatus(request.params.id);
         return response.status(200).json(data);
     }
 }
