@@ -75,6 +75,9 @@ const usuarioSchema = new Schema({
   },
   email: {
     type: mongoose.Schema.Types.String,
+  }, 
+  status: {
+    type: mongoose.Schema.Types.Boolean,
   },
   created_at: {
     type: Date,
