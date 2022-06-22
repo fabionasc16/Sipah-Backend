@@ -46,7 +46,7 @@ class UsuarioRepository implements IUsuarioRepository {
 
     let data = await usuario.find(
       filters,
-      ' nome cpf perfilUsuario setorUsuario',
+      ' nome cpf perfilUsuario setorUsuario status',
       { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber });
 
     let result = await { 'currentPage': page, 'perPage': pageSize, 'total': total, 'data': data };
