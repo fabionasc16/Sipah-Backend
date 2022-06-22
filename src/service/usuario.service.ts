@@ -4,6 +4,7 @@ import { AppError } from 'AppError';
 import { Messages } from "messages/Messages";
 
 export class UsuarioService {
+ 
     private usuarioRepository: UsuarioRepository;
 
     constructor() {
@@ -36,6 +37,10 @@ export class UsuarioService {
 
     async listAllUsuario(params: any) {
         return await this.usuarioRepository.listAllUsuario(params);
+    }
+
+    async mudarStatus(id: string) {
+        return await this.usuarioRepository.mudarStatus(id);
     }
 
 }
