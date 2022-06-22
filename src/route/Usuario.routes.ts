@@ -18,4 +18,6 @@ usuarioRoutes.delete('/:id', usuarioController.deleteUsuario);
 
 usuarioRoutes.put('/:id', usuarioController.updateUsuario);
 
+usuarioRoutes.put('/mudar/status/:id', usuarioController.mudarStatus);
+
 export { usuarioRoutes };
