@@ -10,7 +10,7 @@ services:
     volumes:
       - mongo_data:/data/db
       - '/etc/timezone:/etc/timezone'
-      -	'/etc/localtime:/etc/localtime'
+      - '/etc/localtime:/etc/localtime'
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: e[&W*UcGSVBruETSTW   
