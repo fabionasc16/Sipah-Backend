@@ -8,44 +8,50 @@ import { IPacienteRepository } from './IPacienteRepository';
 class PacienteRepository implements IPacienteRepository {
   async create(data: ICreatePacienteDTO): Promise<any> {
     const cadastroPaciente = await Paciente.create({
-      hora_entrada: data.hora_entrada,
-      tipo_entrada: data.tipo_entrada,
-      nome_paciente: data.nome_paciente,
-      nome_mae: data.nome_mae,
-      data_nascimento: data.data_nascimento,
-      rg_paciente: data.rg_paciente,
-      cpf_paciente: data.cpf_paciente,
-      cns_paciente: data.cns_paciente,
+      dataEntrada: data.dataEntrada,
+      horaEntrada: data.horaEntrada,
+      numProntuario: data.numProntuario,
+      entradaAtraves: data.entradaAtraves,
+      statusRegistro: data.statusRegistro,
+      nomePaciente: data.nomePaciente,
+      nomeMae: data.nomeMae,
+      dataNascimento: new Date(data.dataNascimento),
+      rg: data.rg,
+      cpf: data.cpf,
+      cns: data.cns,
       nacionalidade: data.nacionalidade,
-      sexo: data.sexo,
-      estatura_aproximada: data.estatura_aproximada,
-      peso_aproximado: data.peso_aproximado,
-      idade_aproximada: data.idade_aproximada,
-      condicoes_encontrado: data.condicoes_encontrado,
-      local_encontrado: data.local_encontrado,
-      sinais_particulares: data.sinais_particulares,
-      acessorios_utilizados: data.acessorios_utilizados,
+      pais: data.pais,
+      estaturaAproximada: data.estaturaAproximada,
+      pesoAproximado: data.pesoAproximado,
+      idadeAproximada: data.idadeAproximada,
+      condicoesEncontrada: data.condicoesEncontrada,
+      localEncontrado: data.localEncontrado,
+      sinaisParticulares: data.sinaisParticulares,
+      acessoriosUtilizados: data.acessoriosUtilizados,
       vestimentas: data.vestimentas,
-      tem_barba: data.tem_barba,
-      tem_bigode: data.tem_bigode,
-      bairro: data.bairro,
-      deficiencias: data.deficiencias,
-      contato_anonimo: data.contato_anonimo,
-      contato_nome: data.contato_nome,
-      contato_grau: data.contato_grau,
-      contato_telefone: data.contato_telefone,
-      contato_cpf: data.contato_cpf,
+      barba: data.barba,
+      bigode: data.bigode,
+      bairroEncontrado: data.bairroEncontrado,
+      deficiencia: data.deficiencia,
+      naoInfomaContato: data.naoInfomaContato,
+      nomeContato: data.nomeContato,
+      grauParentescoSelected: data.grauParentescoSelected,
+      telefoneContato: data.telefoneContato,
+      cpfContato: data.cpfContato,
       genero: data.genero,
-      genero_informado: data.genero_informado,
-      unidade_saude: data.unidade_saude,
-      nome_social: data.nome_social,
-      apelido: data.apelido,
-      vitima_abandono: data.vitima_abandono,
-      deseja_buscado: data.deseja_buscado,
-      estado_consciencia: data.estado_consciencia,
-      transtorno: data.transtorno,
-      sintoma_psiquico: data.sintoma_psiquico,
-      estado_psiquico: data.estado_psiquico,
+      generoOutro: data.generoOutro,
+      unidade: data.unidade,
+      nomeSocialPaciente: data.nomeSocialPaciente,
+      apelidoPaciente: data.apelidoPaciente,
+      vitimaAbandono: data.vitimaAbandono,
+      querEncontro: data.querEncontro,
+      autorizaConsulta: data.autorizaConsulta,
+      numRegistroExterno: data.numRegistroExterno,
+      unidadeSaudeOrigem: data.unidadeSaudeOrigem,
+      conscienciaPaciente: data.conscienciaPaciente,
+      transtornosPaciente: data.transtornosPaciente,
+      tratamentoPsicologico: data.tratamentoPsicologico,
+      descricaoEstadoPaciente: data.descricaoEstadoPaciente,
     });
 
     return cadastroPaciente;
@@ -69,162 +75,189 @@ class PacienteRepository implements IPacienteRepository {
 
     const $and = [];
 
-    if (params.hora_entrada) {
-      $and.push({ hora_entrada: params.hora_entrada });
+    if (params.dataEntrada) {
+      $and.push({ dataEntrada: params.dataEntrada });
     }
 
-    if (params.tipo_entrada) {
-      $and.push({ tipo_entrada: params.tipo_entrada });
+    if (params.horaEntrada) {
+      $and.push({ horaEntrada: params.horaEntrada });
     }
 
-    if (params.nome_paciente) {
-      $and.push({ nome_paciente: params.nome_paciente });
+    if (params.numProntuario) {
+      $and.push({ numProntuario: params.numProntuario });
     }
 
-    if (params.nome_mae) {
-      $and.push({ nome_mae: params.nome_mae });
+    if (params.entradaAtraves) {
+      $and.push({ entradaAtraves: params.entradaAtraves });
     }
 
-    if (params.data_nascimento) {
-      $and.push({ data_nascimento: params.data_nascimento });
+    if (params.statusRegistro) {
+      $and.push({ statusRegistro: params.statusRegistro });
     }
 
-    if (params.rg_paciente) {
-      $and.push({ rg_paciente: params.rg_paciente });
+    if (params.nomePaciente) {
+      $and.push({ nomePaciente: params.nomePaciente });
     }
 
-    if (params.cpf_paciente) {
-      $and.push({ cpf_paciente: params.cpf_paciente });
+    if (params.nomeMae) {
+      $and.push({ nomeMae: params.nomeMae });
     }
 
-    if (params.cns_paciente) {
-      $and.push({ cns_paciente: params.cns_paciente });
+    if (params.dataNascimento) {
+      $and.push({ dataNascimento: params.dataNascimento });
+    }
+
+    if (params.rg) {
+      $and.push({ rg: params.rg });
+    }
+
+    if (params.cpf) {
+      $and.push({ cpf: params.cpf });
+    }
+
+    if (params.cns) {
+      $and.push({ cns: params.cns });
     }
 
     if (params.nacionalidade) {
       $and.push({ nacionalidade: params.nacionalidade });
     }
 
-    if (params.sexo) {
-      $and.push({ sexo: params.sexo });
+    if (params.pais) {
+      $and.push({ pais: params.pais });
     }
 
-    if (params.estatura_aproximada) {
-      $and.push({ estatura_aproximada: params.estatura_aproximada });
+    if (params.estaturaAproximada) {
+      $and.push({ estaturaAproximada: params.estaturaAproximada });
     }
 
-    if (params.peso_aproximado) {
-      $and.push({ peso_aproximado: params.peso_aproximado });
+    if (params.pesoAproximado) {
+      $and.push({ pesoAproximado: params.pesoAproximado });
     }
 
-    if (params.idade_aproximada) {
-      $and.push({ idade_aproximada: params.idade_aproximada });
+    if (params.idadeAproximada) {
+      $and.push({ idadeAproximada: params.idadeAproximada });
     }
 
-    if (params.condicoes_encontrado) {
-      $and.push({ condicoes_encontrado: params.condicoes_encontrado });
+    if (params.condicoesEncontrada) {
+      $and.push({ condicoesEncontrada: params.condicoesEncontrada });
     }
 
-    if (params.local_encontrado) {
-      $and.push({ local_encontrado: params.local_encontrado });
+    if (params.localEncontrado) {
+      $and.push({ localEncontrado: params.localEncontrado });
     }
 
-    if (params.sinais_particulares) {
-      $and.push({ sinais_particulares: params.sinais_particulares });
+    if (params.sinaisParticulares) {
+      $and.push({ sinaisParticulares: params.sinaisParticulares });
     }
 
-    if (params.acessorios_utilizados) {
-      $and.push({ acessorios_utilizados: params.acessorios_utilizados });
+    if (params.acessoriosUtilizados) {
+      $and.push({ acessoriosUtilizados: params.acessoriosUtilizados });
     }
 
     if (params.vestimentas) {
       $and.push({ vestimentas: params.vestimentas });
     }
 
-    if (params.tem_barba) {
-      $and.push({ tem_barba: params.tem_barba });
+    if (params.barba) {
+      $and.push({ barba: params.barba });
     }
 
-    if (params.tem_bigode) {
-      $and.push({ tem_bigode: params.tem_bigode });
+    if (params.bigode) {
+      $and.push({ bigode: params.bigode });
     }
 
-    if (params.bairro) {
-      $and.push({ bairro: params.bairro });
+    if (params.bairroEncontrado) {
+      $and.push({ bairroEncontrado: params.bairroEncontrado });
     }
 
-    if (params.deficiencias) {
-      $and.push({ deficiencias: params.deficiencias });
+    if (params.deficiencia) {
+      $and.push({ deficiencia: params.deficiencia });
     }
 
-    if (params.contato_anonimo) {
-      $and.push({ contato_anonimo: params.contato_anonimo });
+    if (params.naoInfomaContato) {
+      $and.push({ naoInfomaContato: params.naoInfomaContato });
     }
 
-    if (params.contato_nome) {
-      $and.push({ contato_nome: params.contato_nome });
+    if (params.nomeContato) {
+      $and.push({ nomeContato: params.nomeContato });
     }
 
-    if (params.contato_grau) {
-      $and.push({ contato_grau: params.contato_grau });
+    if (params.grauParentescoSelected) {
+      $and.push({ grauParentescoSelected: params.grauParentescoSelected });
     }
 
-    if (params.contato_telefone) {
-      $and.push({ contato_telefone: params.contato_telefone });
+    if (params.telefoneContato) {
+      $and.push({ telefoneContato: params.telefoneContato });
     }
 
-    if (params.contato_cpf) {
-      $and.push({ contato_cpf: params.contato_cpf });
-    }
-
-    if (params.estado_psiquico) {
-      $and.push({ estado_psiquico: params.estado_psiquico });
+    if (params.cpfContato) {
+      $and.push({ cpfContato: params.cpfContato });
     }
 
     if (params.genero) {
       $and.push({ genero: params.genero });
     }
 
-    if (params.genero_informado) {
-      $and.push({ genero_informado: params.genero_informado });
+    if (params.generoOutro) {
+      $and.push({ generoOutro: params.generoOutro });
     }
 
-    if (params.unidade_saude) {
-      $and.push({ unidade_saude: params.unidade_saude });
+    if (params.unidade) {
+      $and.push({ unidade: params.unidade });
     }
 
-    if (params.nome_social) {
-      $and.push({ nome_social: params.nome_social });
+    if (params.nomeSocialPaciente) {
+      $and.push({ nomeSocialPaciente: params.nomeSocialPaciente });
     }
 
-    if (params.apelido) {
-      $and.push({ apelido: params.apelido });
+    if (params.apelidoPaciente) {
+      $and.push({ apelidoPaciente: params.apelidoPaciente });
     }
 
-    if (params.vitima_abandono) {
-      $and.push({ vitima_abandono: params.vitima_abandono });
+    if (params.vitimaAbandono) {
+      $and.push({ vitimaAbandono: params.vitimaAbandono });
     }
 
-    if (params.deseja_buscado) {
-      $and.push({ deseja_buscado: params.deseja_buscado });
+    if (params.querEncontro) {
+      $and.push({ querEncontro: params.querEncontro });
     }
 
-    if (params.estado_consciencia) {
-      $and.push({ estado_consciencia: params.estado_consciencia });
+    if (params.autorizaConsulta) {
+      $and.push({ autorizaConsulta: params.autorizaConsulta });
     }
 
-    if (params.transtorno) {
-      $and.push({ transtorno: params.transtorno });
+    if (params.numRegistroExterno) {
+      $and.push({ numRegistroExterno: params.numRegistroExterno });
+    }
+
+    if (params.unidadeSaudeOrigem) {
+      $and.push({ unidadeSaudeOrigem: params.unidadeSaudeOrigem });
+    }
+
+    if (params.conscienciaPaciente) {
+      $and.push({ conscienciaPaciente: params.conscienciaPaciente });
+    }
+
+    if (params.transtornosPaciente) {
+      $and.push({ transtornosPaciente: params.transtornosPaciente });
+    }
+
+    if (params.tratamentoPsicologico) {
+      $and.push({ tratamentoPsicologico: params.tratamentoPsicologico });
     }
 
     if (params.sintoma_psiquico) {
       $and.push({ sintoma_psiquico: params.sintoma_psiquico });
     }
 
-    if (params.tipos_caracteristicas) {
-      console.log('in');
-      params.tipos_caracteristicas.forEach(element => {
-        $and.push({ tipos_caracteristicas: element });
+    if (params.descricaoEstadoPaciente) {
+      $and.push({ descricaoEstadoPaciente: params.descricaoEstadoPaciente });
+    }
+
+    if (params.tipoCaracteristicas) {
+      params.tipoCaracteristicas.forEach(element => {
+        $and.push({ tipoCaracteristicas: element });
       });
     }
 
@@ -232,19 +265,16 @@ class PacienteRepository implements IPacienteRepository {
       Object.assign(term, { $and });
     }
 
-    console.log('termo');
-    console.log(term);
-    // console.log($and);
     const total = await Paciente.countDocuments(term);
     const pageNumber = parseInt(page, 10);
     const pageSizeNumber = parseInt(pageSize, 10);
 
     const data = await Paciente.find(
       term,
-      'nome_paciente cpf_paciente tipo_entrada rg_paciente',
+      'nomePaciente cpf entradaAtraves rg',
       { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber },
     ).populate({
-      path: 'tipos_caracteristicas',
+      path: 'tipoCaracteristicas',
       populate: {
         path: 'caracteristica',
         model: 'Caracteristica',
@@ -290,9 +320,14 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async listById(id: string): Promise<any> {
-    const paciente = await Paciente.findById(id).populate(
-      'tipos_caracteristicas',
-    );
+    const paciente = await Paciente.findById(id).populate({
+      path: 'tipoCaracteristicas',
+      populate: {
+        path: 'caracteristica',
+        model: 'Caracteristica',
+        select: 'name',
+      },
+    });
     return paciente;
   }
 
@@ -300,44 +335,50 @@ class PacienteRepository implements IPacienteRepository {
     await Paciente.findByIdAndUpdate(
       { _id: id },
       {
-        hora_entrada: data.hora_entrada,
-        tipo_entrada: data.tipo_entrada,
-        nome_paciente: data.nome_paciente,
-        nome_mae: data.nome_mae,
-        data_nascimento: data.data_nascimento,
-        rg_paciente: data.rg_paciente,
-        cpf_paciente: data.cpf_paciente,
-        cns_paciente: data.cns_paciente,
+        dataEntrada: data.dataEntrada,
+        horaEntrada: data.horaEntrada,
+        numProntuario: data.numProntuario,
+        entradaAtraves: data.entradaAtraves,
+        statusRegistro: data.statusRegistro,
+        nomePaciente: data.nomePaciente,
+        nomeMae: data.nomeMae,
+        dataNascimento: data.dataNascimento,
+        rg: data.rg,
+        cpf: data.cpf,
+        cns: data.cns,
         nacionalidade: data.nacionalidade,
-        sexo: data.sexo,
-        estatura_aproximada: data.estatura_aproximada,
-        peso_aproximado: data.peso_aproximado,
-        idade_aproximada: data.idade_aproximada,
-        condicoes_encontrado: data.condicoes_encontrado,
-        local_encontrado: data.local_encontrado,
-        sinais_particulares: data.sinais_particulares,
-        acessorios_utilizados: data.acessorios_utilizados,
+        pais: data.pais,
+        estaturaAproximada: data.estaturaAproximada,
+        pesoAproximado: data.pesoAproximado,
+        idadeAproximada: data.idadeAproximada,
+        condicoesEncontrada: data.condicoesEncontrada,
+        localEncontrado: data.localEncontrado,
+        sinaisParticulares: data.sinaisParticulares,
+        acessoriosUtilizados: data.acessoriosUtilizados,
         vestimentas: data.vestimentas,
-        tem_barba: data.tem_barba,
-        tem_bigode: data.tem_bigode,
-        bairro: data.bairro,
-        deficiencias: data.deficiencias,
-        contato_anonimo: data.contato_anonimo,
-        contato_nome: data.contato_nome,
-        contato_grau: data.contato_grau,
-        contato_telefone: data.contato_telefone,
-        contato_cpf: data.contato_cpf,
+        barba: data.barba,
+        bigode: data.bigode,
+        bairroEncontrado: data.bairroEncontrado,
+        deficiencia: data.deficiencia,
+        naoInfomaContato: data.naoInfomaContato,
+        nomeContato: data.nomeContato,
+        grauParentescoSelected: data.grauParentescoSelected,
+        telefoneContato: data.telefoneContato,
+        cpfContato: data.cpfContato,
         genero: data.genero,
-        genero_informado: data.genero_informado,
-        unidade_saude: data.unidade_saude,
-        nome_social: data.nome_social,
-        apelido: data.apelido,
-        vitima_abandono: data.vitima_abandono,
-        deseja_buscado: data.deseja_buscado,
-        estado_consciencia: data.estado_consciencia,
-        transtorno: data.transtorno,
-        sintoma_psiquico: data.sintoma_psiquico,
-        estado_psiquico: data.estado_psiquico,
+        generoOutro: data.generoOutro,
+        unidade: data.unidade,
+        nomeSocialPaciente: data.nomeSocialPaciente,
+        apelidoPaciente: data.apelidoPaciente,
+        vitimaAbandono: data.vitimaAbandono,
+        querEncontro: data.querEncontro,
+        autorizaConsulta: data.autorizaConsulta,
+        numRegistroExterno: data.numRegistroExterno,
+        unidadeSaudeOrigem: data.unidadeSaudeOrigem,
+        conscienciaPaciente: data.conscienciaPaciente,
+        transtornosPaciente: data.transtornosPaciente,
+        tratamentoPsicologico: data.tratamentoPsicologico,
+        descricaoEstadoPaciente: data.descricaoEstadoPaciente,
       },
     );
   }
