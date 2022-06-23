@@ -8,125 +8,139 @@ const pacienteSchema = new Schema(
       type: Number,
       select: false,
     },
-    data_entrada_unidade: {
-      type: mongoose.Schema.Types.Date,
-      default: Date.now,
-    },
-    hora_entrada: {
-      type: mongoose.Schema.Types.String,
-    },
-    tipo_entrada: {
-      type: mongoose.Schema.Types.String,
-    },
-    nome_paciente: {
-      type: mongoose.Schema.Types.String,
-    },
-    nome_mae: {
-      type: mongoose.Schema.Types.String,
-    },
-    data_nascimento: {
+    dataEntrada: {
       type: mongoose.Schema.Types.Date,
     },
-    rg_paciente: {
+    horaEntrada: {
       type: mongoose.Schema.Types.String,
     },
-    cpf_paciente: {
+    numProntuario: {
       type: mongoose.Schema.Types.String,
     },
-    cns_paciente: {
+    entradaAtraves: {
+      type: mongoose.Schema.Types.String,
+    },
+    statusRegistro: {
+      type: mongoose.Schema.Types.String,
+    },
+    nomePaciente: {
+      type: mongoose.Schema.Types.String,
+    },
+    nomeMae: {
+      type: mongoose.Schema.Types.String,
+    },
+    dataNascimento: {
+      type: mongoose.Schema.Types.Date,
+    },
+    rg: {
+      type: mongoose.Schema.Types.String,
+    },
+    cpf: {
+      type: mongoose.Schema.Types.String,
+    },
+    cns: {
       type: mongoose.Schema.Types.String,
     },
     nacionalidade: {
       type: mongoose.Schema.Types.String,
     },
-    sexo: {
+    pais: {
       type: mongoose.Schema.Types.String,
     },
-    estatura_aproximada: {
+    estaturaAproximada: {
       type: mongoose.Schema.Types.Number,
     },
-    peso_aproximado: {
+    pesoAproximado: {
       type: mongoose.Schema.Types.Number,
     },
-    idade_aproximada: {
+    idadeAproximada: {
       type: mongoose.Schema.Types.Number,
     },
-    tem_barba: {
-      type: mongoose.Schema.Types.Number,
-    },
-    tem_bigode: {
-      type: mongoose.Schema.Types.Number,
-    },
-    sinais_particulares: {
+    condicoesEncontrada: {
       type: mongoose.Schema.Types.String,
     },
-    acessorios_utilizados: {
+    localEncontrado: {
       type: mongoose.Schema.Types.String,
     },
-    deficiencias: {
+    sinaisParticulares: {
+      type: mongoose.Schema.Types.String,
+    },
+    acessoriosUtilizados: {
       type: mongoose.Schema.Types.String,
     },
     vestimentas: {
       type: mongoose.Schema.Types.String,
     },
-    local_encontrado: {
+    barba: {
       type: mongoose.Schema.Types.String,
     },
-    bairro: {
+    bigode: {
       type: mongoose.Schema.Types.String,
     },
-    condicoes_encontrado: {
+    bairroEncontrado: {
       type: mongoose.Schema.Types.String,
     },
-    contato_anonimo: {
-      type: mongoose.Schema.Types.Number,
-    },
-    contato_nome: {
+    deficiencia: {
       type: mongoose.Schema.Types.String,
     },
-    contato_grau: {
+    naoInfomaContato: {
+      type: mongoose.Schema.Types.Boolean,
+    },
+    nomeContato: {
       type: mongoose.Schema.Types.String,
     },
-    contato_telefone: {
+    grauParentescoSelected: {
       type: mongoose.Schema.Types.String,
     },
-    contato_cpf: {
+    telefoneContato: {
+      type: mongoose.Schema.Types.String,
+    },
+    cpfContato: {
       type: mongoose.Schema.Types.String,
     },
     genero: {
       type: mongoose.Schema.Types.String,
     },
-    genero_informado: {
+    generoOutro: {
       type: mongoose.Schema.Types.String,
     },
-    unidade_saude: {
+    unidade: {
       type: mongoose.Schema.Types.String,
     },
-    nome_social: {
+    nomeSocialPaciente: {
       type: mongoose.Schema.Types.String,
     },
-    apelido: {
+    apelidoPaciente: {
       type: mongoose.Schema.Types.String,
     },
-    vitima_abandono: {
-      type: mongoose.Schema.Types.Number,
-    },
-    deseja_buscado: {
-      type: mongoose.Schema.Types.Number,
-    },
-    estado_consciencia: {
+    vitimaAbandono: {
       type: mongoose.Schema.Types.String,
     },
-    transtorno: {
+    querEncontro: {
       type: mongoose.Schema.Types.String,
     },
-    sintoma_psiquico: {
+    autorizaConsulta: {
       type: mongoose.Schema.Types.String,
     },
-    estado_psiquico: {
+    numRegistroExterno: {
       type: mongoose.Schema.Types.String,
     },
-    tipos_caracteristicas: [
+    unidadeSaudeOrigem: {
+      type: mongoose.Schema.Types.String,
+    },
+    conscienciaPaciente: {
+      type: mongoose.Schema.Types.String,
+    },
+    transtornosPaciente: {
+      type: mongoose.Schema.Types.String,
+    },
+    tratamentoPsicologico: {
+      type: mongoose.Schema.Types.String,
+    },
+    descricaoEstadoPaciente: {
+      type: mongoose.Schema.Types.String,
+    },
+    tipoCaracteristicas: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'TipoCaracteristica',
