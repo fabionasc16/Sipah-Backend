@@ -62,12 +62,14 @@ class PacienteService {
 
   async create(data: IRequest): Promise<any> {
     try {
-      const cpfExists = await Paciente.findOne({
-        cpf: data.cpf,
-      });
+      if (data.numProntuario !== '') {
+        const numProntuarioExists = await Paciente.findOne({
+          numProntuario: data.numProntuario,
+        });
 
-      if (cpfExists) {
-        throw new AppError(Messages.PATIENT_ALREADY_EXISTS);
+        if (numProntuarioExists) {
+          throw new AppError('Número de Prontuário já cadastrado');
+        }
       }
 
       const cadastroPaciente = await this.pacienteRepository.create({

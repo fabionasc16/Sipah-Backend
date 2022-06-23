@@ -15,7 +15,7 @@ class PacienteRepository implements IPacienteRepository {
       statusRegistro: data.statusRegistro,
       nomePaciente: data.nomePaciente,
       nomeMae: data.nomeMae,
-      dataNascimento: data.dataNascimento,
+      dataNascimento: new Date(data.dataNascimento),
       rg: data.rg,
       cpf: data.cpf,
       cns: data.cns,
@@ -274,7 +274,7 @@ class PacienteRepository implements IPacienteRepository {
       'nomePaciente cpf entradaAtraves rg',
       { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber },
     ).populate({
-      path: 'tipos_caracteristicas',
+      path: 'tipoCaracteristicas',
       populate: {
         path: 'caracteristica',
         model: 'Caracteristica',
@@ -320,9 +320,14 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async listById(id: string): Promise<any> {
-    const paciente = await Paciente.findById(id).populate(
-      'tipoCaracteristicas',
-    );
+    const paciente = await Paciente.findById(id).populate({
+      path: 'tipoCaracteristicas',
+      populate: {
+        path: 'caracteristica',
+        model: 'Caracteristica',
+        select: 'name',
+      },
+    });
     return paciente;
   }
 
