@@ -31,7 +31,10 @@ const usuarioSchema = new Schema({
   nomePai: {
     type: mongoose.Schema.Types.String,
   },
-  sexo: {
+  genero: {
+    type: mongoose.Schema.Types.String,
+  },
+  generoOutro: {
     type: mongoose.Schema.Types.String,
   },
   estadoCivil: {
@@ -57,6 +60,9 @@ const usuarioSchema = new Schema({
   },
   logradouro: {
     type: mongoose.Schema.Types.String,
+  }, 
+  complemento: {
+    type: mongoose.Schema.Types.String,
   },
   numero: {
     type: mongoose.Schema.Types.String,
@@ -70,6 +76,9 @@ const usuarioSchema = new Schema({
   estado: {
     type: mongoose.Schema.Types.String,
   },
+   pais: {
+    type: mongoose.Schema.Types.String,
+  },
   telefone: {
     type: mongoose.Schema.Types.String,
   },
@@ -78,6 +87,11 @@ const usuarioSchema = new Schema({
   }, 
   status: {
     type: mongoose.Schema.Types.Boolean,
+    default: true
+  },
+  excluido: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false
   },
   created_at: {
     type: Date,
