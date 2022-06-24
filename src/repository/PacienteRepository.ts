@@ -1,4 +1,5 @@
 import { Paciente } from 'model/Paciente.model';
+import mongoose from 'mongoose';
 
 import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
 import { IUpdatePacienteDTO } from '../dto/IUpdatePacienteDTO';
@@ -58,17 +59,18 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async list(params: any): Promise<any> {
-    const page = params.page != null ? `${params.page - 1}` : '0';
-    const pageSize = params.pageSize != null ? params.pageSize : '10';
+    const page = params.currentPage != null ? `${params.currentPage - 1}` : '0';
+    const pageSize = params.perPage != null ? params.perPage : '10';
     const search = params.search != null ? params.search : '';
     let term = {};
     // Caso a uma palavra para busca seja enviada
     if (search) {
       term = {
         $or: [
-          { nome_paciente: search },
-          { cpf_paciente: search },
-          { tipo_entrada: search },
+          { nomePaciente: search },
+          { cpf: search },
+          { entradaAtraves: search },
+          { numProntuario: search },
         ],
       };
     }
@@ -269,11 +271,84 @@ class PacienteRepository implements IPacienteRepository {
     const pageNumber = parseInt(page, 10);
     const pageSizeNumber = parseInt(pageSize, 10);
 
-    const data = await Paciente.find(
-      term,
-      'nomePaciente cpf entradaAtraves rg',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber },
-    ).populate({
+    // const data = await Paciente.find(
+    //   term,
+    //   {
+    //     numProntuario: 1,
+    //     estaturaAproximada: '$estaturaAproximada',
+    //   },
+    //   { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber },
+    // ).populate({
+    //   path: 'tipoCaracteristicas',
+    //   populate: {
+    //     path: 'caracteristica',
+    //     model: 'Caracteristica',
+    //     select: 'name',
+    //   },
+    // });
+
+    const parcial = await Paciente.aggregate([
+      {
+        $project: {
+          dataEntrada: 1,
+          horaEntrada: 1,
+          numProntuario: 1,
+          entradaAtraves: 1,
+          statusRegistro: 1,
+          nomePaciente: 1,
+          nomeMae: 1,
+          dataNascimento: 1,
+          rg: 1,
+          cpf: 1,
+          cns: 1,
+          nacionalidade: 1,
+          pais: 1,
+          estaturaAproximada: {
+            $convert: { input: '$estaturaAproximada', to: 'string' },
+          },
+          pesoAproximado: {
+            $convert: { input: '$pesoAproximado', to: 'string' },
+          },
+          idadeAproximada: {
+            $convert: { input: '$idadeAproximada', to: 'string' },
+          },
+          condicoesEncontrada: 1,
+          localEncontrado: 1,
+          sinaisParticulares: 1,
+          acessoriosUtilizados: 1,
+          vestimentas: 1,
+          barba: 1,
+          bigode: 1,
+          bairroEncontrado: 1,
+          deficiencia: 1,
+          naoInfomaContato: 1,
+          nomeContato: 1,
+          grauParentescoSelected: 1,
+          telefoneContato: 1,
+          cpfContato: 1,
+          genero: 1,
+          generoOutro: 1,
+          unidade: 1,
+          nomeSocialPaciente: 1,
+          apelidoPaciente: 1,
+          vitimaAbandono: 1,
+          querEncontro: 1,
+          autorizaConsulta: 1,
+          numRegistroExterno: 1,
+          unidadeSaudeOrigem: 1,
+          conscienciaPaciente: 1,
+          transtornosPaciente: 1,
+          tratamentoPsicologico: 1,
+          descricaoEstadoPaciente: 1,
+          tipoCaracteristicas: 1,
+        },
+      },
+    ])
+      .match(term)
+      .skip(pageNumber * pageSizeNumber)
+      .limit(pageSizeNumber);
+
+    const data = await Paciente.populate(parcial, {
       path: 'tipoCaracteristicas',
       populate: {
         path: 'caracteristica',
@@ -299,9 +374,9 @@ class PacienteRepository implements IPacienteRepository {
     // }
 
     // const dados = dataFilter.length ? dataFilter : data;
-    const result = await {
-      page,
-      pageSize,
+    const result = {
+      currentPage: params.currentPage,
+      perPage: params.perPage,
       total,
       data,
     };
@@ -320,7 +395,74 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async listById(id: string): Promise<any> {
-    const paciente = await Paciente.findById(id).populate({
+    // const paciente = await Paciente.findById(id).populate({
+    //   path: 'tipoCaracteristicas',
+    //   populate: {
+    //     path: 'caracteristica',
+    //     model: 'Caracteristica',
+    //     select: 'name',
+    //   },
+    // });
+    // return paciente;
+    const paciente = await Paciente.aggregate([
+      {
+        $project: {
+          dataEntrada: 1,
+          horaEntrada: 1,
+          numProntuario: 1,
+          entradaAtraves: 1,
+          statusRegistro: 1,
+          nomePaciente: 1,
+          nomeMae: 1,
+          dataNascimento: 1,
+          rg: 1,
+          cpf: 1,
+          cns: 1,
+          nacionalidade: 1,
+          pais: 1,
+          estaturaAproximada: {
+            $convert: { input: '$estaturaAproximada', to: 'string' },
+          },
+          pesoAproximado: {
+            $convert: { input: '$pesoAproximado', to: 'string' },
+          },
+          idadeAproximada: {
+            $convert: { input: '$idadeAproximada', to: 'string' },
+          },
+          condicoesEncontrada: 1,
+          localEncontrado: 1,
+          sinaisParticulares: 1,
+          acessoriosUtilizados: 1,
+          vestimentas: 1,
+          barba: 1,
+          bigode: 1,
+          bairroEncontrado: 1,
+          deficiencia: 1,
+          naoInfomaContato: 1,
+          nomeContato: 1,
+          grauParentescoSelected: 1,
+          telefoneContato: 1,
+          cpfContato: 1,
+          genero: 1,
+          generoOutro: 1,
+          unidade: 1,
+          nomeSocialPaciente: 1,
+          apelidoPaciente: 1,
+          vitimaAbandono: 1,
+          querEncontro: 1,
+          autorizaConsulta: 1,
+          numRegistroExterno: 1,
+          unidadeSaudeOrigem: 1,
+          conscienciaPaciente: 1,
+          transtornosPaciente: 1,
+          tratamentoPsicologico: 1,
+          descricaoEstadoPaciente: 1,
+          tipoCaracteristicas: 1,
+        },
+      },
+    ]).match({ _id: new mongoose.Types.ObjectId(id) });
+
+    const data = await Paciente.populate(paciente, {
       path: 'tipoCaracteristicas',
       populate: {
         path: 'caracteristica',
@@ -328,7 +470,8 @@ class PacienteRepository implements IPacienteRepository {
         select: 'name',
       },
     });
-    return paciente;
+
+    return data;
   }
 
   async update(id: string, data: IUpdatePacienteDTO): Promise<void> {
