@@ -10,7 +10,7 @@ class UsuarioRepository implements IUsuarioRepository {
   async create(usuarioCadastro: any): Promise<any> {
     usuarioCadastro.data_cadastro = await moment().format('YYYY-MM-DD');
     usuarioCadastro.hora_cadastro = await moment().format('HH:mm:ss');
-
+    usuarioCadastro.cpfSemFormatacao =  usuarioCadastro.cpf.replaceAll('.','').replaceAll('-','');
     const cadastroUsuario = await Usuario.create(usuarioCadastro);
 
     return cadastroUsuario;
@@ -38,7 +38,7 @@ class UsuarioRepository implements IUsuarioRepository {
 
     // Caso a uma palavra para busca seja enviada
     if (search) {
-      filters = { $or: [{ nome: search }, { cpf: search }, { setorUsuario: search }] };
+      filters = { $and:[{ $or: [{ nome: search }, { cpf: search }, { cpfSemFormatacao: search }, { setorUsuario: search }]}, { excluido:false }] };
     }
 
     let total = await Usuario.countDocuments(filters);
@@ -48,7 +48,7 @@ class UsuarioRepository implements IUsuarioRepository {
     let data = await Usuario.find(
       filters,
       ' nome cpf perfilUsuario setorUsuario status',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber });
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber, sort:{ status:-1,nome:1} });
 
     let result = await { 'currentPage': page, 'perPage': pageSize, 'total': total, 'data': data };
 
@@ -56,9 +56,10 @@ class UsuarioRepository implements IUsuarioRepository {
   }
 
   async delete(id: string): Promise<void> {
-    return await Usuario.findByIdAndRemove({
-      _id: new mongoose.Types.ObjectId(id),
-    });
+    return await Usuario.findByIdAndUpdate(
+      { _id: id },
+      { excluido:true }
+    );
   }
 
   async update(id: string, data: any): Promise<void> {
