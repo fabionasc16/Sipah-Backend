@@ -55,6 +55,9 @@ const usuarioSchema = new Schema({
   cpf: {
     type: mongoose.Schema.Types.String,
   },
+  cpfSemFormatacao: {
+    type: mongoose.Schema.Types.String,
+  },
   cep: {
     type: mongoose.Schema.Types.String,
   },
