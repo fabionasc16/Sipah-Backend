@@ -59,7 +59,7 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async list(params: any): Promise<any> {
-    const page = params.currentPage != null ? `${params.currentPage - 1}` : '0';
+    const page = params.currentPage != null ? `${params.currentPage}` : '1';
     const pageSize = params.perPage != null ? params.perPage : '10';
     const search = params.search != null ? params.search : '';
     let term = {};
@@ -286,7 +286,7 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     const total = await Paciente.countDocuments(term);
-    const pageNumber = parseInt(page, 10);
+    const pageNumber = parseInt(page, 10) - 1;
     const pageSizeNumber = parseInt(pageSize, 10);
 
     // const data = await Paciente.find(
@@ -393,8 +393,8 @@ class PacienteRepository implements IPacienteRepository {
 
     // const dados = dataFilter.length ? dataFilter : data;
     const result = {
-      currentPage: params.currentPage,
-      perPage: params.perPage,
+      currentPage: page,
+      perPage: pageSize,
       total,
       data,
     };
