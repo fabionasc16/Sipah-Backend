@@ -31,7 +31,10 @@ const usuarioSchema = new Schema({
   nomePai: {
     type: mongoose.Schema.Types.String,
   },
-  sexo: {
+  genero: {
+    type: mongoose.Schema.Types.String,
+  },
+  generoOutro: {
     type: mongoose.Schema.Types.String,
   },
   estadoCivil: {
@@ -52,10 +55,16 @@ const usuarioSchema = new Schema({
   cpf: {
     type: mongoose.Schema.Types.String,
   },
+  cpfSemFormatacao: {
+    type: mongoose.Schema.Types.String,
+  },
   cep: {
     type: mongoose.Schema.Types.String,
   },
   logradouro: {
+    type: mongoose.Schema.Types.String,
+  }, 
+  complemento: {
     type: mongoose.Schema.Types.String,
   },
   numero: {
@@ -70,11 +79,22 @@ const usuarioSchema = new Schema({
   estado: {
     type: mongoose.Schema.Types.String,
   },
+   pais: {
+    type: mongoose.Schema.Types.String,
+  },
   telefone: {
     type: mongoose.Schema.Types.String,
   },
   email: {
     type: mongoose.Schema.Types.String,
+  }, 
+  status: {
+    type: mongoose.Schema.Types.Boolean,
+    default: true
+  },
+  excluido: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false
   },
   created_at: {
     type: Date,
@@ -86,6 +106,6 @@ const usuarioSchema = new Schema({
   },
 });
 
-const usuario = mongoose.model('usuario', usuarioSchema);
+const Usuario = mongoose.model('usuario', usuarioSchema);
 
-export { usuario };
+export { Usuario };

@@ -6,45 +6,51 @@ import { injectable, inject } from 'tsyringe';
 import { IPacienteRepository } from '../repository/IPacienteRepository';
 
 interface IRequest {
-  hora_entrada: string;
-  tipo_entrada: string;
-  nome_paciente: string;
-  nome_mae: string;
-  data_nascimento: string;
-  rg_paciente: string;
-  cpf_paciente: string;
-  cns_paciente: string;
-  nacionalidade: string;
-  sexo: string;
-  estatura_aproximada: number;
-  peso_aproximado: number;
-  idade_aproximada: number;
-  tem_barba: number;
-  tem_bigode: number;
-  sinais_particulares: string;
-  acessorios_utilizados: string;
-  deficiencias: string;
-  vestimentas: string;
-  local_encontrado: string;
-  bairro: string;
-  condicoes_encontrado: string;
-  contato_anonimo: number;
-  contato_nome: string;
-  contato_grau: string;
-  contato_telefone: string;
-  contato_cpf: string;
-  genero: string;
-  genero_informado: string;
-  unidade_saude: string;
-  nome_social: string;
-  apelido: string;
-  vitima_abandono: number;
-  deseja_buscado: number;
-  estado_consciencia: string;
-  transtorno: string;
-  sintoma_psiquico: string;
-  estado_psiquico: string;
-  tipos_caracteristicas: any;
+  dataEntrada: string;
+  horaEntrada: string;
+  numProntuario: string;
+  entradaAtraves: string;
+  statusRegistro: string;
+  nomePaciente?: string;
+  nomeMae?: string;
+  dataNascimento?: string;
+  rg?: string;
+  cpf?: string;
+  cns?: string;
+  nacionalidade?: string;
+  pais?: string;
+  estaturaAproximada?: string;
+  pesoAproximado?: string;
+  idadeAproximada?: string;
+  condicoesEncontrada?: string;
+  localEncontrado?: string;
+  sinaisParticulares?: string;
+  acessoriosUtilizados?: string;
+  vestimentas?: string;
+  barba?: string;
+  bigode?: string;
+  bairroEncontrado?: string;
+  deficiencia?: string;
+  naoInfomaContato?: string;
+  nomeContato?: string;
+  grauParentescoSelected?: string;
+  telefoneContato?: string;
+  cpfContato?: string;
+  genero?: string;
+  generoOutro?: string;
+  unidade?: string;
+  nomeSocialPaciente?: string;
+  apelidoPaciente?: string;
+  vitimaAbandono?: string;
+  querEncontro?: string;
+  autorizaConsulta?: string;
+  numRegistroExterno?: string;
+  unidadeSaudeOrigem?: string;
+  conscienciaPaciente?: string;
+  transtornosPaciente?: string;
+  tratamentoPsicologico?: string;
+  descricaoEstadoPaciente?: string;
+  tipoCaracteristicas: any;
 }
 
 @injectable()
@@ -56,57 +62,65 @@ class PacienteService {
 
   async create(data: IRequest): Promise<any> {
     try {
-      const cpfExists = await Paciente.findOne({
-        cpf_paciente: data.cpf_paciente,
-      });
+      if (data.numProntuario !== '') {
+        const numProntuarioExists = await Paciente.findOne({
+          numProntuario: data.numProntuario,
+        });
 
-      if (cpfExists) {
-        throw new AppError(Messages.PATIENT_ALREADY_EXISTS);
+        if (numProntuarioExists) {
+          throw new AppError('Número de Prontuário já cadastrado');
+        }
       }
 
       const cadastroPaciente = await this.pacienteRepository.create({
-        hora_entrada: data.hora_entrada,
-        tipo_entrada: data.tipo_entrada,
-        nome_paciente: data.nome_paciente,
-        nome_mae: data.nome_mae,
-        data_nascimento: data.data_nascimento,
-        rg_paciente: data.rg_paciente,
-        cpf_paciente: data.cpf_paciente,
-        cns_paciente: data.cns_paciente,
+        dataEntrada: data.dataEntrada,
+        horaEntrada: data.horaEntrada,
+        numProntuario: data.numProntuario,
+        entradaAtraves: data.entradaAtraves,
+        statusRegistro: data.statusRegistro,
+        nomePaciente: data.nomePaciente,
+        nomeMae: data.nomeMae,
+        dataNascimento: data.dataNascimento,
+        rg: data.rg,
+        cpf: data.cpf,
+        cns: data.cns,
         nacionalidade: data.nacionalidade,
-        sexo: data.sexo,
-        estatura_aproximada: data.estatura_aproximada,
-        peso_aproximado: data.peso_aproximado,
-        idade_aproximada: data.idade_aproximada,
-        condicoes_encontrado: data.condicoes_encontrado,
-        local_encontrado: data.local_encontrado,
-        sinais_particulares: data.sinais_particulares,
-        acessorios_utilizados: data.acessorios_utilizados,
+        pais: data.pais,
+        estaturaAproximada: data.estaturaAproximada,
+        pesoAproximado: data.pesoAproximado,
+        idadeAproximada: data.idadeAproximada,
+        condicoesEncontrada: data.condicoesEncontrada,
+        localEncontrado: data.localEncontrado,
+        sinaisParticulares: data.sinaisParticulares,
+        acessoriosUtilizados: data.acessoriosUtilizados,
         vestimentas: data.vestimentas,
-        tem_barba: data.tem_barba,
-        tem_bigode: data.tem_bigode,
-        bairro: data.bairro,
-        deficiencias: data.deficiencias,
-        contato_anonimo: data.contato_anonimo,
-        contato_nome: data.contato_nome,
-        contato_grau: data.contato_grau,
-        contato_telefone: data.contato_telefone,
-        contato_cpf: data.contato_cpf,
+        barba: data.barba,
+        bigode: data.bigode,
+        bairroEncontrado: data.bairroEncontrado,
+        deficiencia: data.deficiencia,
+        naoInfomaContato: data.naoInfomaContato,
+        nomeContato: data.nomeContato,
+        grauParentescoSelected: data.grauParentescoSelected,
+        telefoneContato: data.telefoneContato,
+        cpfContato: data.cpfContato,
         genero: data.genero,
-        genero_informado: data.genero_informado,
-        unidade_saude: data.unidade_saude,
-        nome_social: data.nome_social,
-        apelido: data.apelido,
-        vitima_abandono: data.vitima_abandono,
-        deseja_buscado: data.deseja_buscado,
-        estado_consciencia: data.estado_consciencia,
-        transtorno: data.transtorno,
-        sintoma_psiquico: data.sintoma_psiquico,
-        estado_psiquico: data.estado_psiquico,
+        generoOutro: data.generoOutro,
+        unidade: data.unidade,
+        nomeSocialPaciente: data.nomeSocialPaciente,
+        apelidoPaciente: data.apelidoPaciente,
+        vitimaAbandono: data.vitimaAbandono,
+        querEncontro: data.querEncontro,
+        autorizaConsulta: data.autorizaConsulta,
+        numRegistroExterno: data.numRegistroExterno,
+        unidadeSaudeOrigem: data.unidadeSaudeOrigem,
+        conscienciaPaciente: data.conscienciaPaciente,
+        transtornosPaciente: data.transtornosPaciente,
+        tratamentoPsicologico: data.tratamentoPsicologico,
+        descricaoEstadoPaciente: data.descricaoEstadoPaciente,
       });
 
-      await data.tipos_caracteristicas.map(async caracteristica => {
-        await cadastroPaciente.tipos_caracteristicas.push(caracteristica);
+      await data.tipoCaracteristicas.map(async caracteristica => {
+        await cadastroPaciente.tipoCaracteristicas.push(caracteristica);
       });
 
       await cadastroPaciente.save();
@@ -152,115 +166,216 @@ class PacienteService {
     await this.pacienteRepository.delete(id);
   }
 
-  async update(id: string, data: any): Promise<void> {
+  async update(id: string, data: IRequest): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
+    }
+
     const paciente = await this.pacienteRepository.listById(id);
-    console.log(id);
     if (!paciente) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }
 
-    if (data.hora_entrada) {
-      paciente.hora_entrada = data.hora_entrada;
+    if (data.numProntuario !== '') {
+      const numProntuarioExists = await Paciente.findOne({
+        numProntuario: data.numProntuario,
+      });
+
+      if (numProntuarioExists) {
+        throw new AppError('Número de Prontuário já cadastrado');
+      }
     }
 
-    if (data.tipo_entrada) {
-      paciente.tipo_entrada = data.tipo_entrada;
+    if (data.dataEntrada) {
+      paciente.dataEntrada = data.dataEntrada;
     }
 
-    if (data.nome_paciente) {
-      paciente.nome_paciente = data.nome_paciente;
+    if (data.horaEntrada) {
+      paciente.horaEntrada = data.horaEntrada;
     }
 
-    if (data.nome_mae) {
-      paciente.nome_mae = data.nome_mae;
+    if (data.numProntuario) {
+      paciente.numProntuario = data.numProntuario;
     }
 
-    if (data.data_nascimento) {
-      paciente.data_nascimento = data.data_nascimento;
+    if (data.entradaAtraves) {
+      paciente.entradaAtraves = data.entradaAtraves;
     }
 
-    if (data.rg_paciente) {
-      paciente.rg_paciente = data.rg_paciente;
+    if (data.statusRegistro) {
+      paciente.statusRegistro = data.statusRegistro;
     }
 
-    if (data.cpf_paciente) {
-      paciente.cpf_paciente = data.cpf_paciente;
+    if (data.nomePaciente) {
+      paciente.nomePaciente = data.nomePaciente;
     }
 
-    if (data.cns_paciente) {
-      paciente.cns_paciente = data.cns_paciente;
+    if (data.nomeMae) {
+      paciente.nomeMae = data.nomeMae;
+    }
+
+    if (data.dataNascimento) {
+      paciente.dataNascimento = data.dataNascimento;
+    }
+
+    if (data.rg) {
+      paciente.rg = data.rg;
+    }
+
+    if (data.cpf) {
+      paciente.cpf = data.cpf;
+    }
+
+    if (data.cns) {
+      paciente.cns = data.cns;
     }
 
     if (data.nacionalidade) {
       paciente.nacionalidade = data.nacionalidade;
     }
 
-    if (data.sexo) {
-      paciente.sexo = data.sexo;
+    if (data.pais) {
+      paciente.pais = data.pais;
     }
 
-    if (data.estatura_aproximada) {
-      paciente.estatura_aproximada = data.estatura_aproximada;
+    if (data.estaturaAproximada) {
+      paciente.estaturaAproximada = data.estaturaAproximada;
     }
 
-    if (data.peso_aproximado) {
-      paciente.peso_aproximado = data.peso_aproximado;
+    if (data.pesoAproximado) {
+      paciente.pesoAproximado = data.pesoAproximado;
     }
 
-    if (data.idade_aproximada) {
-      paciente.idade_aproximada = data.idade_aproximada;
+    if (data.idadeAproximada) {
+      paciente.idadeAproximada = data.idadeAproximada;
     }
 
-    if (data.tem_barba) {
-      paciente.tem_barba = data.tem_barba;
+    if (data.condicoesEncontrada) {
+      paciente.condicoesEncontrada = data.condicoesEncontrada;
     }
 
-    if (data.tem_bigode) {
-      paciente.tem_bigode = data.tem_bigode;
+    if (data.localEncontrado) {
+      paciente.localEncontrado = data.localEncontrado;
     }
 
-    if (data.sinais_particulares) {
-      paciente.sinais_particulares = data.sinais_particulares;
+    if (data.sinaisParticulares) {
+      paciente.sinaisParticulares = data.sinaisParticulares;
     }
 
-    if (data.acessorios_utilizados) {
-      paciente.acessorios_utilizados = data.acessorios_utilizados;
-    }
-
-    if (data.deficiencias) {
-      paciente.deficiencias = data.deficiencias;
+    if (data.acessoriosUtilizados) {
+      paciente.acessoriosUtilizados = data.acessoriosUtilizados;
     }
 
     if (data.vestimentas) {
       paciente.vestimentas = data.vestimentas;
     }
 
-    if (data.local_encontrado) {
-      paciente.local_encontrado = data.local_encontrado;
+    if (data.barba) {
+      paciente.barba = data.barba;
     }
 
-    if (data.bairro) {
-      paciente.bairro = data.bairro;
+    if (data.bigode) {
+      paciente.bigode = data.bigode;
     }
 
-    if (data.condicoes_encontrado) {
-      paciente.condicoes_encontrado = data.condicoes_encontrado;
+    if (data.bairroEncontrado) {
+      paciente.bairroEncontrado = data.bairroEncontrado;
+    }
+
+    if (data.deficiencia) {
+      paciente.deficiencia = data.deficiencia;
+    }
+
+    if (data.naoInfomaContato) {
+      paciente.naoInfomaContato = data.naoInfomaContato;
+    }
+
+    if (data.nomeContato) {
+      paciente.nomeContato = data.nomeContato;
+    }
+
+    if (data.grauParentescoSelected) {
+      paciente.grauParentescoSelected = data.grauParentescoSelected;
+    }
+
+    if (data.telefoneContato) {
+      paciente.telefoneContato = data.telefoneContato;
+    }
+
+    if (data.cpfContato) {
+      paciente.cpfContato = data.cpfContato;
+    }
+
+    if (data.genero) {
+      paciente.genero = data.genero;
+    }
+
+    if (data.generoOutro) {
+      paciente.generoOutro = data.generoOutro;
+    }
+
+    if (data.unidade) {
+      paciente.unidade = data.unidade;
+    }
+
+    if (data.nomeSocialPaciente) {
+      paciente.nomeSocialPaciente = data.nomeSocialPaciente;
+    }
+
+    if (data.apelidoPaciente) {
+      paciente.apelidoPaciente = data.apelidoPaciente;
+    }
+
+    if (data.vitimaAbandono) {
+      paciente.vitimaAbandono = data.vitimaAbandono;
+    }
+
+    if (data.querEncontro) {
+      paciente.querEncontro = data.querEncontro;
+    }
+
+    if (data.autorizaConsulta) {
+      paciente.autorizaConsulta = data.autorizaConsulta;
+    }
+
+    if (data.numRegistroExterno) {
+      paciente.numRegistroExterno = data.numRegistroExterno;
+    }
+
+    if (data.unidadeSaudeOrigem) {
+      paciente.unidadeSaudeOrigem = data.unidadeSaudeOrigem;
+    }
+
+    if (data.conscienciaPaciente) {
+      paciente.conscienciaPaciente = data.conscienciaPaciente;
+    }
+
+    if (data.transtornosPaciente) {
+      paciente.transtornosPaciente = data.transtornosPaciente;
+    }
+
+    if (data.tratamentoPsicologico) {
+      paciente.tratamentoPsicologico = data.tratamentoPsicologico;
+    }
+
+    if (data.descricaoEstadoPaciente) {
+      paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
     }
 
     // update paciente
     await this.pacienteRepository.update(id, paciente);
 
     // se houver características alteradas
-    if (data.tipos_caracteristicas.length !== 0) {
+    if (data.tipoCaracteristicas.length !== 0) {
       // limpa-se o vetor de características antigas
-      for (let i = paciente.tipos_caracteristicas.length; i > 0; i -= 1) {
-        paciente.tipos_caracteristicas.pop();
+      for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
+        paciente.tipoCaracteristicas.pop();
       }
       await paciente.save();
 
       // insere as características novas
-      await data.tipos_caracteristicas.map(async caracteristica => {
-        await paciente.tipos_caracteristicas.push(caracteristica);
+      await data.tipoCaracteristicas.map(async caracteristica => {
+        await paciente.tipoCaracteristicas.push(caracteristica);
       });
       await paciente.save();
     }
