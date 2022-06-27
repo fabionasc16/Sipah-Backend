@@ -12,9 +12,9 @@ interface ICreatePacienteDTO {
   cns?: string;
   nacionalidade?: string;
   pais?: string;
-  estaturaAproximada?: number;
-  pesoAproximado?: number;
-  idadeAproximada?: number;
+  estaturaAproximada?: string;
+  pesoAproximado?: string;
+  idadeAproximada?: string;
   condicoesEncontrada?: string;
   localEncontrado?: string;
   sinaisParticulares?: string;
@@ -24,7 +24,7 @@ interface ICreatePacienteDTO {
   bigode?: string;
   bairroEncontrado?: string;
   deficiencia?: string;
-  naoInfomaContato?: boolean;
+  naoInfomaContato?: string;
   nomeContato?: string;
   grauParentescoSelected?: string;
   telefoneContato?: string;
@@ -34,7 +34,7 @@ interface ICreatePacienteDTO {
   unidade?: string;
   nomeSocialPaciente?: string;
   apelidoPaciente?: string;
-  vitimaAbandono?: boolean;
+  vitimaAbandono?: string;
   querEncontro?: string;
   autorizaConsulta?: string;
   numRegistroExterno?: string;

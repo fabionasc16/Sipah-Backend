@@ -84,7 +84,7 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.String,
     },
     naoInfomaContato: {
-      type: mongoose.Schema.Types.Boolean,
+      type: mongoose.Schema.Types.String,
     },
     nomeContato: {
       type: mongoose.Schema.Types.String,
