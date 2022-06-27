@@ -55,7 +55,7 @@ class CaracteristicaRepository implements ICaracteristicaRepository {
     await Caracteristica.findByIdAndUpdate(
       { _id: id },
       {
-        name,
+        name:name,
       },
     );
   }

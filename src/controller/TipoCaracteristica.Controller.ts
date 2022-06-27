@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import { TipoCaracteristicaSerice } from "../service/TipoCaracteristica.Service"
+import { TipoCaracteristicaService } from "../service/TipoCaracteristica.Service"
 
 class TipoCaracteristicaController {
   async create(request: Request, response: Response): Promise<Response> {
     const { name, id } = request.body;
     const tipoCaracteristicaService = container.resolve(
-      TipoCaracteristicaSerice,
+      TipoCaracteristicaService,
     );
     const data = await tipoCaracteristicaService.create(name, id);
 
@@ -16,7 +16,7 @@ class TipoCaracteristicaController {
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const tipoCaracteristicaService = container.resolve(TipoCaracteristicaSerice);
+    const tipoCaracteristicaService = container.resolve(TipoCaracteristicaService);
 
     await tipoCaracteristicaService.delete(id);
 
@@ -24,7 +24,7 @@ class TipoCaracteristicaController {
   }
 
   async list(request: Request, response: Response): Promise<any> {
-    const tipoCaracteristicaService = container.resolve(TipoCaracteristicaSerice);
+    const tipoCaracteristicaService = container.resolve(TipoCaracteristicaService);
     let data = await tipoCaracteristicaService.list(request.query);
     return response.status(200).json(data);
 }  
@@ -32,7 +32,7 @@ class TipoCaracteristicaController {
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const tipoCaracteristicaService = container.resolve(
-      TipoCaracteristicaSerice,
+      TipoCaracteristicaService,
     );
     const data = await tipoCaracteristicaService.listById(id);
 
@@ -43,7 +43,7 @@ class TipoCaracteristicaController {
     const { id } = request.params;
     const { name} = request.body;
 
-    const tipoCaracteristicaService = container.resolve(TipoCaracteristicaSerice);
+    const tipoCaracteristicaService = container.resolve(TipoCaracteristicaService);
     await tipoCaracteristicaService.update(id, name);
 
     return response.status(204).send();
