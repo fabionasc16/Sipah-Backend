@@ -33,7 +33,7 @@ class CaracteristicaService {
     await Promise.all(
       tipoCaracteristicas.map(async tipoCaracteristica => {
         const tipoCaracteristicaCreate = new TipoCaracteristica({
-          ...tipoCaracteristica,
+          name: tipoCaracteristica,
           caracteristica: caracteristicaCreated._id,
         });
         await tipoCaracteristicaCreate.save();
@@ -53,6 +53,21 @@ class CaracteristicaService {
     return await this.caracteristicaRepository.list(params);
   }
 
+  async listByCaracteristica(name: string) {
+    if (!name) {
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID de Característica`,
+      );
+    }
+
+    const data = await this.caracteristicaRepository.listByCaracteristica(name);
+    if (!data) {
+      throw new AppError(Messages.CHARACTERISTICS_NOT_FOUND, 404);
+    }
+
+    return data;
+  }
+  
   async listById(id: string) {
     if (!id) {
       throw new AppError(
@@ -80,7 +95,7 @@ class CaracteristicaService {
     await this.caracteristicaRepository.delete(caracteristica._id);
   }
 
-  async update(id: string, name: string): Promise<void> {
+  async update(id: string, name: any): Promise<void> {
     if (!id) {
       throw new AppError(
         `${Messages.MISSING_PARAMETERS}: ID de Característica`,

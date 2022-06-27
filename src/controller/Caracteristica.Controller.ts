@@ -34,6 +34,15 @@ class CaracteristicaController {
     return response.status(200).json(data);
 }  
 
+  async listByCaracteristica(request: Request, response: Response): Promise<Response> {
+    const {name} = request.params;
+    const caracteristicaService = container.resolve(
+      CaracteristicaService,
+    );
+    const data = await caracteristicaService.listByCaracteristica(name);
+
+    return response.status(200).json(data);
+}
 
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
