@@ -22,9 +22,9 @@ class PacienteRepository implements IPacienteRepository {
       cns: data.cns,
       nacionalidade: data.nacionalidade,
       pais: data.pais,
-      estaturaAproximada: data.estaturaAproximada,
-      pesoAproximado: data.pesoAproximado,
-      idadeAproximada: data.idadeAproximada,
+      estaturaAproximada: parseFloat(data.estaturaAproximada),
+      pesoAproximado: parseFloat(data.pesoAproximado),
+      idadeAproximada: parseInt(data.idadeAproximada, 10),
       condicoesEncontrada: data.condicoesEncontrada,
       localEncontrado: data.localEncontrado,
       sinaisParticulares: data.sinaisParticulares,
@@ -130,15 +130,33 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     if (params.estaturaAproximada) {
-      $and.push({ estaturaAproximada: params.estaturaAproximada });
+      // $and.push({ estaturaAproximada: params.estaturaAproximada });
+      $and.push({
+        estaturaAproximada: {
+          $gt: params.estaturaAproximada - 0.3,
+          $lt: params.estaturaAproximada + 0.3,
+        },
+      });
     }
 
     if (params.pesoAproximado) {
-      $and.push({ pesoAproximado: params.pesoAproximado });
+      // $and.push({ pesoAproximado: params.pesoAproximado });
+      $and.push({
+        pesoAproximado: {
+          $gt: params.pesoAproximado - 5,
+          $lt: params.pesoAproximado + 5,
+        },
+      });
     }
 
     if (params.idadeAproximada) {
-      $and.push({ idadeAproximada: params.idadeAproximada });
+      // $and.push({ idadeAproximada: params.idadeAproximada });
+      $and.push({
+        idadeAproximada: {
+          $gt: params.idadeAproximada - 5,
+          $lt: params.idadeAproximada + 5,
+        },
+      });
     }
 
     if (params.condicoesEncontrada) {
@@ -491,9 +509,9 @@ class PacienteRepository implements IPacienteRepository {
         cns: data.cns,
         nacionalidade: data.nacionalidade,
         pais: data.pais,
-        estaturaAproximada: data.estaturaAproximada,
-        pesoAproximado: data.pesoAproximado,
-        idadeAproximada: data.idadeAproximada,
+        estaturaAproximada: parseFloat(data.estaturaAproximada),
+        pesoAproximado: parseFloat(data.pesoAproximado),
+        idadeAproximada: parseInt(data.idadeAproximada, 10),
         condicoesEncontrada: data.condicoesEncontrada,
         localEncontrado: data.localEncontrado,
         sinaisParticulares: data.sinaisParticulares,

@@ -19,9 +19,9 @@ interface IRequest {
   cns?: string;
   nacionalidade?: string;
   pais?: string;
-  estaturaAproximada?: number;
-  pesoAproximado?: number;
-  idadeAproximada?: number;
+  estaturaAproximada?: string;
+  pesoAproximado?: string;
+  idadeAproximada?: string;
   condicoesEncontrada?: string;
   localEncontrado?: string;
   sinaisParticulares?: string;
@@ -31,7 +31,7 @@ interface IRequest {
   bigode?: string;
   bairroEncontrado?: string;
   deficiencia?: string;
-  naoInfomaContato?: boolean;
+  naoInfomaContato?: string;
   nomeContato?: string;
   grauParentescoSelected?: string;
   telefoneContato?: string;
@@ -41,7 +41,7 @@ interface IRequest {
   unidade?: string;
   nomeSocialPaciente?: string;
   apelidoPaciente?: string;
-  vitimaAbandono?: boolean;
+  vitimaAbandono?: string;
   querEncontro?: string;
   autorizaConsulta?: string;
   numRegistroExterno?: string;
@@ -167,10 +167,23 @@ class PacienteService {
   }
 
   async update(id: string, data: IRequest): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
+    }
+
     const paciente = await this.pacienteRepository.listById(id);
-    console.log(id);
     if (!paciente) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    if (data.numProntuario !== '') {
+      const numProntuarioExists = await Paciente.findOne({
+        numProntuario: data.numProntuario,
+      });
+
+      if (numProntuarioExists) {
+        throw new AppError('Número de Prontuário já cadastrado');
+      }
     }
 
     if (data.dataEntrada) {
