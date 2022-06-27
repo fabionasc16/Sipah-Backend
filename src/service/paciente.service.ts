@@ -366,18 +366,20 @@ class PacienteService {
     await this.pacienteRepository.update(id, paciente);
 
     // se houver características alteradas
-    if (data.tipoCaracteristicas.length !== 0) {
-      // limpa-se o vetor de características antigas
-      for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
-        paciente.tipoCaracteristicas.pop();
-      }
-      await paciente.save();
+    if (data.tipoCaracteristicas) {
+      if (data.tipoCaracteristicas.length !== 0) {
+        // limpa-se o vetor de características antigas
+        for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
+          paciente.tipoCaracteristicas.pop();
+        }
+        await paciente.save();
 
-      // insere as características novas
-      await data.tipoCaracteristicas.map(async caracteristica => {
-        await paciente.tipoCaracteristicas.push(caracteristica);
-      });
-      await paciente.save();
+        // insere as características novas
+        await data.tipoCaracteristicas.map(async caracteristica => {
+          await paciente.tipoCaracteristicas.push(caracteristica);
+        });
+        await paciente.save();
+      }
     }
   }
 
