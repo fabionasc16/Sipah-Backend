@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { ITipoCaracteristicaRepository } from '../repository/ITipoCaracteristicaRepository';
 
 @injectable()
-class TipoCaracteristicaSerice {
+class TipoCaracteristicaService {
   constructor(
     @inject('TipoCaracteristicaRepository')
     private tipoCaracteristicaRepository: ITipoCaracteristicaRepository,
@@ -24,7 +24,7 @@ class TipoCaracteristicaSerice {
         id,
       );
 
-    if (tipoCaracteristicaExists) {
+    if (tipoCaracteristicaExists.length > 0) {
       throw new AppError(Messages.CHARACTERISTICS_ALREADY_EXISTS);
     }
 
@@ -91,4 +91,4 @@ class TipoCaracteristicaSerice {
 
 }
 
-export { TipoCaracteristicaSerice };
+export { TipoCaracteristicaService };

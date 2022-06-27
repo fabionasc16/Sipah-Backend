@@ -9,9 +9,11 @@ caracteristicaRoutes.post('/', caracteristicaController.create);
 
 caracteristicaRoutes.get('/', caracteristicaController.list);
 
+caracteristicaRoutes.get('/:name', caracteristicaController.listByCaracteristica);
+
 caracteristicaRoutes.delete('/:id', caracteristicaController.delete);
 
-caracteristicaRoutes.get('/:id', caracteristicaController.listById);
+caracteristicaRoutes.get('/id/:id', caracteristicaController.listById);
 
 caracteristicaRoutes.put('/:id', caracteristicaController.update);
 
