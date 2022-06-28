@@ -489,7 +489,7 @@ class PacienteRepository implements IPacienteRepository {
       },
     });
 
-    return data;
+    return data[0];
   }
 
   async update(id: string, data: IUpdatePacienteDTO): Promise<void> {

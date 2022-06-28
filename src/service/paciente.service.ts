@@ -1,6 +1,7 @@
 import { AppError } from 'AppError';
 import { Messages } from 'messages/Messages';
 import { Paciente } from 'model/Paciente.model';
+import mongoose from 'mongoose';
 import { injectable, inject } from 'tsyringe';
 
 import { IPacienteRepository } from '../repository/IPacienteRepository';
@@ -171,7 +172,10 @@ class PacienteService {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
     }
 
-    const paciente = await this.pacienteRepository.listById(id);
+    const paciente = await Paciente.findById({
+      _id: new mongoose.Types.ObjectId(id),
+    });
+
     if (!paciente) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }
@@ -363,7 +367,7 @@ class PacienteService {
     }
 
     // update paciente
-    await this.pacienteRepository.update(id, paciente);
+    // await this.pacienteRepository.update(id, paciente);
 
     // se houver características alteradas
     if (data.tipoCaracteristicas) {
