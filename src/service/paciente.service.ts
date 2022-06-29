@@ -64,6 +64,10 @@ class PacienteService {
 
   async create(data: IRequest): Promise<any> {
     try {
+      if (data.numProntuario || data.numProntuario === '') {
+        throw new AppError('Preencha o Número de Prontuário');
+      }
+
       if (data.numProntuario !== '') {
         const numProntuarioExists = await Paciente.findOne({
           numProntuario: data.numProntuario,
@@ -350,7 +354,7 @@ class PacienteService {
         numProntuario: data.numProntuario,
       });
 
-      if (numProntuarioExists) {
+      if (numProntuarioExists._id.toString() !== id) {
         throw new AppError('Número de Prontuário já cadastrado');
       }
     }
