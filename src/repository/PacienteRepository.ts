@@ -14,45 +14,73 @@ class PacienteRepository implements IPacienteRepository {
       numProntuario: data.numProntuario,
       entradaAtraves: data.entradaAtraves,
       statusRegistro: data.statusRegistro,
-      nomePaciente: data.nomePaciente,
-      nomeMae: data.nomeMae,
-      dataNascimento: new Date(data.dataNascimento),
-      rg: data.rg,
-      cpf: data.cpf,
-      cns: data.cns,
-      nacionalidade: data.nacionalidade,
-      pais: data.pais,
-      estaturaAproximada: parseFloat(data.estaturaAproximada),
-      pesoAproximado: parseFloat(data.pesoAproximado),
-      idadeAproximada: parseInt(data.idadeAproximada, 10),
-      condicoesEncontrada: data.condicoesEncontrada,
-      localEncontrado: data.localEncontrado,
-      sinaisParticulares: data.sinaisParticulares,
-      acessoriosUtilizados: data.acessoriosUtilizados,
-      vestimentas: data.vestimentas,
-      barba: data.barba,
-      bigode: data.bigode,
-      bairroEncontrado: data.bairroEncontrado,
-      deficiencia: data.deficiencia,
-      naoInfomaContato: data.naoInfomaContato,
-      nomeContato: data.nomeContato,
-      grauParentescoSelected: data.grauParentescoSelected,
-      telefoneContato: data.telefoneContato,
-      cpfContato: data.cpfContato,
-      genero: data.genero,
-      generoOutro: data.generoOutro,
-      unidade: data.unidade,
-      nomeSocialPaciente: data.nomeSocialPaciente,
-      apelidoPaciente: data.apelidoPaciente,
-      vitimaAbandono: data.vitimaAbandono,
-      querEncontro: data.querEncontro,
-      autorizaConsulta: data.autorizaConsulta,
-      numRegistroExterno: data.numRegistroExterno,
-      unidadeSaudeOrigem: data.unidadeSaudeOrigem,
-      conscienciaPaciente: data.conscienciaPaciente,
-      transtornosPaciente: data.transtornosPaciente,
-      tratamentoPsicologico: data.tratamentoPsicologico,
-      descricaoEstadoPaciente: data.descricaoEstadoPaciente,
+      nomePaciente: data.nomePaciente ? data.nomePaciente : '',
+      nomeMae: data.nomeMae ? data.nomeMae : '',
+      dataNascimento: data.dataNascimento ? data.dataNascimento : '',
+      rg: data.rg ? data.rg : '',
+      cpf: data.cpf ? data.cpf : '',
+      cns: data.cns ? data.cns : '',
+      nacionalidade: data.nacionalidade ? data.nacionalidade : '',
+      pais: data.pais ? data.cpf : '',
+      estaturaAproximada: data.estaturaAproximada
+        ? parseFloat(data.estaturaAproximada)
+        : null,
+      pesoAproximado: data.pesoAproximado
+        ? parseFloat(data.pesoAproximado)
+        : null,
+      idadeAproximada: data.idadeAproximada
+        ? parseInt(data.idadeAproximada, 10)
+        : null,
+      condicoesEncontrada: data.condicoesEncontrada
+        ? data.condicoesEncontrada
+        : '',
+      localEncontrado: data.localEncontrado ? data.localEncontrado : '',
+      sinaisParticulares: data.sinaisParticulares
+        ? data.sinaisParticulares
+        : '',
+      acessoriosUtilizados: data.acessoriosUtilizados
+        ? data.acessoriosUtilizados
+        : '',
+      vestimentas: data.vestimentas ? data.vestimentas : '',
+      barba: data.barba ? data.barba : '',
+      bigode: data.bigode ? data.bigode : '',
+      bairroEncontrado: data.bairroEncontrado ? data.bairroEncontrado : '',
+      deficiencia: data.deficiencia ? data.deficiencia : '',
+      naoInformaContato: data.naoInformaContato ? data.naoInformaContato : null,
+      nomeContato: data.nomeContato ? data.nomeContato : '',
+      grauParentescoSelected: data.grauParentescoSelected
+        ? data.grauParentescoSelected
+        : '',
+      telefoneContato: data.telefoneContato ? data.telefoneContato : '',
+      cpfContato: data.cpfContato ? data.cpfContato : '',
+      genero: data.genero ? data.genero : '',
+      generoOutro: data.generoOutro ? data.generoOutro : '',
+      unidade: data.unidade ? data.unidade : '',
+      nomeSocialPaciente: data.nomeSocialPaciente
+        ? data.nomeSocialPaciente
+        : '',
+      apelidoPaciente: data.apelidoPaciente ? data.apelidoPaciente : '',
+      vitimaAbandono: data.vitimaAbandono ? data.vitimaAbandono : '',
+      querEncontro: data.querEncontro ? data.querEncontro : '',
+      autorizaConsulta: data.autorizaConsulta ? data.autorizaConsulta : '',
+      numRegistroExterno: data.numRegistroExterno
+        ? data.numRegistroExterno
+        : '',
+      unidadeSaudeOrigem: data.unidadeSaudeOrigem
+        ? data.unidadeSaudeOrigem
+        : '',
+      conscienciaPaciente: data.conscienciaPaciente
+        ? data.conscienciaPaciente
+        : '',
+      transtornosPaciente: data.transtornosPaciente
+        ? data.transtornosPaciente
+        : '',
+      tratamentoPsicologico: data.tratamentoPsicologico
+        ? data.tratamentoPsicologico
+        : '',
+      descricaoEstadoPaciente: data.descricaoEstadoPaciente
+        ? data.descricaoEstadoPaciente
+        : '',
     });
 
     return cadastroPaciente;
@@ -195,8 +223,8 @@ class PacienteRepository implements IPacienteRepository {
       $and.push({ deficiencia: params.deficiencia });
     }
 
-    if (params.naoInfomaContato) {
-      $and.push({ naoInfomaContato: params.naoInfomaContato });
+    if (params.naoInformaContato) {
+      $and.push({ naoInformaContato: params.naoInformaContato });
     }
 
     if (params.nomeContato) {
@@ -339,7 +367,7 @@ class PacienteRepository implements IPacienteRepository {
           bigode: 1,
           bairroEncontrado: 1,
           deficiencia: 1,
-          naoInfomaContato: 1,
+          naoInformaContato: 1,
           nomeContato: 1,
           grauParentescoSelected: 1,
           telefoneContato: 1,
@@ -489,7 +517,7 @@ class PacienteRepository implements IPacienteRepository {
       },
     });
 
-    return data;
+    return data[0];
   }
 
   async update(id: string, data: IUpdatePacienteDTO): Promise<void> {
@@ -521,7 +549,7 @@ class PacienteRepository implements IPacienteRepository {
         bigode: data.bigode,
         bairroEncontrado: data.bairroEncontrado,
         deficiencia: data.deficiencia,
-        naoInfomaContato: data.naoInfomaContato,
+        naoInformaContato: data.naoInformaContato,
         nomeContato: data.nomeContato,
         grauParentescoSelected: data.grauParentescoSelected,
         telefoneContato: data.telefoneContato,
