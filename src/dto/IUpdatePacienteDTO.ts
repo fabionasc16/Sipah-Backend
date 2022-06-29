@@ -25,7 +25,7 @@ interface IUpdatePacienteDTO {
   bigode?: string;
   bairroEncontrado?: string;
   deficiencia?: string;
-  naoInfomaContato?: string;
+  naoInformaContato?: boolean;
   nomeContato?: string;
   grauParentescoSelected?: string;
   telefoneContato?: string;
