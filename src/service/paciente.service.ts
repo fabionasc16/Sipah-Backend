@@ -64,7 +64,7 @@ class PacienteService {
 
   async create(data: IRequest): Promise<any> {
     try {
-      if (data.numProntuario || data.numProntuario === '') {
+      if (!(data.numProntuario) || data.numProntuario === '') {
         throw new AppError('Preencha o Número de Prontuário');
       }
 
