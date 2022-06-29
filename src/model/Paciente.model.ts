@@ -9,7 +9,7 @@ const pacienteSchema = new Schema(
       select: false,
     },
     dataEntrada: {
-      type: mongoose.Schema.Types.Date,
+      type: mongoose.Schema.Types.String,
     },
     horaEntrada: {
       type: mongoose.Schema.Types.String,
@@ -30,7 +30,7 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.String,
     },
     dataNascimento: {
-      type: mongoose.Schema.Types.Date,
+      type: mongoose.Schema.Types.String,
     },
     rg: {
       type: mongoose.Schema.Types.String,
@@ -83,8 +83,8 @@ const pacienteSchema = new Schema(
     deficiencia: {
       type: mongoose.Schema.Types.String,
     },
-    naoInfomaContato: {
-      type: mongoose.Schema.Types.String,
+    naoInformaContato: {
+      type: mongoose.Schema.Types.Boolean,
     },
     nomeContato: {
       type: mongoose.Schema.Types.String,
