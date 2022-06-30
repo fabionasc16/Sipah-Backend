@@ -484,7 +484,7 @@ class PacienteRepository implements IPacienteRepository {
           bigode: 1,
           bairroEncontrado: 1,
           deficiencia: 1,
-          naoInfomaContato: 1,
+          naoInformaContato: 1,
           nomeContato: 1,
           grauParentescoSelected: 1,
           telefoneContato: 1,
@@ -568,6 +568,7 @@ class PacienteRepository implements IPacienteRepository {
         transtornosPaciente: data.transtornosPaciente,
         tratamentoPsicologico: data.tratamentoPsicologico,
         descricaoEstadoPaciente: data.descricaoEstadoPaciente,
+        tipoCaracteristicas: data.tipoCaracteristicas,
       },
     );
   }
