@@ -46,7 +46,8 @@ class PacienteRepository implements IPacienteRepository {
       bigode: data.bigode ? data.bigode : '',
       bairroEncontrado: data.bairroEncontrado ? data.bairroEncontrado : '',
       deficiencia: data.deficiencia ? data.deficiencia : '',
-      naoInformaContato: data.naoInformaContato ? data.naoInformaContato : null,
+      naoInformaContato:
+        data.naoInformaContato !== null ? data.naoInformaContato : null,
       nomeContato: data.nomeContato ? data.nomeContato : '',
       grauParentescoSelected: data.grauParentescoSelected
         ? data.grauParentescoSelected
