@@ -6,15 +6,9 @@ import { CaracteristicaService } from '../service/Caracteristica.Service';
 class CaracteristicaController {
   async create(request: Request, response: Response): Promise<Response> {
     const { name, tipoCaracteristicas } = request.body;
-    const caracteristicaService = container.resolve(
-      CaracteristicaService,
-    );
+    const caracteristicaService = container.resolve(CaracteristicaService);
 
-    const data = await caracteristicaService.create(
-      name,
-      tipoCaracteristicas,
-    );
-    
+    const data = await caracteristicaService.create(name, tipoCaracteristicas);
 
     return response.status(201).json(data);
   }
@@ -30,25 +24,24 @@ class CaracteristicaController {
 
   async list(request: Request, response: Response): Promise<any> {
     const caracteristicaService = container.resolve(CaracteristicaService);
-    let data = await caracteristicaService.list(request.query);
+    const data = await caracteristicaService.list(request.query);
     return response.status(200).json(data);
-}  
+  }
 
-  async listByCaracteristica(request: Request, response: Response): Promise<Response> {
-    const {name} = request.params;
-    const caracteristicaService = container.resolve(
-      CaracteristicaService,
-    );
+  async listByCaracteristica(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { name } = request.params;
+    const caracteristicaService = container.resolve(CaracteristicaService);
     const data = await caracteristicaService.listByCaracteristica(name);
 
     return response.status(200).json(data);
-}
+  }
 
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const caracteristicaService = container.resolve(
-      CaracteristicaService,
-    );
+    const caracteristicaService = container.resolve(CaracteristicaService);
     const data = await caracteristicaService.listById(id);
 
     return response.status(200).json(data);
@@ -56,15 +49,13 @@ class CaracteristicaController {
 
   async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { name } = request.body;
+    const { name, tipoCaracteristicas } = request.body;
 
     const caracteristicaService = container.resolve(CaracteristicaService);
-    await caracteristicaService.update(id, name);
+    await caracteristicaService.update(id, name, tipoCaracteristicas);
 
     return response.status(204).send();
   }
-
-
- }
+}
 
 export { CaracteristicaController };

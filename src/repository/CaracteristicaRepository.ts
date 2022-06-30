@@ -13,9 +13,9 @@ class CaracteristicaRepository implements ICaracteristicaRepository {
   }
 
   async list(params: any) {
-    let page = (params.page != null ? (params.page - 1) + '' : '0');
-    let pageSize = params.pageSize != null ? params.pageSize : '10';
-    let search = params.search != null ? params.search : '';
+    const page = params.page != null ? `${params.page - 1}` : '0';
+    const pageSize = params.pageSize != null ? params.pageSize : '10';
+    const search = params.search != null ? params.search : '';
     let filters = {};
 
     // Caso a uma palavra para busca seja enviada
@@ -23,39 +23,41 @@ class CaracteristicaRepository implements ICaracteristicaRepository {
       filters = { $or: [{ name: search }] };
     }
 
-    let total = await Caracteristica.countDocuments(filters);
-    let pageNumber = await parseInt(page);
-    let pageSizeNumber = await parseInt(pageSize);
+    const total = await Caracteristica.countDocuments(filters);
+    const pageNumber = await parseInt(page);
+    const pageSizeNumber = await parseInt(pageSize);
 
-    let data = await Caracteristica.find(
-      filters,
-      'name',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber }).populate('tipoCaracteristicas');
+    const data = await Caracteristica.find(filters, 'name', {
+      skip: pageNumber * pageSizeNumber,
+      limit: pageSizeNumber,
+    }).populate('tipoCaracteristicas');
 
-    let result = await { 'page': params.page, 'pageSize': pageSize, 'total': total, 'data': data };
-
-    return result;
+    return {
+      page: params.page,
+      pageSize,
+      total,
+      data,
+    };
   }
 
-  async listByCaracteristica(name: string): Promise<any[]> {
-    const data = await Caracteristica.findOne({
+  async listByCaracteristica(name: string): Promise<any> {
+    return Caracteristica.findOne({
       name,
     });
-    return data;
   }
 
   async listById(id: string): Promise<any> {
-    const data = await Caracteristica.findById({
+    return Caracteristica.findById({
       _id: new mongoose.Types.ObjectId(id),
     }).populate('tipoCaracteristicas');
-    return data;
   }
 
-  async update(id: string, name: string): Promise<void> {
+  async update(id: string, name: string, data: any[]): Promise<void> {
     await Caracteristica.findByIdAndUpdate(
       { _id: id },
       {
-        name:name,
+        name,
+        tipoCaracteristicas: data,
       },
     );
   }

@@ -1,10 +1,9 @@
-import { TipoCaracteristica } from 'model/TipoCaracteristica.model';
 import { AppError } from 'AppError';
 import { Messages } from 'messages/Messages';
+import { TipoCaracteristica } from 'model/TipoCaracteristica.model';
 import { inject, injectable } from 'tsyringe';
 
 import { ICaracteristicaRepository } from '../repository/ICaracteristicaRepository';
-import { Caracteristica } from 'model/Caracteristica.model';
 
 @injectable()
 class CaracteristicaService {
@@ -67,7 +66,7 @@ class CaracteristicaService {
 
     return data;
   }
-  
+
   async listById(id: string) {
     if (!id) {
       throw new AppError(
@@ -85,7 +84,9 @@ class CaracteristicaService {
 
   async delete(id: string): Promise<void> {
     if (!id) {
-      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Caracteristica`);
+      throw new AppError(
+        `${Messages.MISSING_PARAMETERS}: ID de Caracteristica`,
+      );
     }
     const caracteristica = await this.caracteristicaRepository.listById(id);
     if (!caracteristica) {
@@ -95,7 +96,12 @@ class CaracteristicaService {
     await this.caracteristicaRepository.delete(caracteristica._id);
   }
 
-  async update(id: string, name: any): Promise<void> {
+  async update(
+    id: string,
+    name: any,
+    tipoCaracteristicas: any[],
+  ): Promise<void> {
+    const data: any[] = [];
     if (!id) {
       throw new AppError(
         `${Messages.MISSING_PARAMETERS}: ID de Característica`,
@@ -111,14 +117,36 @@ class CaracteristicaService {
       caracteristicaId.name = name;
     }
 
+    await Promise.all(
+      tipoCaracteristicas.map(async tipos => {
+        if (tipos._id) {
+          await TipoCaracteristica.findOneAndUpdate(
+            {
+              _id: tipos._id,
+            },
+            {
+              name: tipos.name,
+              caracteristica: tipos.caracteristica,
+            },
+          );
+          data.push(tipos._id);
+        } else {
+          const saveNew = new TipoCaracteristica({
+            name: tipos.name,
+            caracteristica: tipos.caracteristica,
+          });
+          await saveNew.save();
+          data.push(saveNew._id);
+        }
+      }),
+    );
+
     await this.caracteristicaRepository.update(
       caracteristicaId._id,
       caracteristicaId.name,
+      data,
     );
   }
-
-
-
 }
 
 export { CaracteristicaService };
