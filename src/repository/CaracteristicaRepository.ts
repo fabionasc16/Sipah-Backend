@@ -20,7 +20,7 @@ class CaracteristicaRepository implements ICaracteristicaRepository {
 
     // Caso a uma palavra para busca seja enviada
     if (search) {
-      filters = { $or: [{ name: search }] };
+      filters = { $or: [{ name: { $regex: `.*${search}.*` } }] };
     }
 
     const total = await Caracteristica.countDocuments(filters);
