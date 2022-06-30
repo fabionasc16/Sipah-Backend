@@ -1,4 +1,5 @@
 import { AppError } from 'AppError';
+import { response } from 'express';
 import { Messages } from 'messages/Messages';
 import { Paciente } from 'model/Paciente.model';
 import moment from 'moment';
@@ -64,7 +65,7 @@ class PacienteService {
 
   async create(data: IRequest): Promise<any> {
     try {
-      if (!(data.numProntuario) || data.numProntuario === '') {
+      if (!data.numProntuario || data.numProntuario === '') {
         throw new AppError('Preencha o Número de Prontuário');
       }
 
@@ -341,9 +342,10 @@ class PacienteService {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
     }
 
-    const paciente = await Paciente.findById({
-      _id: new mongoose.Types.ObjectId(id),
-    });
+    // const paciente = await Paciente.findById({
+    //   _id: new mongoose.Types.ObjectId(id),
+    // });
+    const paciente = await this.pacienteRepository.listById(id);
 
     if (!paciente) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
@@ -354,8 +356,10 @@ class PacienteService {
         numProntuario: data.numProntuario,
       });
 
-      if (numProntuarioExists._id.toString() !== id) {
-        throw new AppError('Número de Prontuário já cadastrado');
+      if (numProntuarioExists) {
+        if (numProntuarioExists._id.toString() !== id) {
+          throw new AppError('Número de Prontuário já cadastrado');
+        }
       }
     }
 
@@ -535,24 +539,29 @@ class PacienteService {
       paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
     }
 
-    // update paciente
-    await this.pacienteRepository.update(id, paciente);
-
-    // se houver características alteradas
     if (data.tipoCaracteristicas) {
-      if (data.tipoCaracteristicas.length !== 0) {
-        // limpa-se o vetor de características antigas
-        for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
-          paciente.tipoCaracteristicas.pop();
-        }
-
-        // insere as características novas
-        await data.tipoCaracteristicas.map(async caracteristica => {
-          await paciente.tipoCaracteristicas.push(caracteristica);
-        });
-        await paciente.save();
-      }
+      paciente.tipoCaracteristicas = data.tipoCaracteristicas;
     }
+
+    await this.pacienteRepository.update(id, paciente);
+    // update paciente
+    // await this.pacienteRepository.update(id, paciente);
+
+    // // se houver características alteradas
+    // if (data.tipoCaracteristicas) {
+    //   if (data.tipoCaracteristicas.length !== 0) {
+    //     // limpa-se o vetor de características antigas
+    //     for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
+    //       paciente.tipoCaracteristicas.pop();
+    //     }
+
+    //     // insere as características novas
+    //     await data.tipoCaracteristicas.map(async caracteristica => {
+    //       await paciente.tipoCaracteristicas.push(caracteristica);
+    //     });
+    //     await paciente.save();
+    //   }
+    // }
   }
 
   async uploadImage(id: string, arquivo: string): Promise<void> {
