@@ -117,6 +117,13 @@ class PacienteController {
     return response.status(200).json(data);
   }
 
+  async listsearch(request: Request, response: Response): Promise<any> {
+    const list = container.resolve(PacienteService);
+    const data = await list.listsearch(request);
+
+    return response.status(200).json(data);
+  }
+
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const pacient = container.resolve(PacienteService);
