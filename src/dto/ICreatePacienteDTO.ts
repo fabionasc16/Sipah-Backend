@@ -4,6 +4,7 @@ interface ICreatePacienteDTO {
   numProntuario: string;
   entradaAtraves: string;
   statusRegistro: string;
+  statusPaciente: string;
   nomePaciente?: string;
   nomeMae?: string;
   dataNascimento?: string;

@@ -14,6 +14,7 @@ class PacienteRepository implements IPacienteRepository {
       numProntuario: data.numProntuario,
       entradaAtraves: data.entradaAtraves,
       statusRegistro: data.statusRegistro,
+      statusPaciente: data.statusPaciente ? data.statusPaciente : '',
       nomePaciente: data.nomePaciente ? data.nomePaciente : '',
       nomeMae: data.nomeMae ? data.nomeMae : '',
       dataNascimento: data.dataNascimento ? data.dataNascimento : '',
@@ -124,6 +125,10 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.statusRegistro) {
       $and.push({ statusRegistro: params.statusRegistro });
+    }
+
+    if (params.statusPaciente) {
+      $and.push({ statusPaciente: params.statusPaciente });
     }
 
     if (params.nomePaciente) {
@@ -342,6 +347,7 @@ class PacienteRepository implements IPacienteRepository {
           numProntuario: 1,
           entradaAtraves: 1,
           statusRegistro: 1,
+          statusPaciente: 1,
           nomePaciente: 1,
           nomeMae: 1,
           dataNascimento: 1,
@@ -459,6 +465,7 @@ class PacienteRepository implements IPacienteRepository {
           numProntuario: 1,
           entradaAtraves: 1,
           statusRegistro: 1,
+          statusPaciente: 1,
           nomePaciente: 1,
           nomeMae: 1,
           dataNascimento: 1,
@@ -530,6 +537,7 @@ class PacienteRepository implements IPacienteRepository {
         numProntuario: data.numProntuario,
         entradaAtraves: data.entradaAtraves,
         statusRegistro: data.statusRegistro,
+        statusPaciente: data.statusPaciente,
         nomePaciente: data.nomePaciente,
         nomeMae: data.nomeMae,
         dataNascimento: data.dataNascimento,
@@ -578,6 +586,14 @@ class PacienteRepository implements IPacienteRepository {
     const userImage = await imagensPaciente.create({
       imagens: filename,
       paciente: id,
+    });
+
+    return userImage;
+  }
+
+  async loadImage(id: string): Promise<any> {
+    const userImage = await imagensPaciente.find({
+      paciente: new mongoose.Types.ObjectId(id),
     });
 
     return userImage;

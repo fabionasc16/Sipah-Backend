@@ -8,6 +8,7 @@ interface IPacienteRepository {
   delete(id: string): Promise<void>;
   update(id: string, data: IUpdatePacienteDTO): Promise<void>;
   uploadImage(id: string, filename: string): Promise<any>;
+  loadImage(id: string): Promise<any>;
 
   // loadPaciente(nome_paciente: string): Promise<any>;
 }

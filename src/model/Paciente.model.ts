@@ -23,6 +23,9 @@ const pacienteSchema = new Schema(
     statusRegistro: {
       type: mongoose.Schema.Types.String,
     },
+    statusPaciente: {
+      type: mongoose.Schema.Types.String,
+    },
     nomePaciente: {
       type: mongoose.Schema.Types.String,
     },
