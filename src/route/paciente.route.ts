@@ -9,7 +9,8 @@ const pacienteController = new PacienteController();
 
 // * Rotas para Cadastro de Pacientes
 pacientesRoutes.post('/', pacienteController.create);
-pacientesRoutes.get('/list/', pacienteController.list);
+// pacientesRoutes.get('/list/', pacienteController.list);
+pacientesRoutes.post('/list/', pacienteController.listsearch);
 pacientesRoutes.get('/listid/:id', pacienteController.listById);
 pacientesRoutes.delete('/delete/:id', pacienteController.delete);
 pacientesRoutes.put('/update/:id', pacienteController.update);
