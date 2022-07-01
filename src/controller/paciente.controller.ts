@@ -1,3 +1,4 @@
+// import { Request, Response } from 'express';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -11,6 +12,7 @@ class PacienteController {
       numProntuario,
       entradaAtraves,
       statusRegistro,
+      statusPaciente,
       nomePaciente,
       nomeMae,
       dataNascimento,
@@ -61,6 +63,7 @@ class PacienteController {
       numProntuario,
       entradaAtraves,
       statusRegistro,
+      statusPaciente,
       nomePaciente,
       nomeMae,
       dataNascimento,
@@ -138,6 +141,7 @@ class PacienteController {
       numProntuario,
       entradaAtraves,
       statusRegistro,
+      statusPaciente,
       nomePaciente,
       nomeMae,
       dataNascimento,
@@ -188,6 +192,7 @@ class PacienteController {
       numProntuario,
       entradaAtraves,
       statusRegistro,
+      statusPaciente,
       nomePaciente,
       nomeMae,
       dataNascimento,
@@ -244,6 +249,15 @@ class PacienteController {
     return response.status(201).send({
       message: 'Successfully uploaded',
     });
+  }
+
+  async loadImagem(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+
+    const data = await importFile.loadImage(id);
+
+    return response.status(200).json(data);
   }
 }
 
