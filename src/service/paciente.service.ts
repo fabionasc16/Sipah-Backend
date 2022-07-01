@@ -14,6 +14,7 @@ interface IRequest {
   numProntuario: string;
   entradaAtraves: string;
   statusRegistro: string;
+  statusPaciente?: string;
   nomePaciente?: string;
   nomeMae?: string;
   dataNascimento?: string;
@@ -85,6 +86,7 @@ class PacienteService {
         numProntuario: data.numProntuario,
         entradaAtraves: data.entradaAtraves,
         statusRegistro: '1',
+        statusPaciente: data.statusPaciente,
         nomePaciente: data.nomePaciente,
         nomeMae: data.nomeMae,
         dataNascimento: data.dataNascimento,
@@ -383,6 +385,10 @@ class PacienteService {
       paciente.statusRegistro = data.statusRegistro;
     }
 
+    if (data.statusPaciente) {
+      paciente.statusPaciente = data.statusPaciente;
+    }
+
     if (data.nomePaciente) {
       paciente.nomePaciente = data.nomePaciente;
     }
@@ -577,6 +583,20 @@ class PacienteService {
       id,
       `./images/${arquivo}`,
     );
+
+    return response;
+  }
+
+  async loadImage(id: string): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
+    }
+    const paciente = await this.pacienteRepository.listById(id);
+    if (!paciente) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    const response = await this.pacienteRepository.loadImage(id);
 
     return response;
   }
