@@ -1,10 +1,7 @@
 import { AppError } from 'AppError';
-import { response } from 'express';
 import { Messages } from 'messages/Messages';
 import { Paciente } from 'model/Paciente.model';
-import moment from 'moment';
-import mongoose from 'mongoose';
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import { IPacienteRepository } from '../repository/IPacienteRepository';
 
@@ -579,7 +576,7 @@ class PacienteService {
     // }
   }
 
-  async uploadImage(id: string, arquivo: string): Promise<void> {
+  async uploadImage(id: string, arquivo: string[]): Promise<void> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
     }
@@ -588,12 +585,7 @@ class PacienteService {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }
 
-    const response = await this.pacienteRepository.uploadImage(
-      id,
-      `./images/${arquivo}`,
-    );
-
-    return response;
+    return this.pacienteRepository.uploadImage(id, arquivo);
   }
 
   async loadImage(id: string): Promise<void> {
@@ -605,9 +597,7 @@ class PacienteService {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }
 
-    const response = await this.pacienteRepository.loadImage(id);
-
-    return response;
+    return this.pacienteRepository.loadImage(id);
   }
 }
 

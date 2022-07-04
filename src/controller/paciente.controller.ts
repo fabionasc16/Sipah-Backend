@@ -246,12 +246,17 @@ class PacienteController {
   }
 
   async uploadImagem(request: Request, response: Response): Promise<Response> {
-    const arquivos = request;
+    const arquivos = request.files;
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
+    const files: any[] = [];
 
-    const filename = `${id}-${arquivos.file.originalname}`;
-    await importFile.uploadImage(id, filename);
+    for (let i = 0; i < arquivos.length; i += 1) {
+      files.push(`/images/${arquivos[i].filename}`);
+    }
+
+    console.log(files);
+    await importFile.uploadImage(id, files);
 
     return response.status(201).send({
       message: 'Successfully uploaded',

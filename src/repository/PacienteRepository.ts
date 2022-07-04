@@ -934,21 +934,17 @@ class PacienteRepository implements IPacienteRepository {
     );
   }
 
-  async uploadImage(id: string, filename: string): Promise<any> {
-    const userImage = await imagensPaciente.create({
+  async uploadImage(id: string, filename: string[]): Promise<any> {
+    return imagensPaciente.create({
       imagens: filename,
       paciente: id,
     });
-
-    return userImage;
   }
 
   async loadImage(id: string): Promise<any> {
-    const userImage = await imagensPaciente.find({
+    return imagensPaciente.find({
       paciente: new mongoose.Types.ObjectId(id),
     });
-
-    return userImage;
   }
 
   async delete(id: string): Promise<void> {

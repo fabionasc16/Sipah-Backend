@@ -20,6 +20,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use('/images', express.static('images'));
 app.use(morgan('combined'));
 app.use('/api', appRoutes);
 app.use(
