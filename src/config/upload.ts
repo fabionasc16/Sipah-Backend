@@ -1,9 +1,7 @@
-import { Request } from 'express-serve-static-core';
 import fs from 'fs';
-import mime from 'mime-types';
 import multer from 'multer';
 
-export class Upload {
+class Upload {
   private url = './images';
   private userid: any;
 
@@ -22,26 +20,9 @@ export class Upload {
     });
   }
 
-  private fileFilter() {
-    return (
-      request: Request,
-      file: Express.Multer.File,
-      callback: multer.FileFilterCallback,
-    ) => {
-      const type = mime.extension(file.mimetype);
-      const fileExtensions: string[] = ['png', 'jpg', 'jpeg'];
-      if (fileExtensions.includes(`${type}`)) {
-        callback(null, true);
-      }
-
-      callback(null, false);
-    };
-  }
-
   get getConfig(): multer.Options {
     return {
       storage: this.storage(),
-      fileFilter: this.fileFilter(),
     };
   }
 }

@@ -8,9 +8,11 @@ const imagens = new Schema(
       type: Number,
       select: false,
     },
-    imagens: {
-      type: mongoose.Schema.Types.String,
-    },
+    imagens: [
+      {
+        type: mongoose.Schema.Types.String,
+      },
+    ],
     paciente: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'paciente',
