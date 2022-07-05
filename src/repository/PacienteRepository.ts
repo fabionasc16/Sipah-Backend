@@ -514,32 +514,26 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     if (params.body.estaturaAproximada) {
-      // $and.push({ estaturaAproximada: params.body.estaturaAproximada });
+      const min = parseFloat(params.body.estaturaAproximada) - 0.3;
+      const max = parseFloat(params.body.estaturaAproximada) + 0.3;
       $and.push({
-        estaturaAproximada: {
-          $gt: params.body.estaturaAproximada - 0.3,
-          $lt: params.body.estaturaAproximada + 0.3,
-        },
+        estaturaAproximada: { $gte: min, $lte: max },
       });
     }
 
     if (params.body.pesoAproximado) {
-      // $and.push({ pesoAproximado: params.body.pesoAproximado });
+      const min = parseFloat(params.body.pesoAproximado) - 5;
+      const max = parseFloat(params.body.pesoAproximado) + 5;
       $and.push({
-        pesoAproximado: {
-          $gt: params.body.pesoAproximado - 5,
-          $lt: params.body.pesoAproximado + 5,
-        },
+        pesoAproximado: { $gte: min, $lte: max },
       });
     }
 
     if (params.body.idadeAproximada) {
-      // $and.push({ idadeAproximada: params.body.idadeAproximada });
+      const min = parseFloat(params.body.idadeAproximada) - 5;
+      const max = parseFloat(params.body.idadeAproximada) + 5;
       $and.push({
-        idadeAproximada: {
-          $gt: params.body.idadeAproximada - 5,
-          $lt: params.body.idadeAproximada + 5,
-        },
+        idadeAproximada: { $gte: min, $lte: max },
       });
     }
 
@@ -663,7 +657,9 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.tipoCaracteristicas) {
       params.body.tipoCaracteristicas.forEach(element => {
-        $and.push({ tipoCaracteristicas: element });
+        $and.push({
+          tipoCaracteristicas: new mongoose.Types.ObjectId(element),
+        });
       });
     }
 
@@ -691,74 +687,74 @@ class PacienteRepository implements IPacienteRepository {
     //   },
     // });
 
-    const parcial = await Paciente.aggregate([
-      {
-        $project: {
-          dataEntrada: 1,
-          horaEntrada: 1,
-          numProntuario: 1,
-          entradaAtraves: 1,
-          statusRegistro: 1,
-          statusPaciente: 1,
-          nomePaciente: 1,
-          nomeMae: 1,
-          dataNascimento: 1,
-          rg: 1,
-          cpf: 1,
-          cns: 1,
-          nacionalidade: 1,
-          pais: 1,
-          estaturaAproximada: {
-            $convert: { input: '$estaturaAproximada', to: 'string' },
-          },
-          pesoAproximado: {
-            $convert: { input: '$pesoAproximado', to: 'string' },
-          },
-          idadeAproximada: {
-            $convert: { input: '$idadeAproximada', to: 'string' },
-          },
-          condicoesEncontrada: 1,
-          localEncontrado: 1,
-          sinaisParticulares: 1,
-          acessoriosUtilizados: 1,
-          vestimentas: 1,
-          barba: 1,
-          bigode: 1,
-          bairroEncontrado: 1,
-          deficiencia: 1,
-          naoInformaContato: 1,
-          nomeContato: 1,
-          grauParentescoSelected: 1,
-          telefoneContato: 1,
-          cpfContato: 1,
-          genero: 1,
-          generoOutro: 1,
-          unidade: 1,
-          nomeSocialPaciente: 1,
-          apelidoPaciente: 1,
-          vitimaAbandono: 1,
-          querEncontro: 1,
-          autorizaConsulta: 1,
-          numRegistroExterno: 1,
-          unidadeSaudeOrigem: 1,
-          conscienciaPaciente: 1,
-          transtornosPaciente: 1,
-          tratamentoPsicologico: 1,
-          descricaoEstadoPaciente: 1,
-          tipoCaracteristicas: 1,
-        },
-      },
-    ])
+    const parcial = await Paciente.aggregate([])
       .match(term)
       .skip(pageNumber * pageSizeNumber)
-      .limit(pageSizeNumber);
+      .limit(pageSizeNumber)
+      .project({
+        dataEntrada: 1,
+        horaEntrada: 1,
+        numProntuario: 1,
+        entradaAtraves: 1,
+        statusRegistro: 1,
+        statusPaciente: 1,
+        nomePaciente: 1,
+        nomeMae: 1,
+        dataNascimento: 1,
+        rg: 1,
+        cpf: 1,
+        cns: 1,
+        nacionalidade: 1,
+        pais: 1,
+        estaturaAproximada: {
+          $convert: { input: '$estaturaAproximada', to: 'string' },
+        },
+        pesoAproximado: {
+          $convert: { input: '$pesoAproximado', to: 'string' },
+        },
+        idadeAproximada: {
+          $convert: { input: '$idadeAproximada', to: 'string' },
+        },
+        condicoesEncontrada: 1,
+        localEncontrado: 1,
+        sinaisParticulares: 1,
+        acessoriosUtilizados: 1,
+        vestimentas: 1,
+        barba: 1,
+        bigode: 1,
+        bairroEncontrado: 1,
+        deficiencia: 1,
+        naoInformaContato: 1,
+        nomeContato: 1,
+        grauParentescoSelected: 1,
+        telefoneContato: 1,
+        cpfContato: 1,
+        genero: 1,
+        generoOutro: 1,
+        unidade: 1,
+        nomeSocialPaciente: 1,
+        apelidoPaciente: 1,
+        vitimaAbandono: 1,
+        querEncontro: 1,
+        autorizaConsulta: 1,
+        numRegistroExterno: 1,
+        unidadeSaudeOrigem: 1,
+        conscienciaPaciente: 1,
+        transtornosPaciente: 1,
+        tratamentoPsicologico: 1,
+        descricaoEstadoPaciente: 1,
+        tipoCaracteristicas: 1,
+      });
 
     const data = await Paciente.populate(parcial, {
       path: 'tipoCaracteristicas',
       populate: {
         path: 'caracteristica',
         model: 'Caracteristica',
-        select: 'name',
+        select: ['tipoCaracteristicas', 'name'],
+        populate: {
+          path: 'tipoCaracteristicas',
+        },
       },
     });
 
