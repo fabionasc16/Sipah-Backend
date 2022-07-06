@@ -848,10 +848,11 @@ class PacienteRepository implements IPacienteRepository {
       populate: {
         path: 'caracteristica',
         model: 'Caracteristica',
-        select: ['tipoCaracteristicas', 'name'],
-        populate: {
-          path: 'tipoCaracteristicas',
-        },
+        select: ['name'],
+        // select: ['tipoCaracteristicas', 'name'],
+        // populate: {
+        //   path: 'tipoCaracteristicas',
+        // },
       },
     });
 
