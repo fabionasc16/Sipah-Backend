@@ -599,6 +599,30 @@ class PacienteService {
 
     return this.pacienteRepository.loadImage(id);
   }
+
+  async uploadTermo(id: string, arquivo: string): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
+    }
+    const paciente = await this.pacienteRepository.listById(id);
+    if (!paciente) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    return this.pacienteRepository.uploadTermo(id, arquivo);
+  }
+
+  async loadTermo(id: string): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
+    }
+    const paciente = await this.pacienteRepository.listById(id);
+    if (!paciente) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    return this.pacienteRepository.loadTermo(id);
+  }
 }
 
 export { PacienteService };
