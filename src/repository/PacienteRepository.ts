@@ -602,15 +602,14 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     if (params.body.barba) {
-      console.log(params.body.barba);
-      if (params.body.barba.length > 0) {
-        $and.push({ barba: params.body.barba[0] });
+      if (params.body.barba !== '') {
+        $and.push({ barba: params.body.barba });
       }
     }
 
     if (params.body.bigode) {
-      if (params.body.bigode.length > 0) {
-        $and.push({ bigode: params.body.bigode[0] });
+      if (params.body.bigode !== '') {
+        $and.push({ bigode: params.body.bigode });
       }
     }
 
@@ -998,8 +997,8 @@ class PacienteRepository implements IPacienteRepository {
         sinaisParticulares: data.sinaisParticulares,
         acessoriosUtilizados: data.acessoriosUtilizados,
         vestimentas: data.vestimentas,
-        barba: data.barba.length > 0 ? data.barba[0] : '',
-        bigode: data.bigode.length > 0 ? data.bigode[0] : '',
+        barba: data.barba ? data.barba : '',
+        bigode: data.bigode ? data.bigode : '',
         bairroEncontrado: data.bairroEncontrado,
         deficiencia: data.deficiencia,
         naoInformaContato: data.naoInformaContato,
@@ -1026,7 +1025,7 @@ class PacienteRepository implements IPacienteRepository {
     );
   }
 
-  async uploadImage(id: string, filename: string[]): Promise<any> {
+  async uploadImage(id: string, filename: string): Promise<any> {
     return imagensPaciente.create({
       imagens: filename,
       paciente: id,

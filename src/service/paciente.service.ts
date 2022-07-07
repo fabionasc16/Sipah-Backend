@@ -576,7 +576,7 @@ class PacienteService {
     // }
   }
 
-  async uploadImage(id: string, arquivo: string[]): Promise<void> {
+  async uploadImage(id: string, arquivo: string): Promise<void> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
     }
