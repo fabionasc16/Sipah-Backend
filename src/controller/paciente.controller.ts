@@ -253,10 +253,9 @@ class PacienteController {
 
     for (let i = 0; i < arquivos.length; i += 1) {
       files.push(`/images/${arquivos[i].filename}`);
-    }
 
-    console.log(files);
-    await importFile.uploadImage(id, files);
+      await importFile.uploadImage(id, files[i]);
+    }
 
     return response.status(201).send({
       message: 'Successfully uploaded',
