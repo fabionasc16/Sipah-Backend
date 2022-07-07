@@ -1,4 +1,5 @@
 import { Paciente } from 'model/Paciente.model';
+import { termoPaciente } from 'model/TermosPaciente.model';
 import mongoose from 'mongoose';
 
 import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
@@ -1040,6 +1041,19 @@ class PacienteRepository implements IPacienteRepository {
 
   async delete(id: string): Promise<void> {
     await Paciente.findByIdAndDelete(id);
+  }
+
+  async uploadTermo(id: string, filename: string): Promise<any> {
+    return termoPaciente.create({
+      termo: filename,
+      paciente: id,
+    });
+  }
+
+  async loadTermo(id: string): Promise<any> {
+    return termoPaciente.find({
+      paciente: new mongoose.Types.ObjectId(id),
+    });
   }
 }
 

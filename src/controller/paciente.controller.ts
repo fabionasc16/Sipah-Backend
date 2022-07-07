@@ -270,6 +270,32 @@ class PacienteController {
 
     return response.status(200).json(data);
   }
+
+  async uploadTermo(request: Request, response: Response): Promise<Response> {
+    const arquivos = request.files;
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+    const files: any[] = [];
+
+    for (let i = 0; i < arquivos.length; i += 1) {
+      files.push(`/images/${arquivos[i].filename}`);
+
+      await importFile.uploadTermo(id, files[i]);
+    }
+
+    return response.status(201).send({
+      message: 'Successfully uploaded',
+    });
+  }
+
+  async loadTermo(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+
+    const data = await importFile.loadTermo(id);
+
+    return response.status(200).json(data);
+  }
 }
 
 export { PacienteController };
