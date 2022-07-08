@@ -38,7 +38,7 @@ class UsuarioRepository implements IUsuarioRepository {
 
     // Caso a uma palavra para busca seja enviada
     if (search) {
-      filters = { $and:[{ $or: [{ nome: search }, { cpf: search }, { cpfSemFormatacao: search }, { setorUsuario: search }]}, { excluido:false }] };
+      filters = { $and:[{ $or: [{ nome: search }, { cpf: search }, { cpfSemFormatacao: search }, { setorUsuario: search }, { nome:{ $regex: new RegExp(search,'i') }}]}, { excluido:false }] };
     }
 
     let total = await Usuario.countDocuments(filters);
