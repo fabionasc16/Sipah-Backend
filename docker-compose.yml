@@ -39,7 +39,7 @@ services:
       - ./src:/app/src
       - ./package.json:/app/package.json
       - ./tsconfig.json:/app/tsconfig.json
-      - /opt/ticados-backend/images/ :/app/images
+      - /opt/ticados-backend/images:/app/images
     environment:
       - NODE_ENV=development
       - PORT=3300
