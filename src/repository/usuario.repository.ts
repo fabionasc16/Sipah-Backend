@@ -1,5 +1,5 @@
 import { IUsuarioRepository } from 'repository/IUsuarioRepository';
-import {  Usuario } from 'model/Usuario.model';
+import { Usuario } from 'model/Usuario.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
@@ -10,7 +10,7 @@ class UsuarioRepository implements IUsuarioRepository {
   async create(usuarioCadastro: any): Promise<any> {
     usuarioCadastro.data_cadastro = await moment().format('YYYY-MM-DD');
     usuarioCadastro.hora_cadastro = await moment().format('HH:mm:ss');
-    usuarioCadastro.cpfSemFormatacao =  usuarioCadastro.cpf.replaceAll('.','').replaceAll('-','');
+    usuarioCadastro.cpfSemFormatacao = usuarioCadastro.cpf.replaceAll('.', '').replaceAll('-', '');
     const cadastroUsuario = await Usuario.create(usuarioCadastro);
 
     return cadastroUsuario;
@@ -34,11 +34,11 @@ class UsuarioRepository implements IUsuarioRepository {
     let page = (params.currentPage != null ? (params.currentPage) + '' : '1');
     let pageSize = params.perPage != null ? params.perPage : '10';
     let search = params.search != null ? params.search : '';
-    let filters = {};
-
+    let filters = { $and: [] };
+    filters?.$and.push({ excluido: false });
     // Caso a uma palavra para busca seja enviada
     if (search) {
-      filters = { $and:[{ $or: [{ nome: search }, { cpf: search }, { cpfSemFormatacao: search }, { setorUsuario: search }, { nome:{ $regex: new RegExp(search,'i') }}]}, { excluido:false }] };
+      filters?.$and.push({ $or: [{ cpf: search }, { cpfSemFormatacao: search }, { setorUsuario: search }, { nome: { $regex: new RegExp(search, 'i') } }] });
     }
 
     let total = await Usuario.countDocuments(filters);
@@ -48,7 +48,7 @@ class UsuarioRepository implements IUsuarioRepository {
     let data = await Usuario.find(
       filters,
       ' nome cpf perfilUsuario setorUsuario status',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber, sort:{ status:-1,nome:1} });
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber, sort: { status: -1, nome: 1 } });
 
     let result = await { 'currentPage': page, 'perPage': pageSize, 'total': total, 'data': data };
 
@@ -58,7 +58,7 @@ class UsuarioRepository implements IUsuarioRepository {
   async delete(id: string): Promise<void> {
     return await Usuario.findByIdAndUpdate(
       { _id: id },
-      { excluido:true }
+      { excluido: true }
     );
   }
 
