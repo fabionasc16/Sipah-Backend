@@ -284,6 +284,26 @@ class PacienteController {
     return response.status(200).json(data);
   }
 
+  async loadImagemById(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+
+    const data = await importFile.loadImageById(id);
+
+    return response.status(200).json(data);
+  }
+
+  async deleteImagem(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const useCase = container.resolve(PacienteService);
+
+    await useCase.deleteImage(id);
+    return response.status(204).send();
+  }
+
   async uploadTermo(request: Request, response: Response): Promise<Response> {
     const arquivos = request.files;
     const { id } = request.params;

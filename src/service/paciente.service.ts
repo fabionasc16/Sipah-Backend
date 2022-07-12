@@ -1,6 +1,8 @@
 import { AppError } from 'AppError';
+import fs from 'fs';
 import { Messages } from 'messages/Messages';
 import { Paciente } from 'model/Paciente.model';
+import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
 import { IPacienteRepository } from '../repository/IPacienteRepository';
@@ -598,6 +600,44 @@ class PacienteService {
     }
 
     return this.pacienteRepository.loadImage(id);
+  }
+
+  async loadImageById(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
+    }
+
+    const imagem = await this.pacienteRepository.loadImageById(id);
+    if (!imagem) {
+      throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
+    }
+
+    return imagem;
+  }
+
+  async deleteImage(id: string): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
+    }
+
+    const imagem = await this.pacienteRepository.loadImageById(id);
+    if (!imagem) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    const parcial = `${imagem.imagens}`;
+    const re = /\//gi;
+    const raiz = path.join(__dirname, '..', '..');
+    const path_file = parcial.replace(re, '\\');
+    await fs.unlink(raiz + path_file, err => {
+      if (err)
+        throw new AppError(
+          'Não foi possível remover o arquivo. Tente novamente mais tarde',
+        );
+      console.log(`${raiz + path_file} was deleted`);
+    });
+    // deleteFile(raiz + path_file);
+    await this.pacienteRepository.deleteImage(id);
   }
 
   async uploadTermo(id: string, arquivo: string): Promise<void> {

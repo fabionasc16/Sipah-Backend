@@ -65,8 +65,10 @@ pacientesRoutes.post('/upload/:id', [
 // );
 // load Imagem de paciente
 pacientesRoutes.get('/load/:id', pacienteController.loadImagem);
+// load Imagem por ID da imagem
+pacientesRoutes.get('/loadimage/:id', pacienteController.loadImagemById);
 // delete Imagem de paciente
-pacientesRoutes.delete('/deleteimage/:id', pacienteController.delete);
+pacientesRoutes.delete('/deleteimage/:id', pacienteController.deleteImagem);
 
 // upload termo de paciente
 pacientesRoutes.post(
