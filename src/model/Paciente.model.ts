@@ -149,6 +149,12 @@ const pacienteSchema = new Schema(
         ref: 'TipoCaracteristica',
       },
     ],
+    dataIdentificacao: {
+      type: mongoose.Schema.Types.String,
+    },
+    meioIdentificacao: {
+      type: mongoose.Schema.Types.String,
+    },
   },
   { versionKey: false },
 );

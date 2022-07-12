@@ -51,6 +51,8 @@ interface IRequest {
   transtornosPaciente?: string;
   tratamentoPsicologico?: string;
   descricaoEstadoPaciente?: string;
+  dataIdentificacao?: string,
+  meioIdentificacao?: string,
   tipoCaracteristicas: any;
 }
 
@@ -123,6 +125,8 @@ class PacienteService {
         transtornosPaciente: data.transtornosPaciente,
         tratamentoPsicologico: data.tratamentoPsicologico,
         descricaoEstadoPaciente: data.descricaoEstadoPaciente,
+        dataIdentificacao: data.dataIdentificacao,
+        meioIdentificacao: data.meioIdentificacao,
       });
 
       // const paciente = await Paciente.findById({
@@ -549,6 +553,14 @@ class PacienteService {
 
     if (data.descricaoEstadoPaciente) {
       paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
+    }
+
+    if (data.dataIdentificacao) {
+      paciente.dataIdentificacao = data.dataIdentificacao;
+    }
+
+    if (data.meioIdentificacao) {
+      paciente.meioIdentificacao = data.meioIdentificacao;
     }
 
     if (data.tipoCaracteristicas) {

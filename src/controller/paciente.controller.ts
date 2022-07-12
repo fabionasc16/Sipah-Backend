@@ -52,6 +52,8 @@ class PacienteController {
       transtornosPaciente,
       tratamentoPsicologico,
       descricaoEstadoPaciente,
+      dataIdentificacao,
+      meioIdentificacao,
       tipoCaracteristicas,
     } = request.body;
 
@@ -103,6 +105,8 @@ class PacienteController {
       transtornosPaciente,
       tratamentoPsicologico,
       descricaoEstadoPaciente,
+      dataIdentificacao,
+      meioIdentificacao,
       tipoCaracteristicas,
     });
     return response
@@ -188,6 +192,8 @@ class PacienteController {
       transtornosPaciente,
       tratamentoPsicologico,
       descricaoEstadoPaciente,
+      dataIdentificacao,
+      meioIdentificacao,
       tipoCaracteristicas,
     } = request.body;
 
@@ -239,6 +245,8 @@ class PacienteController {
       transtornosPaciente,
       tratamentoPsicologico,
       descricaoEstadoPaciente,
+      dataIdentificacao,
+      meioIdentificacao,
       tipoCaracteristicas,
     });
 
