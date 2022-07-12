@@ -71,7 +71,7 @@ pacientesRoutes.delete('/deleteimage/:id', pacienteController.delete);
 // upload termo de paciente
 pacientesRoutes.post(
   '/uploadtermo/:id',
-  multer(upload.getConfig).single('termo'),
+  multer(upload.getConfig).array('termo', 5),
   pacienteController.uploadTermo,
 );
 // load termo de paciente
