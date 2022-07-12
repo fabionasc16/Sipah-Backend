@@ -1,5 +1,7 @@
 // import { Request, Response } from 'express';
+import { AppError } from 'AppError';
 import { Request, Response } from 'express';
+import multer from 'multer';
 import { container } from 'tsyringe';
 
 import { PacienteService } from '../service/paciente.service';
@@ -246,6 +248,17 @@ class PacienteController {
   }
 
   async uploadImagem(request: Request, response: Response): Promise<Response> {
+    // if (err instanceof multer.MulterError) {
+    //   // A Multer error occurred when uploading.
+    //   throw new AppError(
+    //     'MulterError: Conhecido 5 é quantidade máxima de Imagens',
+    //   );
+    // } else if (err) {
+    //   throw new AppError('5 é quantidade máxima de Imagens');
+    //   // An unknown error occurred when uploading.
+    // }
+
+    // Everything went fine.
     const arquivos = request.files;
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
