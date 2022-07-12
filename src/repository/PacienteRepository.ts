@@ -1039,6 +1039,10 @@ class PacienteRepository implements IPacienteRepository {
     });
   }
 
+  async deleteImage(id: string): Promise<void> {
+    await imagensPaciente.findByIdAndDelete(id);
+  }
+
   async delete(id: string): Promise<void> {
     await Paciente.findByIdAndDelete(id);
   }
@@ -1054,6 +1058,10 @@ class PacienteRepository implements IPacienteRepository {
     return termoPaciente.find({
       paciente: new mongoose.Types.ObjectId(id),
     });
+  }
+
+  async deleteTermo(id: string): Promise<void> {
+    await termoPaciente.findByIdAndDelete(id);
   }
 }
 
