@@ -84,6 +84,8 @@ class PacienteRepository implements IPacienteRepository {
       descricaoEstadoPaciente: data.descricaoEstadoPaciente
         ? data.descricaoEstadoPaciente
         : '',
+        dataIdentificacao: data.dataIdentificacao ? data.dataIdentificacao : '',
+        meioIdentificacao: data.meioIdentificacao ? data.meioIdentificacao : '',
     });
 
     return cadastroPaciente;
@@ -310,6 +312,14 @@ class PacienteRepository implements IPacienteRepository {
       $and.push({ descricaoEstadoPaciente: params.descricaoEstadoPaciente });
     }
 
+    if (params.dataIdentificacao) {
+      $and.push({ genero: params.genero });
+    }
+
+    if (params.meioIdentificacao) {
+      $and.push({ genero: params.genero });
+    }
+
     if (params.tipoCaracteristicas) {
       params.tipoCaracteristicas.forEach(element => {
         $and.push({ tipoCaracteristicas: element });
@@ -394,6 +404,8 @@ class PacienteRepository implements IPacienteRepository {
           transtornosPaciente: 1,
           tratamentoPsicologico: 1,
           descricaoEstadoPaciente: 1,
+          dataIdentificacao: 1,
+          meioIdentificacao: 1,
           tipoCaracteristicas: 1,
         },
       },
@@ -750,6 +762,18 @@ class PacienteRepository implements IPacienteRepository {
       }
     }
 
+    if (params.body.dataIdentificacao) {
+      if (params.body.dataIdentificacao !== '') {
+        $and.push({ dataIdentificacao: params.body.dataIdentificacao });
+      }
+    }
+
+    if (params.body.meioIdentificacao) {
+      if (params.body.meioIdentificacao !== '') {
+        $and.push({ meioIdentificacao: params.body.meioIdentificacao });
+      }
+    }
+
     if (params.body.tipoCaracteristicas) {
       if (params.body.tipoCaracteristicas.length > 0) {
         params.body.tipoCaracteristicas.forEach(element => {
@@ -840,6 +864,8 @@ class PacienteRepository implements IPacienteRepository {
         transtornosPaciente: 1,
         tratamentoPsicologico: 1,
         descricaoEstadoPaciente: 1,
+        dataIdentificacao: 1,
+        meioIdentificacao: 1,
         tipoCaracteristicas: 1,
       });
 
@@ -957,6 +983,8 @@ class PacienteRepository implements IPacienteRepository {
         transtornosPaciente: 1,
         tratamentoPsicologico: 1,
         descricaoEstadoPaciente: 1,
+        dataIdentificacao: 1,
+        meioIdentificacao: 1,
         tipoCaracteristicas: 1,
       });
 
@@ -1021,6 +1049,8 @@ class PacienteRepository implements IPacienteRepository {
         transtornosPaciente: data.transtornosPaciente,
         tratamentoPsicologico: data.tratamentoPsicologico,
         descricaoEstadoPaciente: data.descricaoEstadoPaciente,
+        dataIdentificacao: data.dataIdentificacao,
+        meioIdentificacao: data.meioIdentificacao,
         tipoCaracteristicas: data.tipoCaracteristicas,
       },
     );
