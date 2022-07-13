@@ -46,6 +46,8 @@ interface IUpdatePacienteDTO {
   tratamentoPsicologico?: string;
   descricaoEstadoPaciente?: string;
   tipoCaracteristicas?: any;
+  dataIdentificacao?: string;
+  meioIdentificacao?: string;
 }
 
 export { IUpdatePacienteDTO };
