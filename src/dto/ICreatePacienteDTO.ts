@@ -44,6 +44,8 @@ interface ICreatePacienteDTO {
   transtornosPaciente?: string;
   tratamentoPsicologico?: string;
   descricaoEstadoPaciente?: string;
+  dataIdentificacao?: string;
+  meioIdentificacao?: string;
 }
 
 export { ICreatePacienteDTO };
