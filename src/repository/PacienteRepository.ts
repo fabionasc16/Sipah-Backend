@@ -25,14 +25,14 @@ class PacienteRepository implements IPacienteRepository {
       nacionalidade: data.nacionalidade ? data.nacionalidade : '',
       pais: data.pais ? data.cpf : '',
       estaturaAproximada: data.estaturaAproximada
-        ? parseFloat(data.estaturaAproximada)
-        : null,
-      pesoAproximado: data.pesoAproximado
-        ? parseFloat(data.pesoAproximado)
-        : null,
-      idadeAproximada: data.idadeAproximada
-        ? parseInt(data.idadeAproximada, 10)
-        : null,
+      ? Number(data.estaturaAproximada)
+      : 0,
+    pesoAproximado: data.pesoAproximado
+      ? Number(data.pesoAproximado)
+      : 0,
+    idadeAproximada: data.idadeAproximada
+      ? Number(data.idadeAproximada)
+      : 0,
       condicoesEncontrada: data.condicoesEncontrada
         ? data.condicoesEncontrada
         : '',
@@ -556,8 +556,8 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.estaturaAproximada) {
       if (params.body.estaturaAproximada !== '') {
-        const min = parseFloat(params.body.estaturaAproximada) - 0.3;
-        const max = parseFloat(params.body.estaturaAproximada) + 0.3;
+        const min = Number(params.body.estaturaAproximada) - 0.3;
+        const max = Number(params.body.estaturaAproximada) + 0.3;
         $and.push({
           estaturaAproximada: { $gte: min, $lte: max },
         });
@@ -566,8 +566,8 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.pesoAproximado) {
       if (params.body.pesoAproximado !== '') {
-        const min = parseFloat(params.body.pesoAproximado) - 5;
-        const max = parseFloat(params.body.pesoAproximado) + 5;
+        const min = Number(params.body.pesoAproximado) - 5;
+        const max = Number(params.body.pesoAproximado) + 5;
         $and.push({
           pesoAproximado: { $gte: min, $lte: max },
         });
@@ -576,8 +576,8 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.idadeAproximada) {
       if (params.body.idadeAproximada !== '') {
-        const min = parseFloat(params.body.idadeAproximada) - 5;
-        const max = parseFloat(params.body.idadeAproximada) + 5;
+        const min = Number(params.body.idadeAproximada) - 5;
+        const max = Number(params.body.idadeAproximada) + 5;
         $and.push({
           idadeAproximada: { $gte: min, $lte: max },
         });
@@ -1018,9 +1018,9 @@ class PacienteRepository implements IPacienteRepository {
         cns: data.cns,
         nacionalidade: data.nacionalidade,
         pais: data.pais,
-        estaturaAproximada: parseFloat(data.estaturaAproximada),
-        pesoAproximado: parseFloat(data.pesoAproximado),
-        idadeAproximada: parseInt(data.idadeAproximada, 10),
+        estaturaAproximada: Number(data.estaturaAproximada?data.estaturaAproximada:'0'),
+        pesoAproximado: Number(data.pesoAproximado?data.pesoAproximado:'0'),
+        idadeAproximada: Number(data.idadeAproximada?data.idadeAproximada:'0'),
         condicoesEncontrada: data.condicoesEncontrada,
         localEncontrado: data.localEncontrado,
         sinaisParticulares: data.sinaisParticulares,
