@@ -14,9 +14,9 @@ interface IUpdatePacienteDTO {
   cns?: string;
   nacionalidade?: string;
   pais?: string;
-  estaturaAproximada?: string;
-  pesoAproximado?: string;
-  idadeAproximada?: string;
+  estaturaAproximada?: Number;
+  pesoAproximado?: Number;
+  idadeAproximada?: Number;
   condicoesEncontrada?: string;
   localEncontrado?: string;
   sinaisParticulares?: string;
