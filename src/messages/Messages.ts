@@ -6,6 +6,7 @@ export enum Messages {
   NO_PACIENTES_REGISTERED = 'Não há pacientes cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
   NO_USUARIO_REGISTERED = 'Não há usuario cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
   PACIENTE_NOT_FOUND = 'Nenhum paciente foi encontrado no sistema com as informações passadas. Verifique os dados e tente novamente',
+  IMAGEM_NOT_FOUND = 'Nenhuma imagem foi encontrado no sistema com as informações passadas. Verifique os dados e tente novamente',
 
   // * Características de Pacientes
   CHARACTERISTICS_NOT_FOUND = 'Nenhuma característica foi encontrada no sistema com as informações passadas. Verifique os dados e tente novamente',

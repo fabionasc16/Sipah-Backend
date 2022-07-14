@@ -64,12 +64,15 @@ const pacienteSchema = new Schema(
     },
     estaturaAproximada: {
       type: mongoose.Schema.Types.Number,
+      default: 0,
     },
     pesoAproximado: {
       type: mongoose.Schema.Types.Number,
+      default: 0,
     },
     idadeAproximada: {
       type: mongoose.Schema.Types.Number,
+      default: 0,
     },
     condicoesEncontrada: {
       type: mongoose.Schema.Types.String,
@@ -161,6 +164,12 @@ const pacienteSchema = new Schema(
         ref: 'TipoCaracteristica',
       },
     ],
+    dataIdentificacao: {
+      type: mongoose.Schema.Types.String,
+    },
+    meioIdentificacao: {
+      type: mongoose.Schema.Types.String,
+    },
   },
   { versionKey: false },
 );

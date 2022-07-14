@@ -51,6 +51,8 @@ interface IRequest {
   transtornosPaciente?: string;
   tratamentoPsicologico?: string;
   descricaoEstadoPaciente?: string;
+  dataIdentificacao?: string;
+  meioIdentificacao?: string;
   tipoCaracteristicas: any;
 }
 
@@ -123,6 +125,8 @@ class PacienteService {
         transtornosPaciente: data.transtornosPaciente,
         tratamentoPsicologico: data.tratamentoPsicologico,
         descricaoEstadoPaciente: data.descricaoEstadoPaciente,
+        dataIdentificacao: data.dataIdentificacao,
+        meioIdentificacao: data.meioIdentificacao,
       });
 
       // const paciente = await Paciente.findById({
@@ -371,189 +375,101 @@ class PacienteService {
       }
     }
 
-    if (data.dataEntrada) {
-      paciente.dataEntrada = data.dataEntrada;
-    }
+    paciente.dataEntrada = data.dataEntrada;
 
-    if (data.horaEntrada) {
-      paciente.horaEntrada = data.horaEntrada;
-    }
+    paciente.horaEntrada = data.horaEntrada;
 
-    if (data.numProntuario) {
-      paciente.numProntuario = data.numProntuario;
-    }
+    paciente.numProntuario = data.numProntuario;
 
-    if (data.entradaAtraves) {
-      paciente.entradaAtraves = data.entradaAtraves;
-    }
+    paciente.entradaAtraves = data.entradaAtraves;
 
-    if (data.statusRegistro) {
-      paciente.statusRegistro = data.statusRegistro;
-    }
+    paciente.statusRegistro = data.statusRegistro;
 
-    if (data.statusPaciente) {
-      paciente.statusPaciente = data.statusPaciente;
-    }
+    paciente.statusPaciente = data.statusPaciente;
 
-    if (data.nomePaciente) {
-      paciente.nomePaciente = data.nomePaciente;
-    }
+    paciente.nomePaciente = data.nomePaciente;
 
-    if (data.nomeMae) {
-      paciente.nomeMae = data.nomeMae;
-    }
+    paciente.nomeMae = data.nomeMae;
 
-    if (data.dataNascimento) {
-      paciente.dataNascimento = data.dataNascimento;
-    }
+    paciente.dataNascimento = data.dataNascimento;
 
-    if (data.rg) {
-      paciente.rg = data.rg;
-    }
+    paciente.rg = data.rg;
 
-    if (data.cpf) {
-      paciente.cpf = data.cpf;
-    }
+    paciente.cpf = data.cpf;
 
-    if (data.cns) {
-      paciente.cns = data.cns;
-    }
+    paciente.cns = data.cns;
 
-    if (data.nacionalidade) {
-      paciente.nacionalidade = data.nacionalidade;
-    }
+    paciente.nacionalidade = data.nacionalidade;
 
-    if (data.pais) {
-      paciente.pais = data.pais;
-    }
+    paciente.pais = data.pais;
 
-    if (data.estaturaAproximada) {
-      paciente.estaturaAproximada = data.estaturaAproximada;
-    }
+    paciente.estaturaAproximada = data.estaturaAproximada;
 
-    if (data.pesoAproximado) {
-      paciente.pesoAproximado = data.pesoAproximado;
-    }
+    paciente.pesoAproximado = data.pesoAproximado;
 
-    if (data.idadeAproximada) {
-      paciente.idadeAproximada = data.idadeAproximada;
-    }
+    paciente.idadeAproximada = data.idadeAproximada;
 
-    if (data.condicoesEncontrada) {
-      paciente.condicoesEncontrada = data.condicoesEncontrada;
-    }
+    paciente.condicoesEncontrada = data.condicoesEncontrada;
 
-    if (data.localEncontrado) {
-      paciente.localEncontrado = data.localEncontrado;
-    }
+    paciente.localEncontrado = data.localEncontrado;
 
-    if (data.sinaisParticulares) {
-      paciente.sinaisParticulares = data.sinaisParticulares;
-    }
+    paciente.sinaisParticulares = data.sinaisParticulares;
 
-    if (data.acessoriosUtilizados) {
-      paciente.acessoriosUtilizados = data.acessoriosUtilizados;
-    }
+    paciente.acessoriosUtilizados = data.acessoriosUtilizados;
 
-    if (data.vestimentas) {
-      paciente.vestimentas = data.vestimentas;
-    }
+    paciente.vestimentas = data.vestimentas;
 
-    if (data.barba) {
-      paciente.barba = data.barba;
-    }
+    paciente.barba = data.barba;
 
-    if (data.bigode) {
-      paciente.bigode = data.bigode;
-    }
+    paciente.bigode = data.bigode;
 
-    if (data.bairroEncontrado) {
-      paciente.bairroEncontrado = data.bairroEncontrado;
-    }
+    paciente.bairroEncontrado = data.bairroEncontrado;
 
-    if (data.deficiencia) {
-      paciente.deficiencia = data.deficiencia;
-    }
+    paciente.deficiencia = data.deficiencia;
 
-    if (data.naoInformaContato) {
-      paciente.naoInformaContato = data.naoInformaContato;
-    }
+    paciente.naoInformaContato = data.naoInformaContato;
 
-    if (data.nomeContato) {
-      paciente.nomeContato = data.nomeContato;
-    }
+    paciente.nomeContato = data.nomeContato;
 
-    if (data.grauParentescoSelected) {
-      paciente.grauParentescoSelected = data.grauParentescoSelected;
-    }
+    paciente.grauParentescoSelected = data.grauParentescoSelected;
 
-    if (data.telefoneContato) {
-      paciente.telefoneContato = data.telefoneContato;
-    }
+    paciente.telefoneContato = data.telefoneContato;
 
-    if (data.cpfContato) {
-      paciente.cpfContato = data.cpfContato;
-    }
+    paciente.cpfContato = data.cpfContato;
 
-    if (data.genero) {
-      paciente.genero = data.genero;
-    }
+    paciente.genero = data.genero;
 
-    if (data.generoOutro) {
-      paciente.generoOutro = data.generoOutro;
-    }
+    paciente.generoOutro = data.generoOutro;
 
-    if (data.unidade) {
-      paciente.unidade = data.unidade;
-    }
+    paciente.unidade = data.unidade;
 
-    if (data.nomeSocialPaciente) {
-      paciente.nomeSocialPaciente = data.nomeSocialPaciente;
-    }
+    paciente.nomeSocialPaciente = data.nomeSocialPaciente;
 
-    if (data.apelidoPaciente) {
-      paciente.apelidoPaciente = data.apelidoPaciente;
-    }
+    paciente.apelidoPaciente = data.apelidoPaciente;
 
-    if (data.vitimaAbandono) {
-      paciente.vitimaAbandono = data.vitimaAbandono;
-    }
+    paciente.vitimaAbandono = data.vitimaAbandono;
 
-    if (data.querEncontro) {
-      paciente.querEncontro = data.querEncontro;
-    }
+    paciente.querEncontro = data.querEncontro;
 
-    if (data.autorizaConsulta) {
-      paciente.autorizaConsulta = data.autorizaConsulta;
-    }
+    paciente.autorizaConsulta = data.autorizaConsulta;
 
-    if (data.numRegistroExterno) {
-      paciente.numRegistroExterno = data.numRegistroExterno;
-    }
+    paciente.numRegistroExterno = data.numRegistroExterno;
 
-    if (data.unidadeSaudeOrigem) {
-      paciente.unidadeSaudeOrigem = data.unidadeSaudeOrigem;
-    }
+    paciente.unidadeSaudeOrigem = data.unidadeSaudeOrigem;
 
-    if (data.conscienciaPaciente) {
-      paciente.conscienciaPaciente = data.conscienciaPaciente;
-    }
+    paciente.conscienciaPaciente = data.conscienciaPaciente;
 
-    if (data.transtornosPaciente) {
-      paciente.transtornosPaciente = data.transtornosPaciente;
-    }
+    paciente.transtornosPaciente = data.transtornosPaciente;
 
-    if (data.tratamentoPsicologico) {
-      paciente.tratamentoPsicologico = data.tratamentoPsicologico;
-    }
+    paciente.tratamentoPsicologico = data.tratamentoPsicologico;
 
-    if (data.descricaoEstadoPaciente) {
-      paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
-    }
+    paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
 
-    if (data.tipoCaracteristicas) {
-      paciente.tipoCaracteristicas = data.tipoCaracteristicas;
-    }
+    paciente.dataIdentificacao = data.dataIdentificacao;
+
+    paciente.meioIdentificacao = data.meioIdentificacao;
+
+    paciente.tipoCaracteristicas = data.tipoCaracteristicas;
 
     await this.pacienteRepository.update(id, paciente);
     // update paciente
@@ -600,6 +516,27 @@ class PacienteService {
     return this.pacienteRepository.loadImage(id);
   }
 
+  async loadImageById(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
+    }
+
+    const imagem = await this.pacienteRepository.loadImageById(id);
+    if (!imagem) {
+      throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
+    }
+
+    return imagem;
+  }
+
+  async deleteImage(id: string): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
+    }
+
+    await this.pacienteRepository.deleteImage(id);
+  }
+
   async uploadTermo(id: string, arquivo: string): Promise<void> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
@@ -627,6 +564,26 @@ class PacienteService {
   async discharged(id:string, data: any): Promise<void> {
 
     return this.pacienteRepository.update(id, data);
+ }
+  async loadTermoById(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Termo`);
+    }
+
+    const termo = await this.pacienteRepository.loadTermoById(id);
+    if (!termo) {
+      throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
+    }
+
+    return termo;
+  }
+
+  async deleteTermo(id: string): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Termo`);
+    }
+
+    await this.pacienteRepository.deleteTermo(id);
   }
 }
 

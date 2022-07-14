@@ -17,10 +17,10 @@ pacientesRoutes.delete('/delete/:id', pacienteController.delete);
 pacientesRoutes.put('/update/:id', pacienteController.update);
 pacientesRoutes.put('/discharged/:id', pacienteController.discharged);
 
-// Teste upload treat error
-const up = multer(upload.getConfig).array('arquivos', 5);
+// upload termo de paciente
 pacientesRoutes.post('/upload/:id', [
   function (req, res, next) {
+    const up = multer(upload.getConfig).array('arquivos', 5);
     up(req, res, function (err) {
       if (err instanceof multer.MulterError) {
         // A Multer error occurred when uploading.
@@ -40,10 +40,7 @@ pacientesRoutes.post('/upload/:id', [
       }
       if (err) {
         // An unknown error occurred when uploading.
-        if (
-          err.message ===
-          '5 (cinco) é quantidade máxima de Imagem por paciente.'
-        ) {
+        if (err.message === 'Apenas 5 (cinco) Imagens por paciente') {
           return res.status(400).send({
             message: 'Máximo 5 imagens por paciente.',
           });
@@ -58,26 +55,56 @@ pacientesRoutes.post('/upload/:id', [
   pacienteController.uploadImagem,
 ]);
 
-// upload Imagem de paciente
-// pacientesRoutes.post(
-//   '/upload/:id',
-//   multer(upload.getConfig).array('arquivos', 5),
-//   pacienteController.uploadImagem,
-// );
 // load Imagem de paciente
 pacientesRoutes.get('/load/:id', pacienteController.loadImagem);
+// load Imagem por ID da imagem
+pacientesRoutes.get('/loadimage/:id', pacienteController.loadImagemById);
 // delete Imagem de paciente
-pacientesRoutes.delete('/deleteimage/:id', pacienteController.delete);
+pacientesRoutes.delete('/deleteimage/:id', pacienteController.deleteImagem);
 
 // upload termo de paciente
-pacientesRoutes.post(
-  '/uploadtermo/:id',
-  multer(upload.getConfig).array('termo', 5),
+pacientesRoutes.post('/uploadtermo/:id', [
+  function (req, res, next) {
+    const upTermo = multer(upload.getConfig).array('termo', 1);
+    upTermo(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        if (err.code === 'LIMIT_PART_COUNT') {
+          return res.status(400).send({
+            message: 'Máximo 1 termo por paciente.',
+          });
+        }
+
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return res.status(400).send({
+            message: 'Tamanho de arquivo máximo 10 MB',
+          });
+        }
+
+        return res.status(500).send(err);
+      }
+      if (err) {
+        // An unknown error occurred when uploading.
+        if (err.message === 'Apenas 1 (um) termo por paciente') {
+          return res.status(400).send({
+            message: 'Máximo 1 termo por paciente.',
+          });
+        }
+        return res.status(500).send(err);
+      }
+
+      // Everything went fine.
+      next();
+    });
+  },
   pacienteController.uploadTermo,
-);
+]);
+
 // load termo de paciente
 pacientesRoutes.get('/loadtermo/:id', pacienteController.loadTermo);
+// load Imagem por ID da imagem
+pacientesRoutes.get('/loadtermoid/:id', pacienteController.loadTermoById);
 // delete termo de paciente
-pacientesRoutes.delete('/deletetermo/:id', pacienteController.delete);
+pacientesRoutes.delete('/deletetermo/:id', pacienteController.deleteTermo);
 
 export { pacientesRoutes };
