@@ -15,6 +15,7 @@ pacientesRoutes.post('/list/', pacienteController.listsearch);
 pacientesRoutes.get('/listid/:id', pacienteController.listById);
 pacientesRoutes.delete('/delete/:id', pacienteController.delete);
 pacientesRoutes.put('/update/:id', pacienteController.update);
+pacientesRoutes.put('/discharged/:id', pacienteController.discharged);
 
 // upload termo de paciente
 pacientesRoutes.post('/upload/:id', [

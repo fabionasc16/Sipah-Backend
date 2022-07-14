@@ -560,7 +560,11 @@ class PacienteService {
 
     return this.pacienteRepository.loadTermo(id);
   }
+  
+  async discharged(id:string, data: any): Promise<void> {
 
+    return this.pacienteRepository.update(id, data);
+ }
   async loadTermoById(id: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Termo`);
