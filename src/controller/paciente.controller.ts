@@ -3,10 +3,11 @@ import { AppError } from 'AppError';
 import { Request, Response } from 'express';
 import multer from 'multer';
 import { container } from 'tsyringe';
-
 import { PacienteService } from '../service/paciente.service';
 
 class PacienteController {
+
+
   async create(request: Request, response: Response): Promise<Response> {
     const {
       dataEntrada,
@@ -308,6 +309,21 @@ class PacienteController {
     const data = await importFile.loadTermo(id);
 
     return response.status(200).json(data);
+  }
+
+  async discharged(request: Request, response: Response): Promise<Response> {
+    const service = container.resolve(PacienteService);
+    const { id } = request.params;
+    const paciente = request.body;
+
+    try {
+      await service.discharged(id, paciente)
+      return response.status(200).send();
+    } catch (error) {
+      return response.status(404).send();
+    }
+
+
   }
 }
 

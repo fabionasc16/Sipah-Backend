@@ -623,6 +623,11 @@ class PacienteService {
 
     return this.pacienteRepository.loadTermo(id);
   }
+  
+  async discharged(id:string, data: any): Promise<void> {
+
+    return this.pacienteRepository.update(id, data);
+  }
 }
 
 export { PacienteService };

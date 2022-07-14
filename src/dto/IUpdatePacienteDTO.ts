@@ -2,6 +2,11 @@ interface IUpdatePacienteDTO {
   id: string;
   dataEntrada?: string;
   horaEntrada?: string;
+  dataSaida?: string ;
+  horaSaida?: string ;
+  formaSaida?: string ;
+  modoSaida?: string ; 
+  observacao?: string;
   numProntuario?: string;
   entradaAtraves?: string;
   statusRegistro?: string;
