@@ -25,14 +25,14 @@ class PacienteRepository implements IPacienteRepository {
       nacionalidade: data.nacionalidade ? data.nacionalidade : '',
       pais: data.pais ? data.cpf : '',
       estaturaAproximada: data.estaturaAproximada
-        ? parseFloat(data.estaturaAproximada)
-        : null,
-      pesoAproximado: data.pesoAproximado
-        ? parseFloat(data.pesoAproximado)
-        : null,
-      idadeAproximada: data.idadeAproximada
-        ? parseInt(data.idadeAproximada, 10)
-        : null,
+      ? Number(data.estaturaAproximada)
+      : 0,
+    pesoAproximado: data.pesoAproximado
+      ? Number(data.pesoAproximado)
+      : 0,
+    idadeAproximada: data.idadeAproximada
+      ? Number(data.idadeAproximada)
+      : 0,
       condicoesEncontrada: data.condicoesEncontrada
         ? data.condicoesEncontrada
         : '',
