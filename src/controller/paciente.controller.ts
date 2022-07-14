@@ -378,6 +378,62 @@ class PacienteController {
 
     return response.status(200).json(data);
   }
+
+  async loadTermoById(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+
+    const data = await importFile.loadTermoById(id);
+
+    return response.status(200).json(data);
+  }
+
+  async deleteTermo(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const useCase = container.resolve(PacienteService);
+
+    const termo = await useCase.loadTermoById(id);
+    if (!termo) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    const parcial = `${termo.termo}`;
+    const raiz = path.join(__dirname, '..', '..');
+    // const re = /\//gi;
+    // const path_file = parcial.replace(re, '\\');
+
+    try {
+      fs.access(raiz + parcial, async err => {
+        if (err) {
+          return response
+            .status(400)
+            .send(new AppError('Termo não encontrado'));
+        }
+
+        fs.unlink(raiz + parcial, async err => {
+          if (err) {
+            return response
+              .status(400)
+              .send(
+                new AppError(
+                  'Não foi possível remover o Termo. Tente novamente mais tarde',
+                ),
+              );
+          }
+          await useCase.deleteTermo(id);
+          return response.status(204).send();
+        });
+      });
+    } catch (error) {
+      return response
+        .status(400)
+        .send(
+          new AppError(
+            'Não foi possível remover o arquivo. Tente novamente mais tarde',
+          ),
+        );
+    }
+  }
 }
 
 export { PacienteController };
