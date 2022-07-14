@@ -1096,6 +1096,12 @@ class PacienteRepository implements IPacienteRepository {
     });
   }
 
+  async loadTermoById(id: string): Promise<any> {
+    return termoPaciente.findById({
+      _id: new mongoose.Types.ObjectId(id),
+    });
+  }
+
   async deleteTermo(id: string): Promise<void> {
     await termoPaciente.findByIdAndDelete(id);
   }

@@ -3,6 +3,7 @@ import { AppError } from 'AppError';
 import fs from 'fs';
 // import mime from 'mime-types';
 import { imagensPaciente } from 'model/ImagensPaciente.model';
+import { termoPaciente } from 'model/TermosPaciente.model';
 import mongoose from 'mongoose';
 import multer from 'multer';
 
@@ -10,27 +11,50 @@ class Upload {
   private url = './images';
   private userid: any;
   private qtdImgDB;
+  private tipo;
+  private qtdSalvo;
+  private max;
+  private maxTipo;
 
   private storage(): multer.StorageEngine {
     return multer.diskStorage({
       destination: async (request, file, callback) => {
         this.userid = request.params.id;
         // valida máximo de 5 imagens por paciente
-        const qtdImagemSalva = await imagensPaciente.find({
-          paciente: new mongoose.Types.ObjectId(this.userid.toString()),
-        });
+        this.tipo = request.files[0].fieldname;
+        if (this.tipo === 'termo') {
+          this.maxTipo = 1;
+          this.qtdSalvo = await termoPaciente.find({
+            paciente: new mongoose.Types.ObjectId(this.userid.toString()),
+          });
+        } else {
+          this.maxTipo = 5;
+          this.qtdSalvo = await imagensPaciente.find({
+            paciente: new mongoose.Types.ObjectId(this.userid.toString()),
+          });
+        }
         const qtdImgReq = request.files.length;
         const qtdImgDB = 0;
-        if (qtdImagemSalva !== null) {
-          this.qtdImgDB = qtdImagemSalva.length;
+        if (this.qtdSalvo !== null) {
+          this.qtdImgDB = this.qtdSalvo.length;
         }
-        const max = qtdImgReq + this.qtdImgDB;
-        if (max > 5) {
-          return callback(
-            new AppError(
-              '5 (cinco) é quantidade máxima de Imagem por paciente.',
-            ),
-          );
+        this.max = qtdImgReq + this.qtdImgDB;
+        if (this.tipo === 'termo') {
+          if (this.max > 1) {
+            return callback(
+              new AppError(
+                'Apenas 1 (um) termo por paciente',
+              ),
+            );
+          }
+        } else {
+          if (this.max > 5) {
+            return callback(
+              new AppError(
+                'Apenas 5 (cinco) Imagens por paciente',
+              ),
+            );
+          }
         }
         if (!fs.existsSync(this.url)) {
           fs.mkdirSync(this.url);
@@ -65,7 +89,7 @@ class Upload {
       storage: this.storage(),
       limits: {
         fileSize: 10485760,
-        parts: 5,
+        parts: this.maxTipo,
       },
     };
   }
