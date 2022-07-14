@@ -13,7 +13,19 @@ const pacienteSchema = new Schema(
     },
     horaEntrada: {
       type: mongoose.Schema.Types.String,
+    }, 
+    dataSaida: {
+      type: mongoose.Schema.Types.String,
     },
+    horaSaida: {
+      type: mongoose.Schema.Types.String,
+    },
+    formaSaida: {
+      type: mongoose.Schema.Types.String,
+    },
+    modoSaida: {
+      type: mongoose.Schema.Types.String,
+    }, 
     numProntuario: {
       type: mongoose.Schema.Types.String,
     },

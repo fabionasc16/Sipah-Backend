@@ -18,6 +18,8 @@ interface IPacienteRepository {
   loadTermo(id: string): Promise<any>;
   loadTermoById(id: string): Promise<any>;
   deleteTermo(id: string): Promise<void>;
+  discharged( id:string, data: any): Promise<void>;
+
 }
 
 export { IPacienteRepository };

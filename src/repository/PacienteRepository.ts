@@ -1000,12 +1000,17 @@ class PacienteRepository implements IPacienteRepository {
     return data[0];
   }
 
-  async update(id: string, data: IUpdatePacienteDTO): Promise<void> {
-    await Paciente.findByIdAndUpdate(
+  async update(id: string, data: IUpdatePacienteDTO): Promise<any> {
+    return await Paciente.findByIdAndUpdate(
       { _id: id },
       {
         dataEntrada: data.dataEntrada,
         horaEntrada: data.horaEntrada,
+        dataSaida: data.dataSaida,
+        horaSaida: data.horaSaida,
+        formaSaida: data.formaSaida,
+        modoSaida: data.modoSaida,
+        observacao: data.observacao,
         numProntuario: data.numProntuario,
         entradaAtraves: data.entradaAtraves,
         statusRegistro: data.statusRegistro,
@@ -1104,6 +1109,10 @@ class PacienteRepository implements IPacienteRepository {
 
   async deleteTermo(id: string): Promise<void> {
     await termoPaciente.findByIdAndDelete(id);
+  }
+
+  async discharged(id: string, data: any): Promise<void> {
+   return await Paciente.findByIdAndUpdate(id,data);
   }
 }
 
