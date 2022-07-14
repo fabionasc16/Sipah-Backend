@@ -16,6 +16,7 @@ interface IPacienteRepository {
 
   uploadTermo(id: string, filename: string): Promise<any>;
   loadTermo(id: string): Promise<any>;
+  loadTermoById(id: string): Promise<any>;
   deleteTermo(id: string): Promise<void>;
 }
 

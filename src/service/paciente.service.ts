@@ -560,6 +560,27 @@ class PacienteService {
 
     return this.pacienteRepository.loadTermo(id);
   }
+
+  async loadTermoById(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Termo`);
+    }
+
+    const termo = await this.pacienteRepository.loadTermoById(id);
+    if (!termo) {
+      throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
+    }
+
+    return termo;
+  }
+
+  async deleteTermo(id: string): Promise<void> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Termo`);
+    }
+
+    await this.pacienteRepository.deleteTermo(id);
+  }
 }
 
 export { PacienteService };
