@@ -5,11 +5,10 @@ import fs from 'fs';
 import { Messages } from 'messages/Messages';
 import path from 'path';
 import { container } from 'tsyringe';
+
 import { PacienteService } from '../service/paciente.service';
 
 class PacienteController {
-
-
   async create(request: Request, response: Response): Promise<Response> {
     const {
       dataEntrada,
@@ -270,7 +269,7 @@ class PacienteController {
     // }
 
     // Everything went fine.
-    const arquivos = request.files;
+    const { arquivos } = request.files;
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
     const files: any[] = [];
@@ -355,13 +354,13 @@ class PacienteController {
   }
 
   async uploadTermo(request: Request, response: Response): Promise<Response> {
-    const arquivos = request.files;
+    const { termo } = request.files;
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
     const files: any[] = [];
 
-    for (let i = 0; i < arquivos.length; i += 1) {
-      files.push(`/images/${arquivos[i].filename}`);
+    for (let i = 0; i < termo.length; i += 1) {
+      files.push(`/images/${termo[i].filename}`);
 
       await importFile.uploadTermo(id, files[i]);
     }
@@ -386,13 +385,12 @@ class PacienteController {
     const paciente = request.body;
 
     try {
-      await service.discharged(id, paciente)
+      await service.discharged(id, paciente);
       return response.status(200).send();
     } catch (error) {
       return response.status(404).send();
     }
   }
-    
 
   async loadTermoById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
