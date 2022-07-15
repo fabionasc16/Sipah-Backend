@@ -1,4 +1,5 @@
 import { AppError } from 'AppError';
+import { timeStamp } from 'console';
 // import { Request } from 'express-serve-static-core';
 import fs from 'fs';
 // import mime from 'mime-types';
@@ -11,6 +12,7 @@ class Upload {
   private url = './images';
   private userid: any;
   private qtdImgDB;
+  private qtdImgReq;
   private tipo;
   private qtdSalvo;
   private max;
@@ -21,40 +23,36 @@ class Upload {
       destination: async (request, file, callback) => {
         this.userid = request.params.id;
         // valida máximo de 5 imagens por paciente
-        this.tipo = request.files[0].fieldname;
-        if (this.tipo === 'termo') {
+        // this.tipo = request.files[0].fieldname;
+        const [, , , tipoReq] = request.originalUrl.split('/');
+        this.tipo = tipoReq;
+        if (this.tipo === 'uploadtermo') {
+          this.qtdImgReq = request.files.termo.length;
           this.maxTipo = 1;
           this.qtdSalvo = await termoPaciente.find({
             paciente: new mongoose.Types.ObjectId(this.userid.toString()),
           });
         } else {
+          this.qtdImgReq = request.files.arquivos.length;
           this.maxTipo = 5;
           this.qtdSalvo = await imagensPaciente.find({
             paciente: new mongoose.Types.ObjectId(this.userid.toString()),
           });
         }
-        const qtdImgReq = request.files.length;
+        // const qtdImgReq = request.files.length;
         const qtdImgDB = 0;
         if (this.qtdSalvo !== null) {
           this.qtdImgDB = this.qtdSalvo.length;
         }
-        this.max = qtdImgReq + this.qtdImgDB;
-        if (this.tipo === 'termo') {
+        this.max = this.qtdImgReq + this.qtdImgDB;
+        if (this.tipo === 'uploadtermo') {
           if (this.max > 1) {
-            return callback(
-              new AppError(
-                'Apenas 1 (um) termo por paciente',
-              ),
-            );
+            return callback(new AppError('Apenas 1 (um) termo por paciente'));
           }
-        } else {
-          if (this.max > 5) {
-            return callback(
-              new AppError(
-                'Apenas 5 (cinco) Imagens por paciente',
-              ),
-            );
-          }
+        } else if (this.max > 5) {
+          return callback(
+            new AppError('Apenas 5 (cinco) Imagens por paciente'),
+          );
         }
         if (!fs.existsSync(this.url)) {
           fs.mkdirSync(this.url);

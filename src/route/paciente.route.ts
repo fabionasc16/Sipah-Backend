@@ -18,15 +18,29 @@ pacientesRoutes.put('/update/:id', pacienteController.update);
 pacientesRoutes.put('/discharged/:id', pacienteController.discharged);
 
 // upload termo de paciente
+const up = multer(upload.getConfig).fields([
+  { name: 'termo', maxCount: 1 },
+  { name: 'arquivos', maxCount: 5 },
+]);
 pacientesRoutes.post('/upload/:id', [
   function (req, res, next) {
-    const up = multer(upload.getConfig).array('arquivos', 5);
     up(req, res, function (err) {
       if (err instanceof multer.MulterError) {
         // A Multer error occurred when uploading.
         if (err.code === 'LIMIT_PART_COUNT') {
           return res.status(400).send({
             message: 'Máximo 5 imagens por paciente.',
+          });
+        }
+
+        if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+          if (err.field === 'arquivos') {
+            return res.status(400).send({
+              message: 'Máximo 5 imagens por paciente.',
+            });
+          }
+          return res.status(400).send({
+            message: 'Máximo 1 termo por paciente.',
           });
         }
 
@@ -65,11 +79,21 @@ pacientesRoutes.delete('/deleteimage/:id', pacienteController.deleteImagem);
 // upload termo de paciente
 pacientesRoutes.post('/uploadtermo/:id', [
   function (req, res, next) {
-    const upTermo = multer(upload.getConfig).array('termo', 1);
-    upTermo(req, res, function (err) {
+    up(req, res, function (err) {
       if (err instanceof multer.MulterError) {
         // A Multer error occurred when uploading.
         if (err.code === 'LIMIT_PART_COUNT') {
+          return res.status(400).send({
+            message: 'Máximo 1 termo por paciente.',
+          });
+        }
+
+        if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+          if (err.field === 'arquivos') {
+            return res.status(400).send({
+              message: 'Máximo 5 imagens por paciente.',
+            });
+          }
           return res.status(400).send({
             message: 'Máximo 1 termo por paciente.',
           });
