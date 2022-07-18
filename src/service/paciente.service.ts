@@ -349,148 +349,148 @@ class PacienteService {
     await this.pacienteRepository.delete(id);
   }
 
-  async update(id: string, data: IRequest): Promise<void> {
-    if (!id) {
-      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
-    }
+  // async update(id: string, data: IRequest): Promise<void> {
+  //   if (!id) {
+  //     throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
+  //   }
 
-    // const paciente = await Paciente.findById({
-    //   _id: new mongoose.Types.ObjectId(id),
-    // });
-    const paciente = await this.pacienteRepository.listById(id);
+  //   // const paciente = await Paciente.findById({
+  //   //   _id: new mongoose.Types.ObjectId(id),
+  //   // });
+  //   const paciente = await this.pacienteRepository.listById(id);
 
-    if (!paciente) {
-      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
-    }
+  //   if (!paciente) {
+  //     throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+  //   }
 
-    if (data.numProntuario !== '') {
-      const numProntuarioExists = await Paciente.findOne({
-        numProntuario: data.numProntuario,
-      });
+  //   if (data.numProntuario !== '') {
+  //     const numProntuarioExists = await Paciente.findOne({
+  //       numProntuario: data.numProntuario,
+  //     });
 
-      if (numProntuarioExists) {
-        if (numProntuarioExists._id.toString() !== id) {
-          throw new AppError('Número de Prontuário já cadastrado');
-        }
-      }
-    }
+  //     if (numProntuarioExists) {
+  //       if (numProntuarioExists._id.toString() !== id) {
+  //         throw new AppError('Número de Prontuário já cadastrado');
+  //       }
+  //     }
+  //   }
 
-    paciente.dataEntrada = data.dataEntrada;
+  //   paciente.dataEntrada = data.dataEntrada;
 
-    paciente.horaEntrada = data.horaEntrada;
+  //   paciente.horaEntrada = data.horaEntrada;
 
-    paciente.numProntuario = data.numProntuario;
+  //   paciente.numProntuario = data.numProntuario;
 
-    paciente.entradaAtraves = data.entradaAtraves;
+  //   paciente.entradaAtraves = data.entradaAtraves;
 
-    paciente.statusRegistro = data.statusRegistro;
+  //   paciente.statusRegistro = data.statusRegistro;
 
-    paciente.statusPaciente = data.statusPaciente;
+  //   paciente.statusPaciente = data.statusPaciente;
 
-    paciente.nomePaciente = data.nomePaciente;
+  //   paciente.nomePaciente = data.nomePaciente;
 
-    paciente.nomeMae = data.nomeMae;
+  //   paciente.nomeMae = data.nomeMae;
 
-    paciente.dataNascimento = data.dataNascimento;
+  //   paciente.dataNascimento = data.dataNascimento;
 
-    paciente.rg = data.rg;
+  //   paciente.rg = data.rg;
 
-    paciente.cpf = data.cpf;
+  //   paciente.cpf = data.cpf;
 
-    paciente.cns = data.cns;
+  //   paciente.cns = data.cns;
 
-    paciente.nacionalidade = data.nacionalidade;
+  //   paciente.nacionalidade = data.nacionalidade;
 
-    paciente.pais = data.pais;
+  //   paciente.pais = data.pais;
 
-    paciente.estaturaAproximada = data.estaturaAproximada;
+  //   paciente.estaturaAproximada = data.estaturaAproximada;
 
-    paciente.pesoAproximado = data.pesoAproximado;
+  //   paciente.pesoAproximado = data.pesoAproximado;
 
-    paciente.idadeAproximada = data.idadeAproximada;
+  //   paciente.idadeAproximada = data.idadeAproximada;
 
-    paciente.condicoesEncontrada = data.condicoesEncontrada;
+  //   paciente.condicoesEncontrada = data.condicoesEncontrada;
 
-    paciente.localEncontrado = data.localEncontrado;
+  //   paciente.localEncontrado = data.localEncontrado;
 
-    paciente.sinaisParticulares = data.sinaisParticulares;
+  //   paciente.sinaisParticulares = data.sinaisParticulares;
 
-    paciente.acessoriosUtilizados = data.acessoriosUtilizados;
+  //   paciente.acessoriosUtilizados = data.acessoriosUtilizados;
 
-    paciente.vestimentas = data.vestimentas;
+  //   paciente.vestimentas = data.vestimentas;
 
-    paciente.barba = data.barba;
+  //   paciente.barba = data.barba;
 
-    paciente.bigode = data.bigode;
+  //   paciente.bigode = data.bigode;
 
-    paciente.bairroEncontrado = data.bairroEncontrado;
+  //   paciente.bairroEncontrado = data.bairroEncontrado;
 
-    paciente.deficiencia = data.deficiencia;
+  //   paciente.deficiencia = data.deficiencia;
 
-    paciente.naoInformaContato = data.naoInformaContato;
+  //   paciente.naoInformaContato = data.naoInformaContato;
 
-    paciente.nomeContato = data.nomeContato;
+  //   paciente.nomeContato = data.nomeContato;
 
-    paciente.grauParentescoSelected = data.grauParentescoSelected;
+  //   paciente.grauParentescoSelected = data.grauParentescoSelected;
 
-    paciente.telefoneContato = data.telefoneContato;
+  //   paciente.telefoneContato = data.telefoneContato;
 
-    paciente.cpfContato = data.cpfContato;
+  //   paciente.cpfContato = data.cpfContato;
 
-    paciente.genero = data.genero;
+  //   paciente.genero = data.genero;
 
-    paciente.generoOutro = data.generoOutro;
+  //   paciente.generoOutro = data.generoOutro;
 
-    paciente.unidade = data.unidade;
+  //   paciente.unidade = data.unidade;
 
-    paciente.nomeSocialPaciente = data.nomeSocialPaciente;
+  //   paciente.nomeSocialPaciente = data.nomeSocialPaciente;
 
-    paciente.apelidoPaciente = data.apelidoPaciente;
+  //   paciente.apelidoPaciente = data.apelidoPaciente;
 
-    paciente.vitimaAbandono = data.vitimaAbandono;
+  //   paciente.vitimaAbandono = data.vitimaAbandono;
 
-    paciente.querEncontro = data.querEncontro;
+  //   paciente.querEncontro = data.querEncontro;
 
-    paciente.autorizaConsulta = data.autorizaConsulta;
+  //   paciente.autorizaConsulta = data.autorizaConsulta;
 
-    paciente.numRegistroExterno = data.numRegistroExterno;
+  //   paciente.numRegistroExterno = data.numRegistroExterno;
 
-    paciente.unidadeSaudeOrigem = data.unidadeSaudeOrigem;
+  //   paciente.unidadeSaudeOrigem = data.unidadeSaudeOrigem;
 
-    paciente.conscienciaPaciente = data.conscienciaPaciente;
+  //   paciente.conscienciaPaciente = data.conscienciaPaciente;
 
-    paciente.transtornosPaciente = data.transtornosPaciente;
+  //   paciente.transtornosPaciente = data.transtornosPaciente;
 
-    paciente.tratamentoPsicologico = data.tratamentoPsicologico;
+  //   paciente.tratamentoPsicologico = data.tratamentoPsicologico;
 
-    paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
+  //   paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
 
-    paciente.dataIdentificacao = data.dataIdentificacao;
+  //   paciente.dataIdentificacao = data.dataIdentificacao;
 
-    paciente.meioIdentificacao = data.meioIdentificacao;
+  //   paciente.meioIdentificacao = data.meioIdentificacao;
 
-    paciente.tipoCaracteristicas = data.tipoCaracteristicas;
+  //   paciente.tipoCaracteristicas = data.tipoCaracteristicas;
 
-    await this.pacienteRepository.update(id, paciente);
-    // update paciente
-    // await this.pacienteRepository.update(id, paciente);
+  //   await this.pacienteRepository.update(id, paciente);
+  //   // update paciente
+  //   // await this.pacienteRepository.update(id, paciente);
 
-    // // se houver características alteradas
-    // if (data.tipoCaracteristicas) {
-    //   if (data.tipoCaracteristicas.length !== 0) {
-    //     // limpa-se o vetor de características antigas
-    //     for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
-    //       paciente.tipoCaracteristicas.pop();
-    //     }
+  //   // // se houver características alteradas
+  //   // if (data.tipoCaracteristicas) {
+  //   //   if (data.tipoCaracteristicas.length !== 0) {
+  //   //     // limpa-se o vetor de características antigas
+  //   //     for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
+  //   //       paciente.tipoCaracteristicas.pop();
+  //   //     }
 
-    //     // insere as características novas
-    //     await data.tipoCaracteristicas.map(async caracteristica => {
-    //       await paciente.tipoCaracteristicas.push(caracteristica);
-    //     });
-    //     await paciente.save();
-    //   }
-    // }
-  }
+  //   //     // insere as características novas
+  //   //     await data.tipoCaracteristicas.map(async caracteristica => {
+  //   //       await paciente.tipoCaracteristicas.push(caracteristica);
+  //   //     });
+  //   //     await paciente.save();
+  //   //   }
+  //   // }
+  // }
 
   async uploadImage(id: string, arquivo: string): Promise<void> {
     if (!id) {
@@ -560,11 +560,10 @@ class PacienteService {
 
     return this.pacienteRepository.loadTermo(id);
   }
-  
-  async discharged(id:string, data: any): Promise<void> {
 
+  async update(id: string, data: any): Promise<void> {
     return this.pacienteRepository.update(id, data);
- }
+  }
   async loadTermoById(id: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Termo`);

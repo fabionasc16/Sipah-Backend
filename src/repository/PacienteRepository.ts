@@ -25,14 +25,10 @@ class PacienteRepository implements IPacienteRepository {
       nacionalidade: data.nacionalidade ? data.nacionalidade : '',
       pais: data.pais ? data.cpf : '',
       estaturaAproximada: data.estaturaAproximada
-      ? Number(data.estaturaAproximada)
-      : 0,
-    pesoAproximado: data.pesoAproximado
-      ? Number(data.pesoAproximado)
-      : 0,
-    idadeAproximada: data.idadeAproximada
-      ? Number(data.idadeAproximada)
-      : 0,
+        ? Number(data.estaturaAproximada)
+        : 0,
+      pesoAproximado: data.pesoAproximado ? Number(data.pesoAproximado) : 0,
+      idadeAproximada: data.idadeAproximada ? Number(data.idadeAproximada) : 0,
       condicoesEncontrada: data.condicoesEncontrada
         ? data.condicoesEncontrada
         : '',
@@ -84,8 +80,8 @@ class PacienteRepository implements IPacienteRepository {
       descricaoEstadoPaciente: data.descricaoEstadoPaciente
         ? data.descricaoEstadoPaciente
         : '',
-        dataIdentificacao: data.dataIdentificacao ? data.dataIdentificacao : '',
-        meioIdentificacao: data.meioIdentificacao ? data.meioIdentificacao : '',
+      dataIdentificacao: data.dataIdentificacao ? data.dataIdentificacao : '',
+      meioIdentificacao: data.meioIdentificacao ? data.meioIdentificacao : '',
     });
 
     return cadastroPaciente;
@@ -1000,66 +996,66 @@ class PacienteRepository implements IPacienteRepository {
     return data[0];
   }
 
-  async update(id: string, data: IUpdatePacienteDTO): Promise<any> {
-    return await Paciente.findByIdAndUpdate(
-      { _id: id },
-      {
-        dataEntrada: data.dataEntrada,
-        horaEntrada: data.horaEntrada,
-        dataSaida: data.dataSaida,
-        horaSaida: data.horaSaida,
-        formaSaida: data.formaSaida,
-        modoSaida: data.modoSaida,
-        observacao: data.observacao,
-        numProntuario: data.numProntuario,
-        entradaAtraves: data.entradaAtraves,
-        statusRegistro: data.statusRegistro,
-        statusPaciente: data.statusPaciente,
-        nomePaciente: data.nomePaciente,
-        nomeMae: data.nomeMae,
-        dataNascimento: data.dataNascimento,
-        rg: data.rg,
-        cpf: data.cpf,
-        cns: data.cns,
-        nacionalidade: data.nacionalidade,
-        pais: data.pais,
-        estaturaAproximada: Number(data.estaturaAproximada?data.estaturaAproximada:'0'),
-        pesoAproximado: Number(data.pesoAproximado?data.pesoAproximado:'0'),
-        idadeAproximada: Number(data.idadeAproximada?data.idadeAproximada:'0'),
-        condicoesEncontrada: data.condicoesEncontrada,
-        localEncontrado: data.localEncontrado,
-        sinaisParticulares: data.sinaisParticulares,
-        acessoriosUtilizados: data.acessoriosUtilizados,
-        vestimentas: data.vestimentas,
-        barba: data.barba ? data.barba : '',
-        bigode: data.bigode ? data.bigode : '',
-        bairroEncontrado: data.bairroEncontrado,
-        deficiencia: data.deficiencia,
-        naoInformaContato: data.naoInformaContato,
-        nomeContato: data.nomeContato,
-        grauParentescoSelected: data.grauParentescoSelected,
-        telefoneContato: data.telefoneContato,
-        cpfContato: data.cpfContato,
-        genero: data.genero,
-        generoOutro: data.generoOutro,
-        unidade: data.unidade,
-        nomeSocialPaciente: data.nomeSocialPaciente,
-        apelidoPaciente: data.apelidoPaciente,
-        vitimaAbandono: data.vitimaAbandono,
-        querEncontro: data.querEncontro,
-        autorizaConsulta: data.autorizaConsulta,
-        numRegistroExterno: data.numRegistroExterno,
-        unidadeSaudeOrigem: data.unidadeSaudeOrigem,
-        conscienciaPaciente: data.conscienciaPaciente,
-        transtornosPaciente: data.transtornosPaciente,
-        tratamentoPsicologico: data.tratamentoPsicologico,
-        descricaoEstadoPaciente: data.descricaoEstadoPaciente,
-        dataIdentificacao: data.dataIdentificacao,
-        meioIdentificacao: data.meioIdentificacao,
-        tipoCaracteristicas: data.tipoCaracteristicas,
-      },
-    );
-  }
+  // async update(id: string, data: IUpdatePacienteDTO): Promise<any> {
+  //   return await Paciente.findByIdAndUpdate(
+  //     { _id: id },
+  //     {
+  //       dataEntrada: data.dataEntrada,
+  //       horaEntrada: data.horaEntrada,
+  //       dataSaida: data.dataSaida,
+  //       horaSaida: data.horaSaida,
+  //       formaSaida: data.formaSaida,
+  //       modoSaida: data.modoSaida,
+  //       observacao: data.observacao,
+  //       numProntuario: data.numProntuario,
+  //       entradaAtraves: data.entradaAtraves,
+  //       statusRegistro: data.statusRegistro,
+  //       statusPaciente: data.statusPaciente,
+  //       nomePaciente: data.nomePaciente,
+  //       nomeMae: data.nomeMae,
+  //       dataNascimento: data.dataNascimento,
+  //       rg: data.rg,
+  //       cpf: data.cpf,
+  //       cns: data.cns,
+  //       nacionalidade: data.nacionalidade,
+  //       pais: data.pais,
+  //       estaturaAproximada: Number(data.estaturaAproximada?data.estaturaAproximada:'0'),
+  //       pesoAproximado: Number(data.pesoAproximado?data.pesoAproximado:'0'),
+  //       idadeAproximada: Number(data.idadeAproximada?data.idadeAproximada:'0'),
+  //       condicoesEncontrada: data.condicoesEncontrada,
+  //       localEncontrado: data.localEncontrado,
+  //       sinaisParticulares: data.sinaisParticulares,
+  //       acessoriosUtilizados: data.acessoriosUtilizados,
+  //       vestimentas: data.vestimentas,
+  //       barba: data.barba ? data.barba : '',
+  //       bigode: data.bigode ? data.bigode : '',
+  //       bairroEncontrado: data.bairroEncontrado,
+  //       deficiencia: data.deficiencia,
+  //       naoInformaContato: data.naoInformaContato,
+  //       nomeContato: data.nomeContato,
+  //       grauParentescoSelected: data.grauParentescoSelected,
+  //       telefoneContato: data.telefoneContato,
+  //       cpfContato: data.cpfContato,
+  //       genero: data.genero,
+  //       generoOutro: data.generoOutro,
+  //       unidade: data.unidade,
+  //       nomeSocialPaciente: data.nomeSocialPaciente,
+  //       apelidoPaciente: data.apelidoPaciente,
+  //       vitimaAbandono: data.vitimaAbandono,
+  //       querEncontro: data.querEncontro,
+  //       autorizaConsulta: data.autorizaConsulta,
+  //       numRegistroExterno: data.numRegistroExterno,
+  //       unidadeSaudeOrigem: data.unidadeSaudeOrigem,
+  //       conscienciaPaciente: data.conscienciaPaciente,
+  //       transtornosPaciente: data.transtornosPaciente,
+  //       tratamentoPsicologico: data.tratamentoPsicologico,
+  //       descricaoEstadoPaciente: data.descricaoEstadoPaciente,
+  //       dataIdentificacao: data.dataIdentificacao,
+  //       meioIdentificacao: data.meioIdentificacao,
+  //       tipoCaracteristicas: data.tipoCaracteristicas,
+  //     },
+  //   );
+  // }
 
   async uploadImage(id: string, filename: string): Promise<any> {
     return imagensPaciente.create({
@@ -1111,8 +1107,8 @@ class PacienteRepository implements IPacienteRepository {
     await termoPaciente.findByIdAndDelete(id);
   }
 
-  async discharged(id: string, data: any): Promise<void> {
-   return await Paciente.findByIdAndUpdate(id,data);
+  async update(id: string, data: any): Promise<void> {
+    return await Paciente.findByIdAndUpdate(id, data);
   }
 }
 

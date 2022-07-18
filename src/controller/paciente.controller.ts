@@ -148,141 +148,141 @@ class PacienteController {
     return response.status(204).send();
   }
 
-  async update(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
-    const {
-      dataEntrada,
-      horaEntrada,
-      numProntuario,
-      entradaAtraves,
-      statusRegistro,
-      statusPaciente,
-      nomePaciente,
-      nomeMae,
-      dataNascimento,
-      rg,
-      cpf,
-      cns,
-      nacionalidade,
-      pais,
-      estaturaAproximada,
-      pesoAproximado,
-      idadeAproximada,
-      condicoesEncontrada,
-      localEncontrado,
-      sinaisParticulares,
-      acessoriosUtilizados,
-      vestimentas,
-      barba,
-      bigode,
-      bairroEncontrado,
-      deficiencia,
-      naoInformaContato,
-      nomeContato,
-      grauParentescoSelected,
-      telefoneContato,
-      cpfContato,
-      genero,
-      generoOutro,
-      unidade,
-      nomeSocialPaciente,
-      apelidoPaciente,
-      vitimaAbandono,
-      querEncontro,
-      autorizaConsulta,
-      numRegistroExterno,
-      unidadeSaudeOrigem,
-      conscienciaPaciente,
-      transtornosPaciente,
-      tratamentoPsicologico,
-      descricaoEstadoPaciente,
-      dataIdentificacao,
-      meioIdentificacao,
-      tipoCaracteristicas,
-    } = request.body;
+  // async update(request: Request, response: Response): Promise<Response> {
+  //   const { id } = request.params;
+  //   const {
+  //     dataEntrada,
+  //     horaEntrada,
+  //     numProntuario,
+  //     entradaAtraves,
+  //     statusRegistro,
+  //     statusPaciente,
+  //     nomePaciente,
+  //     nomeMae,
+  //     dataNascimento,
+  //     rg,
+  //     cpf,
+  //     cns,
+  //     nacionalidade,
+  //     pais,
+  //     estaturaAproximada,
+  //     pesoAproximado,
+  //     idadeAproximada,
+  //     condicoesEncontrada,
+  //     localEncontrado,
+  //     sinaisParticulares,
+  //     acessoriosUtilizados,
+  //     vestimentas,
+  //     barba,
+  //     bigode,
+  //     bairroEncontrado,
+  //     deficiencia,
+  //     naoInformaContato,
+  //     nomeContato,
+  //     grauParentescoSelected,
+  //     telefoneContato,
+  //     cpfContato,
+  //     genero,
+  //     generoOutro,
+  //     unidade,
+  //     nomeSocialPaciente,
+  //     apelidoPaciente,
+  //     vitimaAbandono,
+  //     querEncontro,
+  //     autorizaConsulta,
+  //     numRegistroExterno,
+  //     unidadeSaudeOrigem,
+  //     conscienciaPaciente,
+  //     transtornosPaciente,
+  //     tratamentoPsicologico,
+  //     descricaoEstadoPaciente,
+  //     dataIdentificacao,
+  //     meioIdentificacao,
+  //     tipoCaracteristicas,
+  //   } = request.body;
 
-    const update = container.resolve(PacienteService);
+  //   const update = container.resolve(PacienteService);
 
-    await update.update(id, {
-      dataEntrada,
-      horaEntrada,
-      numProntuario,
-      entradaAtraves,
-      statusRegistro,
-      statusPaciente,
-      nomePaciente,
-      nomeMae,
-      dataNascimento,
-      rg,
-      cpf,
-      cns,
-      nacionalidade,
-      pais,
-      estaturaAproximada,
-      pesoAproximado,
-      idadeAproximada,
-      condicoesEncontrada,
-      localEncontrado,
-      sinaisParticulares,
-      acessoriosUtilizados,
-      vestimentas,
-      barba,
-      bigode,
-      bairroEncontrado,
-      deficiencia,
-      naoInformaContato,
-      nomeContato,
-      grauParentescoSelected,
-      telefoneContato,
-      cpfContato,
-      genero,
-      generoOutro,
-      unidade,
-      nomeSocialPaciente,
-      apelidoPaciente,
-      vitimaAbandono,
-      querEncontro,
-      autorizaConsulta,
-      numRegistroExterno,
-      unidadeSaudeOrigem,
-      conscienciaPaciente,
-      transtornosPaciente,
-      tratamentoPsicologico,
-      descricaoEstadoPaciente,
-      dataIdentificacao,
-      meioIdentificacao,
-      tipoCaracteristicas,
-    });
+  //   await update.update(id, {
+  //     dataEntrada,
+  //     horaEntrada,
+  //     numProntuario,
+  //     entradaAtraves,
+  //     statusRegistro,
+  //     statusPaciente,
+  //     nomePaciente,
+  //     nomeMae,
+  //     dataNascimento,
+  //     rg,
+  //     cpf,
+  //     cns,
+  //     nacionalidade,
+  //     pais,
+  //     estaturaAproximada,
+  //     pesoAproximado,
+  //     idadeAproximada,
+  //     condicoesEncontrada,
+  //     localEncontrado,
+  //     sinaisParticulares,
+  //     acessoriosUtilizados,
+  //     vestimentas,
+  //     barba,
+  //     bigode,
+  //     bairroEncontrado,
+  //     deficiencia,
+  //     naoInformaContato,
+  //     nomeContato,
+  //     grauParentescoSelected,
+  //     telefoneContato,
+  //     cpfContato,
+  //     genero,
+  //     generoOutro,
+  //     unidade,
+  //     nomeSocialPaciente,
+  //     apelidoPaciente,
+  //     vitimaAbandono,
+  //     querEncontro,
+  //     autorizaConsulta,
+  //     numRegistroExterno,
+  //     unidadeSaudeOrigem,
+  //     conscienciaPaciente,
+  //     transtornosPaciente,
+  //     tratamentoPsicologico,
+  //     descricaoEstadoPaciente,
+  //     dataIdentificacao,
+  //     meioIdentificacao,
+  //     tipoCaracteristicas,
+  //   });
 
-    return response.status(204).send();
-  }
+  //   return response.status(204).send();
+  // }
 
   async uploadImagem(request: Request, response: Response): Promise<Response> {
-    // if (err instanceof multer.MulterError) {
-    //   // A Multer error occurred when uploading.
-    //   throw new AppError(
-    //     'MulterError: Conhecido 5 é quantidade máxima de Imagens',
-    //   );
-    // } else if (err) {
-    //   throw new AppError('5 é quantidade máxima de Imagens');
-    //   // An unknown error occurred when uploading.
-    // }
+    try {
+      if (Object.keys(request.files).length !== 0) {
+        const { arquivos } = request.files;
+        const { id } = request.params;
+        const importFile = container.resolve(PacienteService);
+        const files: any[] = [];
 
-    // Everything went fine.
-    const { arquivos } = request.files;
-    const { id } = request.params;
-    const importFile = container.resolve(PacienteService);
-    const files: any[] = [];
+        for (let i = 0; i < arquivos.length; i += 1) {
+          files.push(`/images/${arquivos[i].filename}`);
 
-    for (let i = 0; i < arquivos.length; i += 1) {
-      files.push(`/images/${arquivos[i].filename}`);
+          await importFile.uploadImage(id, files[i]);
+        }
 
-      await importFile.uploadImage(id, files[i]);
+        return response.status(201).send({
+          message: 'Successfully uploaded',
+        });
+      }
+      return response.status(400).send({
+        message: 'Arquivo de Imagem não selecionado para upload',
+      });
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: 'Arquivo de Imagem não selecionado para upload' });
     }
-
-    return response.status(201).send({
-      message: 'Successfully uploaded',
-    });
   }
 
   async loadImagem(request: Request, response: Response): Promise<Response> {
@@ -354,20 +354,31 @@ class PacienteController {
   }
 
   async uploadTermo(request: Request, response: Response): Promise<Response> {
-    const { termo } = request.files;
-    const { id } = request.params;
-    const importFile = container.resolve(PacienteService);
-    const files: any[] = [];
+    try {
+      if (Object.keys(request.files).length !== 0) {
+        const { termo } = request.files;
+        const { id } = request.params;
+        const importFile = container.resolve(PacienteService);
+        const files: any[] = [];
 
-    for (let i = 0; i < termo.length; i += 1) {
-      files.push(`/images/${termo[i].filename}`);
+        for (let i = 0; i < termo.length; i += 1) {
+          files.push(`/images/${termo[i].filename}`);
 
-      await importFile.uploadTermo(id, files[i]);
+          await importFile.uploadTermo(id, files[i]);
+        }
+
+        return response.status(201).send({
+          message: 'Successfully uploaded',
+        });
+      }
+      return response
+        .status(400)
+        .send({ message: 'Arquivo de Termo não selecionado para upload' });
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: 'Arquivo de Termo não selecionado para upload' });
     }
-
-    return response.status(201).send({
-      message: 'Successfully uploaded',
-    });
   }
 
   async loadTermo(request: Request, response: Response): Promise<Response> {
@@ -379,13 +390,14 @@ class PacienteController {
     return response.status(200).json(data);
   }
 
-  async discharged(request: Request, response: Response): Promise<Response> {
+  async update(request: Request, response: Response): Promise<Response> {
     const service = container.resolve(PacienteService);
     const { id } = request.params;
     const paciente = request.body;
 
     try {
-      await service.discharged(id, paciente);
+      // await service.discharged(id, paciente);
+      await service.update(id, paciente);
       return response.status(200).send();
     } catch (error) {
       return response.status(404).send();
