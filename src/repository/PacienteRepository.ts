@@ -1,5 +1,6 @@
 import { Paciente } from 'model/Paciente.model';
 import { termoPaciente } from 'model/TermosPaciente.model';
+import moment from 'moment';
 import mongoose from 'mongoose';
 
 import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
@@ -8,81 +9,11 @@ import { imagensPaciente } from '../model/ImagensPaciente.model';
 import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
-  async create(data: ICreatePacienteDTO): Promise<any> {
-    const cadastroPaciente = await Paciente.create({
-      dataEntrada: data.dataEntrada,
-      horaEntrada: data.horaEntrada,
-      numProntuario: data.numProntuario,
-      entradaAtraves: data.entradaAtraves,
-      statusRegistro: data.statusRegistro,
-      statusPaciente: data.statusPaciente ? data.statusPaciente : '',
-      nomePaciente: data.nomePaciente ? data.nomePaciente : '',
-      nomeMae: data.nomeMae ? data.nomeMae : '',
-      dataNascimento: data.dataNascimento ? data.dataNascimento : '',
-      rg: data.rg ? data.rg : '',
-      cpf: data.cpf ? data.cpf : '',
-      cns: data.cns ? data.cns : '',
-      nacionalidade: data.nacionalidade ? data.nacionalidade : '',
-      pais: data.pais ? data.cpf : '',
-      estaturaAproximada: data.estaturaAproximada
-        ? Number(data.estaturaAproximada)
-        : 0,
-      pesoAproximado: data.pesoAproximado ? Number(data.pesoAproximado) : 0,
-      idadeAproximada: data.idadeAproximada ? Number(data.idadeAproximada) : 0,
-      condicoesEncontrada: data.condicoesEncontrada
-        ? data.condicoesEncontrada
-        : '',
-      localEncontrado: data.localEncontrado ? data.localEncontrado : '',
-      sinaisParticulares: data.sinaisParticulares
-        ? data.sinaisParticulares
-        : '',
-      acessoriosUtilizados: data.acessoriosUtilizados
-        ? data.acessoriosUtilizados
-        : '',
-      vestimentas: data.vestimentas ? data.vestimentas : '',
-      barba: data.barba ? data.barba : '',
-      bigode: data.bigode ? data.bigode : '',
-      bairroEncontrado: data.bairroEncontrado ? data.bairroEncontrado : '',
-      deficiencia: data.deficiencia ? data.deficiencia : '',
-      naoInformaContato:
-        data.naoInformaContato !== null ? data.naoInformaContato : null,
-      nomeContato: data.nomeContato ? data.nomeContato : '',
-      grauParentescoSelected: data.grauParentescoSelected
-        ? data.grauParentescoSelected
-        : '',
-      telefoneContato: data.telefoneContato ? data.telefoneContato : '',
-      cpfContato: data.cpfContato ? data.cpfContato : '',
-      genero: data.genero ? data.genero : '',
-      generoOutro: data.generoOutro ? data.generoOutro : '',
-      unidade: data.unidade ? data.unidade : '',
-      nomeSocialPaciente: data.nomeSocialPaciente
-        ? data.nomeSocialPaciente
-        : '',
-      apelidoPaciente: data.apelidoPaciente ? data.apelidoPaciente : '',
-      vitimaAbandono: data.vitimaAbandono ? data.vitimaAbandono : '',
-      querEncontro: data.querEncontro ? data.querEncontro : '',
-      autorizaConsulta: data.autorizaConsulta ? data.autorizaConsulta : '',
-      numRegistroExterno: data.numRegistroExterno
-        ? data.numRegistroExterno
-        : '',
-      unidadeSaudeOrigem: data.unidadeSaudeOrigem
-        ? data.unidadeSaudeOrigem
-        : '',
-      conscienciaPaciente: data.conscienciaPaciente
-        ? data.conscienciaPaciente
-        : '',
-      transtornosPaciente: data.transtornosPaciente
-        ? data.transtornosPaciente
-        : '',
-      tratamentoPsicologico: data.tratamentoPsicologico
-        ? data.tratamentoPsicologico
-        : '',
-      descricaoEstadoPaciente: data.descricaoEstadoPaciente
-        ? data.descricaoEstadoPaciente
-        : '',
-      dataIdentificacao: data.dataIdentificacao ? data.dataIdentificacao : '',
-      meioIdentificacao: data.meioIdentificacao ? data.meioIdentificacao : '',
-    });
+  // async create(data: ICreatePacienteDTO): Promise<any> {
+  async create(data: any): Promise<any> {
+    // data.dataEntrada = await moment().format('YYYY-MM-DD');
+    // data.horaEntrada = await moment().format('HH:mm:ss');
+    const cadastroPaciente = await Paciente.create(data);
 
     return cadastroPaciente;
   }
@@ -916,75 +847,9 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async listById(id: string): Promise<any> {
-    // const paciente = await Paciente.findById(id).populate({
-    //   path: 'tipoCaracteristicas',
-    //   populate: {
-    //     path: 'caracteristica',
-    //     model: 'Caracteristica',
-    //     select: 'name',
-    //   },
-    // });
-    // return paciente;
-    const paciente = await Paciente.aggregate([])
-      .match({ _id: new mongoose.Types.ObjectId(id) })
-      .project({
-        dataEntrada: 1,
-        horaEntrada: 1,
-        numProntuario: 1,
-        entradaAtraves: 1,
-        statusRegistro: 1,
-        statusPaciente: 1,
-        nomePaciente: 1,
-        nomeMae: 1,
-        dataNascimento: 1,
-        rg: 1,
-        cpf: 1,
-        cns: 1,
-        nacionalidade: 1,
-        pais: 1,
-        estaturaAproximada: {
-          $convert: { input: '$estaturaAproximada', to: 'string' },
-        },
-        pesoAproximado: {
-          $convert: { input: '$pesoAproximado', to: 'string' },
-        },
-        idadeAproximada: {
-          $convert: { input: '$idadeAproximada', to: 'string' },
-        },
-        condicoesEncontrada: 1,
-        localEncontrado: 1,
-        sinaisParticulares: 1,
-        acessoriosUtilizados: 1,
-        vestimentas: 1,
-        barba: 1,
-        bigode: 1,
-        bairroEncontrado: 1,
-        deficiencia: 1,
-        naoInformaContato: 1,
-        nomeContato: 1,
-        grauParentescoSelected: 1,
-        telefoneContato: 1,
-        cpfContato: 1,
-        genero: 1,
-        generoOutro: 1,
-        unidade: 1,
-        nomeSocialPaciente: 1,
-        apelidoPaciente: 1,
-        vitimaAbandono: 1,
-        querEncontro: 1,
-        autorizaConsulta: 1,
-        numRegistroExterno: 1,
-        unidadeSaudeOrigem: 1,
-        conscienciaPaciente: 1,
-        transtornosPaciente: 1,
-        tratamentoPsicologico: 1,
-        descricaoEstadoPaciente: 1,
-        dataIdentificacao: 1,
-        meioIdentificacao: 1,
-        tipoCaracteristicas: 1,
-      });
-
-    const data = await Paciente.populate(paciente, {
+    const paciente = await Paciente.findById({
+      _id: new mongoose.Types.ObjectId(id),
+    }).populate({
       path: 'tipoCaracteristicas',
       populate: {
         path: 'caracteristica',
@@ -992,8 +857,7 @@ class PacienteRepository implements IPacienteRepository {
         select: 'name',
       },
     });
-
-    return data[0];
+    return paciente;
   }
 
   // async update(id: string, data: IUpdatePacienteDTO): Promise<any> {

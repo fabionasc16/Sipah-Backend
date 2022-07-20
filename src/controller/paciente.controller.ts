@@ -3,6 +3,7 @@ import { AppError } from 'AppError';
 import { Request, Response } from 'express';
 import fs from 'fs';
 import { Messages } from 'messages/Messages';
+import { Paciente } from 'model/Paciente.model';
 import path from 'path';
 import { container } from 'tsyringe';
 
@@ -10,112 +11,20 @@ import { PacienteService } from '../service/paciente.service';
 
 class PacienteController {
   async create(request: Request, response: Response): Promise<Response> {
-    const {
-      dataEntrada,
-      horaEntrada,
-      numProntuario,
-      entradaAtraves,
-      statusRegistro,
-      statusPaciente,
-      nomePaciente,
-      nomeMae,
-      dataNascimento,
-      rg,
-      cpf,
-      cns,
-      nacionalidade,
-      pais,
-      estaturaAproximada,
-      pesoAproximado,
-      idadeAproximada,
-      condicoesEncontrada,
-      localEncontrado,
-      sinaisParticulares,
-      acessoriosUtilizados,
-      vestimentas,
-      barba,
-      bigode,
-      bairroEncontrado,
-      deficiencia,
-      naoInformaContato,
-      nomeContato,
-      grauParentescoSelected,
-      telefoneContato,
-      cpfContato,
-      genero,
-      generoOutro,
-      unidade,
-      nomeSocialPaciente,
-      apelidoPaciente,
-      vitimaAbandono,
-      querEncontro,
-      autorizaConsulta,
-      numRegistroExterno,
-      unidadeSaudeOrigem,
-      conscienciaPaciente,
-      transtornosPaciente,
-      tratamentoPsicologico,
-      descricaoEstadoPaciente,
-      dataIdentificacao,
-      meioIdentificacao,
-      tipoCaracteristicas,
-    } = request.body;
+    const service = container.resolve(PacienteService);
+    const paciente = request.body;
 
-    const create = container.resolve(PacienteService);
-
-    const result = await create.create({
-      dataEntrada,
-      horaEntrada,
-      numProntuario,
-      entradaAtraves,
-      statusRegistro,
-      statusPaciente,
-      nomePaciente,
-      nomeMae,
-      dataNascimento,
-      rg,
-      cpf,
-      cns,
-      nacionalidade,
-      pais,
-      estaturaAproximada,
-      pesoAproximado,
-      idadeAproximada,
-      condicoesEncontrada,
-      localEncontrado,
-      sinaisParticulares,
-      acessoriosUtilizados,
-      vestimentas,
-      barba,
-      bigode,
-      bairroEncontrado,
-      deficiencia,
-      naoInformaContato,
-      nomeContato,
-      grauParentescoSelected,
-      telefoneContato,
-      cpfContato,
-      genero,
-      generoOutro,
-      unidade,
-      nomeSocialPaciente,
-      apelidoPaciente,
-      vitimaAbandono,
-      querEncontro,
-      autorizaConsulta,
-      numRegistroExterno,
-      unidadeSaudeOrigem,
-      conscienciaPaciente,
-      transtornosPaciente,
-      tratamentoPsicologico,
-      descricaoEstadoPaciente,
-      dataIdentificacao,
-      meioIdentificacao,
-      tipoCaracteristicas,
-    });
-    return response
-      .status(201)
-      .json({ acknowledge: true, status: 'created', content: result });
+    try {
+      const result = await service.create(paciente);
+      return response
+        .status(201)
+        .json({ acknowledge: true, status: 'created', content: result });
+    } catch (error) {
+      return response.status(400).send({
+        // message: 'Não foi possível cadastrar o usuário',
+        message: error,
+      });
+    }
   }
 
   async list(request: Request, response: Response): Promise<any> {
