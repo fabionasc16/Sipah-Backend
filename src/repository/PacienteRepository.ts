@@ -719,95 +719,91 @@ class PacienteRepository implements IPacienteRepository {
     const pageNumber = parseInt(page, 10) - 1;
     const pageSizeNumber = parseInt(pageSize, 10);
 
-    // const data = await Paciente.find(
-    //   term,
-    //   {
-    //     numProntuario: 1,
-    //     estaturaAproximada: '$estaturaAproximada',
-    //   },
-    //   { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber },
-    // ).populate({
-    //   path: 'tipoCaracteristicas',
-    //   populate: {
-    //     path: 'caracteristica',
-    //     model: 'Caracteristica',
-    //     select: 'name',
-    //   },
-    // });
-
-    const parcial = await Paciente.aggregate([])
-      .match(term)
-      .skip(pageNumber * pageSizeNumber)
-      .limit(pageSizeNumber)
-      .project({
-        dataEntrada: 1,
-        horaEntrada: 1,
-        numProntuario: 1,
-        entradaAtraves: 1,
-        statusRegistro: 1,
-        statusPaciente: 1,
-        nomePaciente: 1,
-        nomeMae: 1,
-        dataNascimento: 1,
-        rg: 1,
-        cpf: 1,
-        cns: 1,
-        nacionalidade: 1,
-        pais: 1,
-        estaturaAproximada: {
-          $convert: { input: '$estaturaAproximada', to: 'string' },
-        },
-        pesoAproximado: {
-          $convert: { input: '$pesoAproximado', to: 'string' },
-        },
-        idadeAproximada: {
-          $convert: { input: '$idadeAproximada', to: 'string' },
-        },
-        condicoesEncontrada: 1,
-        localEncontrado: 1,
-        sinaisParticulares: 1,
-        acessoriosUtilizados: 1,
-        vestimentas: 1,
-        barba: 1,
-        bigode: 1,
-        bairroEncontrado: 1,
-        deficiencia: 1,
-        naoInformaContato: 1,
-        nomeContato: 1,
-        grauParentescoSelected: 1,
-        telefoneContato: 1,
-        cpfContato: 1,
-        genero: 1,
-        generoOutro: 1,
-        unidade: 1,
-        nomeSocialPaciente: 1,
-        apelidoPaciente: 1,
-        vitimaAbandono: 1,
-        querEncontro: 1,
-        autorizaConsulta: 1,
-        numRegistroExterno: 1,
-        unidadeSaudeOrigem: 1,
-        conscienciaPaciente: 1,
-        transtornosPaciente: 1,
-        tratamentoPsicologico: 1,
-        descricaoEstadoPaciente: 1,
-        dataIdentificacao: 1,
-        meioIdentificacao: 1,
-        tipoCaracteristicas: 1,
-      });
-
-    const data = await Paciente.populate(parcial, {
+    const data = await Paciente.find(
+      term,
+      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino',
+      {
+        skip: pageNumber * pageSizeNumber,
+        limit: pageSizeNumber,
+      },
+    ).populate({
       path: 'tipoCaracteristicas',
       populate: {
         path: 'caracteristica',
         model: 'Caracteristica',
-        select: ['name'],
-        // select: ['tipoCaracteristicas', 'name'],
-        // populate: {
-        //   path: 'tipoCaracteristicas',
-        // },
+        select: 'name',
       },
     });
+
+    // const parcial = await Paciente.aggregate([])
+    //   .match(term)
+    //   .skip(pageNumber * pageSizeNumber)
+    //   .limit(pageSizeNumber)
+    //   .project({
+    //     dataEntrada: 1,
+    //     horaEntrada: 1,
+    //     numProntuario: 1,
+    //     entradaAtraves: 1,
+    //     statusRegistro: 1,
+    //     statusPaciente: 1,
+    //     nomePaciente: 1,
+    //     nomeMae: 1,
+    //     dataNascimento: 1,
+    //     rg: 1,
+    //     cpf: 1,
+    //     cns: 1,
+    //     nacionalidade: 1,
+    //     pais: 1,
+    //     estaturaAproximada: {
+    //       $convert: { input: '$estaturaAproximada', to: 'string' },
+    //     },
+    //     pesoAproximado: {
+    //       $convert: { input: '$pesoAproximado', to: 'string' },
+    //     },
+    //     idadeAproximada: {
+    //       $convert: { input: '$idadeAproximada', to: 'string' },
+    //     },
+    //     condicoesEncontrada: 1,
+    //     localEncontrado: 1,
+    //     sinaisParticulares: 1,
+    //     acessoriosUtilizados: 1,
+    //     vestimentas: 1,
+    //     barba: 1,
+    //     bigode: 1,
+    //     bairroEncontrado: 1,
+    //     deficiencia: 1,
+    //     naoInformaContato: 1,
+    //     nomeContato: 1,
+    //     grauParentescoSelected: 1,
+    //     telefoneContato: 1,
+    //     cpfContato: 1,
+    //     genero: 1,
+    //     generoOutro: 1,
+    //     unidade: 1,
+    //     nomeSocialPaciente: 1,
+    //     apelidoPaciente: 1,
+    //     vitimaAbandono: 1,
+    //     querEncontro: 1,
+    //     autorizaConsulta: 1,
+    //     numRegistroExterno: 1,
+    //     unidadeSaudeOrigem: 1,
+    //     conscienciaPaciente: 1,
+    //     transtornosPaciente: 1,
+    //     tratamentoPsicologico: 1,
+    //     descricaoEstadoPaciente: 1,
+    //     dataIdentificacao: 1,
+    //     meioIdentificacao: 1,
+    //     tipoCaracteristicas: 1,
+    //   });
+
+    // const data = await Paciente.populate(parcial, {
+    //   path: 'tipoCaracteristicas',
+    //   populate: {
+    //     path: 'caracteristica',
+    //     model: 'Caracteristica',
+    //     select: ['name'],
+    //   },
+    // });
 
     // const dataFilter = [];
     // if (params.tipos_caracteristicas) {
