@@ -258,6 +258,13 @@ class PacienteController {
           return response.status(204).send();
         });
       });
+      return response
+        .status(400)
+        .send(
+          new AppError(
+            'Erro do Catch - Não foi possível remover o arquivo. Tente novamente mais tarde',
+          ),
+        );
     } catch (error) {
       return response
         .status(400)
@@ -312,11 +319,12 @@ class PacienteController {
     const paciente = request.body;
 
     try {
-      // await service.discharged(id, paciente);
-      await service.update(id, paciente);
-      return response.status(200).send();
+      const result = await service.update(id, paciente);
+      return response
+        .status(200)
+        .json({ acknowledge: true, status: 'updated', content: result });
     } catch (error) {
-      return response.status(404).send();
+      return response.status(404).send(error.message);
     }
   }
 
@@ -365,6 +373,13 @@ class PacienteController {
           return response.status(204).send();
         });
       });
+      return response
+        .status(400)
+        .send(
+          new AppError(
+            'Não foi possível remover o arquivo. Tente novamente mais tarde',
+          ),
+        );
     } catch (error) {
       return response
         .status(400)

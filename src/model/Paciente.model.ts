@@ -5,9 +5,20 @@ const { Schema } = mongoose;
 
 function getData(data) {
   if (data !== null) {
-    return moment(data).format('YYYY-MM-DD');
+    const datac = moment(data).format('YYYY-MM-DD');
+    const year = datac.substring(0, 4);
+    const mounth = datac.substring(5, 7);
+    const day = datac.substring(8, 10);
+
+    const hr = new Date(+year, +mounth - 1, +day + 1, 0, 0, 0, 0);
+    return hr;
   }
   return null;
+}
+
+function setData(dataString) {
+  const dt = new Date(moment(dataString).format('YYYY-MM-DD'));
+  return dt;
 }
 
 function getHora(hora) {
@@ -17,12 +28,27 @@ function getHora(hora) {
   return null;
 }
 
+function setHora(hrOut) {
+  // const day = moment(this.dataSaida).format('YYYY-MM-DD');
+  const data = moment(this.dataSaida).format('YYYY-MM-DD');
+  const year = data.substring(0, 4);
+  const mounth = data.substring(5, 7);
+  const day = data.substring(8, 10);
+
+  const hour = hrOut.substring(0, 2);
+  const min = hrOut.substring(3, 5);
+  const sec = hrOut.substring(6, 8);
+
+  const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
+  return hr;
+}
+
 function getNum(num) {
   return num.toString(10);
 }
 
-function setDate(dataString) {
-  return new Date(moment(dataString).format('YYYY-MM-DD'));
+function setNum(num) {
+  return Number(num);
 }
 
 const pacienteSchema = new Schema(
@@ -44,11 +70,13 @@ const pacienteSchema = new Schema(
     dataSaida: {
       type: mongoose.Schema.Types.Date,
       default: null,
+      set: setData,
       get: getData,
     },
     horaSaida: {
       type: mongoose.Schema.Types.Date,
       default: null,
+      set: setHora,
       get: getHora,
     },
     formaSaida: {
@@ -87,7 +115,7 @@ const pacienteSchema = new Schema(
     dataNascimento: {
       type: mongoose.Schema.Types.Date,
       default: null,
-      set: setDate,
+      set: setData,
       get: getData,
     },
     rg: {
@@ -113,16 +141,19 @@ const pacienteSchema = new Schema(
     estaturaAproximada: {
       type: mongoose.Schema.Types.Number,
       default: 0,
+      set: setNum,
       get: getNum,
     },
     pesoAproximado: {
       type: mongoose.Schema.Types.Number,
       default: 0,
+      set: setNum,
       get: getNum,
     },
     idadeAproximada: {
       type: mongoose.Schema.Types.Number,
       default: 0,
+      set: setNum,
       get: getNum,
     },
     condicoesEncontrada: {
@@ -244,8 +275,10 @@ const pacienteSchema = new Schema(
       },
     ],
     dataIdentificacao: {
-      type: mongoose.Schema.Types.String,
-      default: '',
+      type: mongoose.Schema.Types.Date,
+      default: null,
+      set: setData,
+      get: getData,
     },
     meioIdentificacao: {
       type: mongoose.Schema.Types.String,
