@@ -26,25 +26,29 @@ class Upload {
         // this.tipo = request.files[0].fieldname;
         const [, , , tipoReq] = request.originalUrl.split('/');
         this.tipo = tipoReq;
-        if (this.tipo === 'uploadtermo') {
-          this.qtdImgReq = request.files.termo.length;
-          this.maxTipo = 1;
-          this.qtdSalvo = await termoPaciente.find({
-            paciente: new mongoose.Types.ObjectId(this.userid.toString()),
-          });
-        } else {
-          this.qtdImgReq = request.files.arquivos.length;
-          this.maxTipo = 5;
-          this.qtdSalvo = await imagensPaciente.find({
-            paciente: new mongoose.Types.ObjectId(this.userid.toString()),
-          });
+        if (Object.keys(request.files).length !== 0) {
+          if (this.tipo === 'uploadtermo') {
+            this.qtdImgReq = request.files.termo.length;
+            this.maxTipo = 1;
+            this.qtdSalvo = await termoPaciente.find({
+              paciente: new mongoose.Types.ObjectId(this.userid.toString()),
+            });
+          } else {
+            this.qtdImgReq = request.files.arquivos.length;
+            this.maxTipo = 5;
+            this.qtdSalvo = await imagensPaciente.find({
+              paciente: new mongoose.Types.ObjectId(this.userid.toString()),
+            });
+          }
         }
         // const qtdImgReq = request.files.length;
         const qtdImgDB = 0;
         if (this.qtdSalvo !== null) {
           this.qtdImgDB = this.qtdSalvo.length;
+          this.max = this.qtdImgReq + this.qtdImgDB;
+        } else {
+          this.max = 0;
         }
-        this.max = this.qtdImgReq + this.qtdImgDB;
         if (this.tipo === 'uploadtermo') {
           if (this.max > 1) {
             return callback(new AppError('Apenas 1 (um) termo por paciente'));
