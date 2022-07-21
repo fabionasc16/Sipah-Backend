@@ -152,6 +152,10 @@ const pacienteSchema = new Schema(
         ref: 'TipoCaracteristica',
       },
     ],
+    interessado: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'interessado',
+    },
     dataIdentificacao: {
       type: mongoose.Schema.Types.String,
     },

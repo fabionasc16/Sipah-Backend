@@ -4,6 +4,9 @@ import { IPacienteRepository } from 'repository/IPacienteRepository';
 import { ITipoCaracteristicaRepository } from 'repository/ITipoCaracteristicaRepository';
 import { PacienteRepository } from 'repository/PacienteRepository';
 import { TipoCaracteristicaRepository } from 'repository/TipoCaracteristicaRepository';
+import { IInteressadoRepository } from 'repository/IInteressadoRepository';
+import { InteressadoRepository } from 'repository/InteressadoRepository';
+
 import { container } from 'tsyringe';
 
 // * ------------------------ Características ------------------------
@@ -23,4 +26,11 @@ container.registerSingleton<ITipoCaracteristicaRepository>(
 container.registerSingleton<IPacienteRepository>(
   'PacienteRepository',
   PacienteRepository,
+);
+
+// * --------------------- Cadastro de Interessado ---------------------
+
+container.registerSingleton<IInteressadoRepository>(
+  'InteressadoRepository',
+  InteressadoRepository,
 );
