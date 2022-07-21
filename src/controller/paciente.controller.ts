@@ -20,9 +20,16 @@ class PacienteController {
         .status(201)
         .json({ acknowledge: true, status: 'created', content: result });
     } catch (error) {
+      if (error.message !== null) {
+        if (error.code === 11000) {
+          return response.status(400).send({
+            message: 'Número de prontuário já cadastrado',
+          });
+        }
+      }
       return response.status(400).send({
-        // message: 'Não foi possível cadastrar o usuário',
-        message: error,
+        message: 'Não foi possível cadastrar o usuário',
+        // message: error,
       });
     }
   }
