@@ -4,6 +4,8 @@ import { caracteristicaRoutes } from './Caracteristica.routes';
 import { pacientesRoutes } from './paciente.route';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
 import { usuarioRoutes } from './Usuario.routes';
+import { interessadoRoutes } from './Interessado.routes';
+
 
 const appRoutes = Router();
 
@@ -22,6 +24,8 @@ appRoutes.get('/', (request, response) => {
 appRoutes.use('/usuario', usuarioRoutes);
 
 appRoutes.use('/paciente', pacientesRoutes);
+
+appRoutes.use('/interessado', interessadoRoutes);
 
 // * -------------------- Rotas de Sistema - Usuario --------------------
 
