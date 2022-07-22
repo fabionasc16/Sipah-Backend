@@ -11,7 +11,7 @@ function getData(data) {
     const day = datac.substring(8, 10);
 
     const hr = new Date(+year, +mounth - 1, +day + 1, 0, 0, 0, 0);
-    return hr;
+    return moment(hr).format('YYYY-MM-DD');
   }
   return null;
 }
@@ -28,8 +28,21 @@ function getHora(hora) {
   return null;
 }
 
-function setHora(hrOut) {
-  // const day = moment(this.dataSaida).format('YYYY-MM-DD');
+function setHoraEntrada(hrIN) {
+  const data = moment(this.dataEntrada).format('YYYY-MM-DD');
+  const year = data.substring(0, 4);
+  const mounth = data.substring(5, 7);
+  const day = data.substring(8, 10);
+
+  const hour = hrIN.substring(0, 2);
+  const min = hrIN.substring(3, 5);
+  const sec = hrIN.substring(6, 8);
+
+  const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
+  return hr;
+}
+
+function setHoraSaida(hrOut) {
   const data = moment(this.dataSaida).format('YYYY-MM-DD');
   const year = data.substring(0, 4);
   const mounth = data.substring(5, 7);
@@ -59,12 +72,14 @@ const pacienteSchema = new Schema(
     },
     dataEntrada: {
       type: mongoose.Schema.Types.Date,
-      default: new Date(moment().format('YYYY-MM-DD')),
+      required: [true, 'Preencha o campo: Data de Entrada'],
+      set: setData,
       get: getData,
     },
     horaEntrada: {
       type: mongoose.Schema.Types.Date,
-      default: new Date().getTime(),
+      required: [true, 'Preencha o campo: Hora de Entrada'],
+      set: setHoraEntrada,
       get: getHora,
     },
     dataSaida: {
@@ -76,7 +91,7 @@ const pacienteSchema = new Schema(
     horaSaida: {
       type: mongoose.Schema.Types.Date,
       default: null,
-      set: setHora,
+      set: setHoraSaida,
       get: getHora,
     },
     formaSaida: {
