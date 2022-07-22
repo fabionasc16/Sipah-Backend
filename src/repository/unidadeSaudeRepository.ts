@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import { imagensPaciente } from '../model/ImagensPaciente.model';
 import { IPacienteRepository } from './IPacienteRepository';
 
-class PacienteRepository implements IPacienteRepository {
+class UnidadeSaudeRepository implements IPacienteRepository {
   async create(data: any): Promise<any> {
     const cadastroPaciente = await Paciente.create(data);
     return cadastroPaciente;
@@ -458,4 +458,4 @@ class PacienteRepository implements IPacienteRepository {
   }
 }
 
-export { PacienteRepository };
+export { UnidadeSaudeRepository };

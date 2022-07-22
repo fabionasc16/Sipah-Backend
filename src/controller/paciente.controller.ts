@@ -34,13 +34,6 @@ class PacienteController {
     }
   }
 
-  async list(request: Request, response: Response): Promise<any> {
-    const list = container.resolve(PacienteService);
-    const data = await list.list(request.query);
-
-    return response.status(200).json(data);
-  }
-
   async listsearch(request: Request, response: Response): Promise<any> {
     const list = container.resolve(PacienteService);
     const data = await list.listsearch(request);
@@ -63,115 +56,6 @@ class PacienteController {
     await useCase.delete(id);
     return response.status(204).send();
   }
-
-  // async update(request: Request, response: Response): Promise<Response> {
-  //   const { id } = request.params;
-  //   const {
-  //     dataEntrada,
-  //     horaEntrada,
-  //     numProntuario,
-  //     entradaAtraves,
-  //     statusRegistro,
-  //     statusPaciente,
-  //     nomePaciente,
-  //     nomeMae,
-  //     dataNascimento,
-  //     rg,
-  //     cpf,
-  //     cns,
-  //     nacionalidade,
-  //     pais,
-  //     estaturaAproximada,
-  //     pesoAproximado,
-  //     idadeAproximada,
-  //     condicoesEncontrada,
-  //     localEncontrado,
-  //     sinaisParticulares,
-  //     acessoriosUtilizados,
-  //     vestimentas,
-  //     barba,
-  //     bigode,
-  //     bairroEncontrado,
-  //     deficiencia,
-  //     naoInformaContato,
-  //     nomeContato,
-  //     grauParentescoSelected,
-  //     telefoneContato,
-  //     cpfContato,
-  //     genero,
-  //     generoOutro,
-  //     unidade,
-  //     nomeSocialPaciente,
-  //     apelidoPaciente,
-  //     vitimaAbandono,
-  //     querEncontro,
-  //     autorizaConsulta,
-  //     numRegistroExterno,
-  //     unidadeSaudeOrigem,
-  //     conscienciaPaciente,
-  //     transtornosPaciente,
-  //     tratamentoPsicologico,
-  //     descricaoEstadoPaciente,
-  //     dataIdentificacao,
-  //     meioIdentificacao,
-  //     tipoCaracteristicas,
-  //   } = request.body;
-
-  //   const update = container.resolve(PacienteService);
-
-  //   await update.update(id, {
-  //     dataEntrada,
-  //     horaEntrada,
-  //     numProntuario,
-  //     entradaAtraves,
-  //     statusRegistro,
-  //     statusPaciente,
-  //     nomePaciente,
-  //     nomeMae,
-  //     dataNascimento,
-  //     rg,
-  //     cpf,
-  //     cns,
-  //     nacionalidade,
-  //     pais,
-  //     estaturaAproximada,
-  //     pesoAproximado,
-  //     idadeAproximada,
-  //     condicoesEncontrada,
-  //     localEncontrado,
-  //     sinaisParticulares,
-  //     acessoriosUtilizados,
-  //     vestimentas,
-  //     barba,
-  //     bigode,
-  //     bairroEncontrado,
-  //     deficiencia,
-  //     naoInformaContato,
-  //     nomeContato,
-  //     grauParentescoSelected,
-  //     telefoneContato,
-  //     cpfContato,
-  //     genero,
-  //     generoOutro,
-  //     unidade,
-  //     nomeSocialPaciente,
-  //     apelidoPaciente,
-  //     vitimaAbandono,
-  //     querEncontro,
-  //     autorizaConsulta,
-  //     numRegistroExterno,
-  //     unidadeSaudeOrigem,
-  //     conscienciaPaciente,
-  //     transtornosPaciente,
-  //     tratamentoPsicologico,
-  //     descricaoEstadoPaciente,
-  //     dataIdentificacao,
-  //     meioIdentificacao,
-  //     tipoCaracteristicas,
-  //   });
-
-  //   return response.status(204).send();
-  // }
 
   async uploadImagem(request: Request, response: Response): Promise<Response> {
     try {
