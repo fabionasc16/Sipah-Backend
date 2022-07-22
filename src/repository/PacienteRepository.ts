@@ -11,8 +11,8 @@ import { IPacienteRepository } from './IPacienteRepository';
 class PacienteRepository implements IPacienteRepository {
   // async create(data: ICreatePacienteDTO): Promise<any> {
   async create(data: any): Promise<any> {
-    // data.dataEntrada = await moment().format('YYYY-MM-DD');
-    // data.horaEntrada = await moment().format('HH:mm:ss');
+    // data.dataEntrada = await moment(data.dataEntrada).format('YYYY-MM-DD');
+    // data.horaEntrada = await moment(data.horaEntrada).format('HH:mm:ss');
     const cadastroPaciente = await Paciente.create(data);
 
     return cadastroPaciente;
