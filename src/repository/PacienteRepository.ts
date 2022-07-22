@@ -38,11 +38,9 @@ class PacienteRepository implements IPacienteRepository {
     const $and = [];
 
     if (params.dataEntrada) {
-      $and.push({ dataEntrada: params.dataEntrada });
-    }
-
-    if (params.horaEntrada) {
-      $and.push({ horaEntrada: params.horaEntrada });
+      $and.push({
+        dataEntrada: new Date(moment(params.dataEntrada).format('YYYY-MM-DD')),
+      });
     }
 
     if (params.numProntuario) {
