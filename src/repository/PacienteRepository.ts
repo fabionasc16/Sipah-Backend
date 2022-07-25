@@ -7,10 +7,375 @@ import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
   async create(data: any): Promise<any> {
+<<<<<<< HEAD
+=======
+    // data.dataEntrada = await moment(data.dataEntrada).format('YYYY-MM-DD');
+    // data.horaEntrada = await moment(data.horaEntrada).format('HH:mm:ss');
+>>>>>>> 78a52d3b93ecdba8f7b53e5dc99c340d35ee5eb1
     const cadastroPaciente = await Paciente.create(data);
     return cadastroPaciente;
   }
 
+<<<<<<< HEAD
+=======
+  async list(params: any): Promise<any> {
+    const page = params.currentPage != null ? `${params.currentPage}` : '1';
+    const pageSize = params.perPage != null ? params.perPage : '10';
+    const search = params.search != null ? params.search : '';
+    let term = {};
+    // Caso a uma palavra para busca seja enviada
+    if (search) {
+      term = {
+        $or: [
+          { nomePaciente: search },
+          { cpf: search },
+          { entradaAtraves: search },
+          { numProntuario: search },
+        ],
+      };
+    }
+
+    const $and = [];
+
+    if (params.dataEntrada) {
+      $and.push({
+        dataEntrada: new Date(moment(params.dataEntrada).format('YYYY-MM-DD')),
+      });
+    }
+
+    if (params.numProntuario) {
+      $and.push({ numProntuario: params.numProntuario });
+    }
+
+    if (params.entradaAtraves) {
+      $and.push({ entradaAtraves: params.entradaAtraves });
+    }
+
+    if (params.statusRegistro) {
+      $and.push({ statusRegistro: params.statusRegistro });
+    }
+
+    if (params.statusPaciente) {
+      $and.push({ statusPaciente: params.statusPaciente });
+    }
+
+    if (params.nomePaciente) {
+      $and.push({ nomePaciente: params.nomePaciente });
+    }
+
+    if (params.nomeMae) {
+      $and.push({ nomeMae: params.nomeMae });
+    }
+
+    if (params.dataNascimento) {
+      $and.push({ dataNascimento: params.dataNascimento });
+    }
+
+    if (params.rg) {
+      $and.push({ rg: params.rg });
+    }
+
+    if (params.cpf) {
+      $and.push({ cpf: params.cpf });
+    }
+
+    if (params.cns) {
+      $and.push({ cns: params.cns });
+    }
+
+    if (params.nacionalidade) {
+      $and.push({ nacionalidade: params.nacionalidade });
+    }
+
+    if (params.pais) {
+      $and.push({ pais: params.pais });
+    }
+
+    if (params.estaturaAproximada) {
+      // $and.push({ estaturaAproximada: params.estaturaAproximada });
+      $and.push({
+        estaturaAproximada: {
+          $gt: params.estaturaAproximada - 0.3,
+          $lt: params.estaturaAproximada + 0.3,
+        },
+      });
+    }
+
+    if (params.pesoAproximado) {
+      // $and.push({ pesoAproximado: params.pesoAproximado });
+      $and.push({
+        pesoAproximado: {
+          $gt: params.pesoAproximado - 5,
+          $lt: params.pesoAproximado + 5,
+        },
+      });
+    }
+
+    if (params.idadeAproximada) {
+      // $and.push({ idadeAproximada: params.idadeAproximada });
+      $and.push({
+        idadeAproximada: {
+          $gt: params.idadeAproximada - 5,
+          $lt: params.idadeAproximada + 5,
+        },
+      });
+    }
+
+    if (params.condicoesEncontrada) {
+      $and.push({ condicoesEncontrada: params.condicoesEncontrada });
+    }
+
+    if (params.localEncontrado) {
+      $and.push({ localEncontrado: params.localEncontrado });
+    }
+
+    if (params.sinaisParticulares) {
+      $and.push({ sinaisParticulares: params.sinaisParticulares });
+    }
+
+    if (params.acessoriosUtilizados) {
+      $and.push({ acessoriosUtilizados: params.acessoriosUtilizados });
+    }
+
+    if (params.vestimentas) {
+      $and.push({ vestimentas: params.vestimentas });
+    }
+
+    if (params.barba) {
+      $and.push({ barba: params.barba });
+    }
+
+    if (params.bigode) {
+      $and.push({ bigode: params.bigode });
+    }
+
+    if (params.bairroEncontrado) {
+      $and.push({ bairroEncontrado: params.bairroEncontrado });
+    }
+
+    if (params.deficiencia) {
+      $and.push({ deficiencia: params.deficiencia });
+    }
+
+    if (params.naoInformaContato) {
+      $and.push({ naoInformaContato: params.naoInformaContato });
+    }
+
+    if (params.nomeContato) {
+      $and.push({ nomeContato: params.nomeContato });
+    }
+
+    if (params.grauParentescoSelected) {
+      $and.push({ grauParentescoSelected: params.grauParentescoSelected });
+    }
+
+    if (params.telefoneContato) {
+      $and.push({ telefoneContato: params.telefoneContato });
+    }
+
+    if (params.cpfContato) {
+      $and.push({ cpfContato: params.cpfContato });
+    }
+
+    if (params.genero) {
+      $and.push({ genero: params.genero });
+    }
+
+    if (params.generoOutro) {
+      $and.push({ generoOutro: params.generoOutro });
+    }
+
+    if (params.unidade) {
+      $and.push({ unidade: params.unidade });
+    }
+
+    if (params.nomeSocialPaciente) {
+      $and.push({ nomeSocialPaciente: params.nomeSocialPaciente });
+    }
+
+    if (params.apelidoPaciente) {
+      $and.push({ apelidoPaciente: params.apelidoPaciente });
+    }
+
+    if (params.vitimaAbandono) {
+      $and.push({ vitimaAbandono: params.vitimaAbandono });
+    }
+
+    if (params.querEncontro) {
+      $and.push({ querEncontro: params.querEncontro });
+    }
+
+    if (params.autorizaConsulta) {
+      $and.push({ autorizaConsulta: params.autorizaConsulta });
+    }
+
+    if (params.numRegistroExterno) {
+      $and.push({ numRegistroExterno: params.numRegistroExterno });
+    }
+
+    if (params.unidadeSaudeOrigem) {
+      $and.push({ unidadeSaudeOrigem: params.unidadeSaudeOrigem });
+    }
+
+    if (params.conscienciaPaciente) {
+      $and.push({ conscienciaPaciente: params.conscienciaPaciente });
+    }
+
+    if (params.transtornosPaciente) {
+      $and.push({ transtornosPaciente: params.transtornosPaciente });
+    }
+
+    if (params.tratamentoPsicologico) {
+      $and.push({ tratamentoPsicologico: params.tratamentoPsicologico });
+    }
+
+    if (params.sintoma_psiquico) {
+      $and.push({ sintoma_psiquico: params.sintoma_psiquico });
+    }
+
+    if (params.descricaoEstadoPaciente) {
+      $and.push({ descricaoEstadoPaciente: params.descricaoEstadoPaciente });
+    }
+
+    if (params.dataIdentificacao) {
+      $and.push({ genero: params.genero });
+    }
+
+    if (params.meioIdentificacao) {
+      $and.push({ genero: params.genero });
+    }
+
+    if (params.tipoCaracteristicas) {
+      params.tipoCaracteristicas.forEach(element => {
+        $and.push({ tipoCaracteristicas: element });
+      });
+    }
+
+    if ($and.length) {
+      Object.assign(term, { $and });
+    }
+
+    const total = await Paciente.countDocuments(term);
+    const pageNumber = parseInt(page, 10) - 1;
+    const pageSizeNumber = parseInt(pageSize, 10);
+
+    // const data = await Paciente.find(
+    //   term,
+    //   {
+    //     numProntuario: 1,
+    //     estaturaAproximada: '$estaturaAproximada',
+    //   },
+    //   { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber },
+    // ).populate({
+    //   path: 'tipoCaracteristicas',
+    //   populate: {
+    //     path: 'caracteristica',
+    //     model: 'Caracteristica',
+    //     select: 'name',
+    //   },
+    // });
+
+    const parcial = await Paciente.aggregate([
+      {
+        $project: {
+          dataEntrada: 1,
+          horaEntrada: 1,
+          numProntuario: 1,
+          entradaAtraves: 1,
+          statusRegistro: 1,
+          statusPaciente: 1,
+          nomePaciente: 1,
+          nomeMae: 1,
+          dataNascimento: 1,
+          rg: 1,
+          cpf: 1,
+          cns: 1,
+          nacionalidade: 1,
+          pais: 1,
+          estaturaAproximada: {
+            $convert: { input: '$estaturaAproximada', to: 'string' },
+          },
+          pesoAproximado: {
+            $convert: { input: '$pesoAproximado', to: 'string' },
+          },
+          idadeAproximada: {
+            $convert: { input: '$idadeAproximada', to: 'string' },
+          },
+          condicoesEncontrada: 1,
+          localEncontrado: 1,
+          sinaisParticulares: 1,
+          acessoriosUtilizados: 1,
+          vestimentas: 1,
+          barba: 1,
+          bigode: 1,
+          bairroEncontrado: 1,
+          deficiencia: 1,
+          naoInformaContato: 1,
+          nomeContato: 1,
+          grauParentescoSelected: 1,
+          telefoneContato: 1,
+          cpfContato: 1,
+          genero: 1,
+          generoOutro: 1,
+          unidade: 1,
+          nomeSocialPaciente: 1,
+          apelidoPaciente: 1,
+          vitimaAbandono: 1,
+          querEncontro: 1,
+          autorizaConsulta: 1,
+          numRegistroExterno: 1,
+          unidadeSaudeOrigem: 1,
+          conscienciaPaciente: 1,
+          transtornosPaciente: 1,
+          tratamentoPsicologico: 1,
+          descricaoEstadoPaciente: 1,
+          dataIdentificacao: 1,
+          meioIdentificacao: 1,
+          tipoCaracteristicas: 1,
+        },
+      },
+    ])
+      .match(term)
+      .skip(pageNumber * pageSizeNumber)
+      .limit(pageSizeNumber);
+
+    const data = await Paciente.populate(parcial, {
+      path: 'tipoCaracteristicas',
+      populate: {
+        path: 'caracteristica',
+        model: 'Caracteristica',
+        select: 'name',
+      },
+    });
+
+    // const dataFilter = [];
+    // if (params.tipos_caracteristicas) {
+    //   dataFilter = data.filter(elemento => {
+    //     if (
+    //       elemento.tipos_caracteristicas.length &&
+    //       this.arrayCompare(
+    //         elemento.tipos_caracteristicas,
+    //         params.tipos_caracteristicas,
+    //       ) === params.tipos_caracteristicas.length
+    //     ) {
+    //       return true;
+    //     }
+    //     return false;
+    //   });
+    // }
+
+    // const dados = dataFilter.length ? dataFilter : data;
+    const result = {
+      currentPage: page,
+      perPage: pageSize,
+      total,
+      data,
+    };
+
+    return result;
+  }
+
+>>>>>>> 78a52d3b93ecdba8f7b53e5dc99c340d35ee5eb1
   async listsearch(params: any): Promise<any> {
     const page =
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
