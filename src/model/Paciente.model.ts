@@ -17,8 +17,11 @@ function getData(data) {
 }
 
 function setData(dataString) {
-  const dt = new Date(moment(dataString).format('YYYY-MM-DD'));
-  return dt;
+  if (dataString !== '') {
+    const dt = new Date(moment(dataString).format('YYYY-MM-DD'));
+    return dt;
+  }
+  return null;
 }
 
 function getHora(hora) {
