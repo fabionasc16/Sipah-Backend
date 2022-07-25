@@ -258,19 +258,19 @@ class PacienteController {
           return response.status(204).send();
         });
       });
-      return response
-        .status(400)
-        .send(
-          new AppError(
-            'Erro do Catch - Não foi possível remover o arquivo. Tente novamente mais tarde',
-          ),
-        );
+      // return response
+      //   .status(400)
+      //   .send(
+      //     new AppError(
+      //       'Não foi possível remover o arquivo. Tente novamente mais tarde',
+      //     ),
+      //   );
     } catch (error) {
       return response
         .status(400)
         .send(
           new AppError(
-            'Erro do Catch - Não foi possível remover o arquivo. Tente novamente mais tarde',
+            'Não foi possível remover o arquivo. Tente novamente mais tarde',
           ),
         );
     }
@@ -373,13 +373,13 @@ class PacienteController {
           return response.status(204).send();
         });
       });
-      return response
-        .status(400)
-        .send(
-          new AppError(
-            'Não foi possível remover o arquivo. Tente novamente mais tarde',
-          ),
-        );
+      // return response
+      //   .status(400)
+      //   .send(
+      //     new AppError(
+      //       'Não foi possível remover o arquivo. Tente novamente mais tarde',
+      //     ),
+      //   );
     } catch (error) {
       return response
         .status(400)
