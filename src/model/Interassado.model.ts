@@ -67,6 +67,9 @@ const interesadoSchema = new Schema({
   estado: {
     type: mongoose.Schema.Types.String,
   },
+  grauParentesco: {
+    type: mongoose.Schema.Types.String,
+  },
   status: {
     type: mongoose.Schema.Types.Boolean,
     default: true
