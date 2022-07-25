@@ -19,14 +19,14 @@ class InteressadoRepository implements IInteressadoRepository {
   async listByCPF(cpf: string): Promise<any[]> {
     const data = await Interessado.findOne({
       cpf
-    });
+    }).populate('idPaciente');
     return data;
   }
 
   async listById(id: string): Promise<any> {
     const data = await Interessado.findById({
       _id: new mongoose.Types.ObjectId(id),
-    });
+    }).populate('idPaciente');
     return data;
   }
 
@@ -48,7 +48,7 @@ class InteressadoRepository implements IInteressadoRepository {
     let data = await Interessado.find(
       filters,
       ' nome cpf  idPaciente ',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber, sort:{ status:-1,nome:1} });
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber, sort:{ status:-1,nome:1} }).populate('idPaciente');
 
     let result = await { 'currentPage': page, 'perPage': pageSize, 'total': total, 'data': data };
 
