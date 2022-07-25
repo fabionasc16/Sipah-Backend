@@ -7,17 +7,12 @@ import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
   async create(data: any): Promise<any> {
-<<<<<<< HEAD
-=======
     // data.dataEntrada = await moment(data.dataEntrada).format('YYYY-MM-DD');
     // data.horaEntrada = await moment(data.horaEntrada).format('HH:mm:ss');
->>>>>>> 78a52d3b93ecdba8f7b53e5dc99c340d35ee5eb1
     const cadastroPaciente = await Paciente.create(data);
     return cadastroPaciente;
   }
 
-<<<<<<< HEAD
-=======
   async list(params: any): Promise<any> {
     const page = params.currentPage != null ? `${params.currentPage}` : '1';
     const pageSize = params.perPage != null ? params.perPage : '10';
@@ -375,7 +370,6 @@ class PacienteRepository implements IPacienteRepository {
     return result;
   }
 
->>>>>>> 78a52d3b93ecdba8f7b53e5dc99c340d35ee5eb1
   async listsearch(params: any): Promise<any> {
     const page =
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
