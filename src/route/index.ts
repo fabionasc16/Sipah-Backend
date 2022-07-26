@@ -4,7 +4,7 @@ import { caracteristicaRoutes } from './Caracteristica.routes';
 import { interessadoRoutes } from './Interessado.routes';
 import { pacientesRoutes } from './paciente.route';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
-import { unidadeSaudeRoutes } from './unidadeSaude.routes';
+import { unidadeRoutes } from './unidade.routes';
 import { usuarioRoutes } from './Usuario.routes';
 
 const appRoutes = Router();
@@ -31,6 +31,6 @@ appRoutes.use('/caracteristica', caracteristicaRoutes);
 
 appRoutes.use('/tipocaracteristica', tipoCaracteristicaRoutes);
 
-appRoutes.use('/unidadesaude', unidadeSaudeRoutes);
+appRoutes.use('/unidade', unidadeRoutes);
 
 export { appRoutes };

@@ -1,12 +1,13 @@
 import { CaracteristicaRepository } from 'repository/CaracteristicaRepository';
 import { ICaracteristicaRepository } from 'repository/ICaracteristicaRepository';
-import { IPacienteRepository } from 'repository/IPacienteRepository';
-import { ITipoCaracteristicaRepository } from 'repository/ITipoCaracteristicaRepository';
-import { PacienteRepository } from 'repository/PacienteRepository';
-import { TipoCaracteristicaRepository } from 'repository/TipoCaracteristicaRepository';
 import { IInteressadoRepository } from 'repository/IInteressadoRepository';
 import { InteressadoRepository } from 'repository/InteressadoRepository';
-
+import { IPacienteRepository } from 'repository/IPacienteRepository';
+import { ITipoCaracteristicaRepository } from 'repository/ITipoCaracteristicaRepository';
+import { IUnidadeRepository } from 'repository/IUnidadeRepository';
+import { PacienteRepository } from 'repository/PacienteRepository';
+import { TipoCaracteristicaRepository } from 'repository/TipoCaracteristicaRepository';
+import { UnidadeRepository } from 'repository/unidade.repository';
 import { container } from 'tsyringe';
 
 // * ------------------------ Características ------------------------
@@ -33,4 +34,9 @@ container.registerSingleton<IPacienteRepository>(
 container.registerSingleton<IInteressadoRepository>(
   'InteressadoRepository',
   InteressadoRepository,
+);
+
+container.registerSingleton<IUnidadeRepository>(
+  'UnidadeRepository',
+  UnidadeRepository,
 );
