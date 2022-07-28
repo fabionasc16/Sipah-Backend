@@ -6,6 +6,8 @@ import { PacienteRepository } from 'repository/PacienteRepository';
 import { TipoCaracteristicaRepository } from 'repository/TipoCaracteristicaRepository';
 import { IInteressadoRepository } from 'repository/IInteressadoRepository';
 import { InteressadoRepository } from 'repository/InteressadoRepository';
+import { IBuscaRepository } from 'repository/IBuscaRepository';
+import { BuscaRepository } from 'repository/BuscaRepository';
 
 import { container } from 'tsyringe';
 
@@ -33,4 +35,11 @@ container.registerSingleton<IPacienteRepository>(
 container.registerSingleton<IInteressadoRepository>(
   'InteressadoRepository',
   InteressadoRepository,
+);
+
+// * --------------------- Cadastro de Busca ---------------------
+
+container.registerSingleton<IBuscaRepository>(
+  'BuscaRepository',
+  BuscaRepository,
 );

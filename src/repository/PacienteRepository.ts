@@ -31,6 +31,7 @@ class PacienteRepository implements IPacienteRepository {
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
+          { idExterno: search },
         ],
       };
     }
@@ -238,17 +239,21 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     if (params.dataIdentificacao) {
-      $and.push({ genero: params.genero });
+      $and.push({ dataIdentificacao: params.dataIdentificacao });
     }
 
     if (params.meioIdentificacao) {
-      $and.push({ genero: params.genero });
+      $and.push({ meioIdentificacao: params.meioIdentificacao });
     }
 
     if (params.tipoCaracteristicas) {
       params.tipoCaracteristicas.forEach(element => {
         $and.push({ tipoCaracteristicas: element });
       });
+    }
+
+    if (params.idExterno) {
+      $and.push({ idExterno: params.idExterno });
     }
 
     if ($and.length) {
@@ -332,6 +337,7 @@ class PacienteRepository implements IPacienteRepository {
           dataIdentificacao: 1,
           meioIdentificacao: 1,
           tipoCaracteristicas: 1,
+          idExterno: 1,
         },
       },
     ])
@@ -389,6 +395,7 @@ class PacienteRepository implements IPacienteRepository {
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
+          { idExterno: search },
         ],
       };
     }
@@ -709,6 +716,12 @@ class PacienteRepository implements IPacienteRepository {
       }
     }
 
+    if (params.body.idExterno) {
+      if (params.body.idExterno !== '') {
+        $and.push({ idExterno: params.body.idExterno });
+      }
+    }
+
     if ($and.length) {
       Object.assign(term, { $and });
     }
@@ -719,7 +732,7 @@ class PacienteRepository implements IPacienteRepository {
 
     const data = await Paciente.find(
       term,
-      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino',
+      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino idExterno',
       {
         skip: pageNumber * pageSizeNumber,
         limit: pageSizeNumber,

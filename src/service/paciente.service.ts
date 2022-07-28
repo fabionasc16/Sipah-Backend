@@ -54,6 +54,7 @@ interface IRequest {
   dataIdentificacao?: string;
   meioIdentificacao?: string;
   tipoCaracteristicas: any;
+  idExterno: string;
 }
 
 @injectable()
