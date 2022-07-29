@@ -1,0 +1,82 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API do sistema Ticados",
+        "description": "Essa API tem como finalidade armazenar infomaçoes sobre pessoas sem identificação nos hospitais e os provaveis interessados em achar pessoas desaparecidos",
+        "termsOfService": "http://localhost:3300/terms/",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url":"http:localhost:3300",
+            "description": "API de Teste"
+        },
+        {
+            "url":"http:10.200.7.27:3301",
+            "description": "API de Produção"
+        }
+    ],
+    "paths": {
+        "/caracteristica": {
+            "post": {
+                "summary": "cadastro de caracteristica",
+                "tags": ["Caracteristica"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Caracteristica"
+                            },
+                            "examples": {
+                                "caracteristica": {
+                                    "value": {
+                                        "name": "Cor de Olhos",
+                                        "tipoCaracteristicas": ["azul", "castanho claro", "castanho escuro", "verde"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400":{
+                        "description": "Caracteristica Already Exist!"
+                    },
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/caracteristica": {
+                "get": {
+
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Caracteristica":{
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "tipoCaracteristicas": {
+                        "type": "ObjectId",
+                        "ref": "TipoCaracteristica"
+                    }
+                }
+            }
+        }
+    }
+}
