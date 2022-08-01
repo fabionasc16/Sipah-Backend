@@ -42,7 +42,7 @@ class Upload {
           }
         }
         // const qtdImgReq = request.files.length;
-        const qtdImgDB = 0;
+        // const qtdImgDB = 0;
         if (this.qtdSalvo !== null) {
           this.qtdImgDB = this.qtdSalvo.length;
           this.max = this.qtdImgReq + this.qtdImgDB;
