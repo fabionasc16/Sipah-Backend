@@ -184,7 +184,24 @@ class PacienteController {
         for (let i = 0; i < arquivos.length; i += 1) {
           files.push(`/images/${arquivos[i].filename}`);
 
-          await importFile.uploadImage(id, files[i]);
+          const img = await importFile.uploadImage(id, files[i]);
+          if (i === 0) {
+            const pacienteConsulta = await importFile.listById(
+              img.paciente + '',
+            );
+            if (
+              pacienteConsulta.autorizaConsulta === 'sim' &&
+              !pacienteConsulta.imgPrincipal
+            ) {
+              try {
+                const texto = '{"imgPrincipal":"' + img._id + '' + '"}';
+                const paciente = JSON.parse(texto);
+                const result = await importFile.update(id, paciente);
+              } catch (error) {
+                return response.status(404).send(error.message);
+              }
+            }
+          }
         }
 
         return response.status(201).send({

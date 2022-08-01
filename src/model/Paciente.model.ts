@@ -314,6 +314,11 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.String,
       default: '',
     },
+    imgPrincipal: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'imagensPaciente',
+      default: null,
+    },
   },
   { versionKey: false, toJSON: { getters: true }, id: false },
 );
