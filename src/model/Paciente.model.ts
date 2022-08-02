@@ -72,9 +72,6 @@ function setNum(num) {
 
 function getImgPrincipal() {
   if (this.imgPrincipal !== null) {
-    console.log(this.imgPrincipal);
-    console.log(this.imgPrincipal.imagens);
-    console.log(this.imgPrincipal.imagens.toString());
     return this.imgPrincipal.imagens.toString();
   }
   return null;
