@@ -336,10 +336,10 @@ class PacienteController {
     const paciente = request.body;
 
     try {
-      const result = await service.update(id, paciente);
+      await service.update(id, paciente);
       return response
         .status(200)
-        .json({ acknowledge: true, status: 'updated', content: result });
+        .json({ acknowledge: true, status: 'updated' });
     } catch (error) {
       return response.status(404).send(error.message);
     }
