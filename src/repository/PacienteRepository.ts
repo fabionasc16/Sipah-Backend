@@ -761,14 +761,19 @@ class PacienteRepository implements IPacienteRepository {
   async listById(id: string): Promise<any> {
     const paciente = await Paciente.findById({
       _id: new mongoose.Types.ObjectId(id),
-    }).populate({
-      path: 'tipoCaracteristicas',
-      populate: {
-        path: 'caracteristica',
-        model: 'Caracteristica',
-        select: 'name',
-      },
-    });
+    })
+      .populate({
+        path: 'tipoCaracteristicas',
+        populate: {
+          path: 'caracteristica',
+          model: 'Caracteristica',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'imgPrincipal',
+        select: 'imagens',
+      });
     return paciente;
   }
 
