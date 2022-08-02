@@ -70,6 +70,16 @@ function setNum(num) {
   return Number(num);
 }
 
+function getImgPrincipal() {
+  if (this.imgPrincipal !== null) {
+    console.log(this.imgPrincipal);
+    console.log(this.imgPrincipal.imagens);
+    console.log(this.imgPrincipal.imagens.toString());
+    return this.imgPrincipal.imagens.toString();
+  }
+  return null;
+}
+
 const pacienteSchema = new Schema(
   {
     __v: {
@@ -321,6 +331,11 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'imagensPaciente',
       default: null,
+      // get: getImgPrincipal,
+    },
+    imgPrincipalStr: {
+      type: mongoose.Schema.Types.String,
+      get: getImgPrincipal,
     },
   },
   { versionKey: false, toJSON: { getters: true }, id: false },
