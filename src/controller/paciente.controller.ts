@@ -190,7 +190,7 @@ class PacienteController {
               img.paciente + '',
             );
             if (
-              pacienteConsulta.autorizaConsulta === 'sim' &&
+              pacienteConsulta.autorizaConsulta === 'Sim' &&
               !pacienteConsulta.imgPrincipal
             ) {
               try {
