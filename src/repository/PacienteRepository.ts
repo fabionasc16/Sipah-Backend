@@ -724,14 +724,19 @@ class PacienteRepository implements IPacienteRepository {
         skip: pageNumber * pageSizeNumber,
         limit: pageSizeNumber,
       },
-    ).populate({
-      path: 'tipoCaracteristicas',
-      populate: {
-        path: 'caracteristica',
-        model: 'Caracteristica',
-        select: 'name',
-      },
-    });
+    )
+      .populate({
+        path: 'tipoCaracteristicas',
+        populate: {
+          path: 'caracteristica',
+          model: 'Caracteristica',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'imgPrincipal',
+        select: 'imagens',
+      });
 
     const result = {
       currentPage: page,
