@@ -86,6 +86,15 @@ class PacienteService {
     return data;
   }
 
+  async listSearchOut(params: any) {
+    const data = await this.pacienteRepository.listSearchOut(params);
+    if (data.length === 0) {
+      throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
+    }
+
+    return data;
+  }
+
   async listById(id: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
