@@ -5,6 +5,7 @@ interface IPacienteRepository {
   create(data: ICreatePacienteDTO): Promise<any>;
   list(params: any): any;
   listsearch(params: any): any;
+  listSearchOut(params: any): Promise<any>;
   listById(id: string): Promise<any>;
   delete(id: string): Promise<void>;
   // update(id: string, data: IUpdatePacienteDTO): Promise<void>;
