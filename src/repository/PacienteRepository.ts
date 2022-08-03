@@ -748,6 +748,78 @@ class PacienteRepository implements IPacienteRepository {
     return result;
   }
 
+  async listSearchOut(params: any): Promise<any> {
+    const page =
+      params.query.currentPage != null ? `${params.query.currentPage}` : '1';
+    const pageSize = params.query.perPage != null ? params.query.perPage : '10';
+    const search = params.query.search != null ? params.query.search : '';
+    let term = {};
+
+    const $and = [];
+
+    $and.push({
+      autorizaConsulta: 'Sim',
+    });
+
+    if (params.body.idadeAproximada) {
+      if (params.body.idadeAproximada !== '') {
+        const min = Number(params.body.idadeAproximada) - 5;
+        const max = Number(params.body.idadeAproximada) + 5;
+        $and.push({
+          idadeAproximada: { $gte: min, $lte: max },
+        });
+      }
+    }
+
+    if (params.body.tipoCaracteristicas) {
+      if (params.body.tipoCaracteristicas.length > 0) {
+        params.body.tipoCaracteristicas.forEach(element => {
+          $and.push({
+            tipoCaracteristicas: new mongoose.Types.ObjectId(element),
+          });
+        });
+      }
+    }
+
+    if ($and.length) {
+      Object.assign(term, { $and });
+    }
+
+    const total = await Paciente.countDocuments(term);
+    const pageNumber = parseInt(page, 10) - 1;
+    const pageSizeNumber = parseInt(pageSize, 10);
+
+    const data = await Paciente.find(
+      term,
+      'idadeAproximada tipoCaracteristicas imgPrincipalStr',
+      {
+        skip: pageNumber * pageSizeNumber,
+        limit: pageSizeNumber,
+      },
+    )
+      .populate({
+        path: 'tipoCaracteristicas',
+        populate: {
+          path: 'caracteristica',
+          model: 'Caracteristica',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'imgPrincipal',
+        select: 'imagens',
+      });
+
+    const result = {
+      currentPage: page,
+      perPage: pageSize,
+      total,
+      data,
+    };
+
+    return result;
+  }
+
   arrayCompare(first, last) {
     let result = [];
     // const result = await first.filter(item => {
