@@ -736,7 +736,8 @@ class PacienteRepository implements IPacienteRepository {
       .populate({
         path: 'imgPrincipal',
         select: 'imagens',
-      });
+      })
+      .sort('statusRegistro dataEntrada horaEntrada');
 
     const result = {
       currentPage: page,
