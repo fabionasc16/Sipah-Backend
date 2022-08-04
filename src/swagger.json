@@ -56,12 +56,205 @@
                     }
                 }
             },
-            "/caracteristica": {
-                "get": {
-
+            "get": {
+                "description":"Listar as caracteristicas",
+                "summary": "lista de todas as caracteristica",
+                "tags": ["Caracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Lista de todas as Caracteristica cadastrada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
                 }
             }
-        }
+        },
+        "/caracteristica/{name}": {
+            "get": {
+                "description":"busca pelo nome da caracteristicas",
+                "summary": "lista da caracteristica pelo nome",
+                "tags": ["Caracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Lista da caracerisica buscada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/caracteristica/id/{id}": {
+            "get": {
+                "description":"Alterar caracteristica pelo ID",
+                "summary": "Alterar caracteristica pelo ID",
+                "tags": ["Caracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Nome da caracteristica pelo ID",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },   
+        "/caracteristica/{id}": {
+            "put": {
+                "description":"busca pelo ID da caracteristicas",
+                "summary": "lista da caracteristica pelo ID",
+                "tags": ["Caracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Lista da caracerisica buscada",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Caracteristica"
+                            },
+                            "examples": {
+                                "caracteristica": {
+                                    "value": {
+                                        "name": "Cor_de_Olhos",
+                                        "tipoCaracteristicas": ["roxo", "amarelo", "mesclado", "vermelho"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            },
+            "delete": {
+                "description":"Deletar uma caracteristica",
+                "summary": "Deletar",
+                "tags": ["Caracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "deletando a caracerisica buscada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },  
+        "/tipocaracteristica": {
+            "post": {
+                "summary": "cadastro de tipocaracteristica",
+                "tags": ["TipoCaracteristica"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TipoCaracteristica"
+                            },
+                            "examples": {
+                                "tipoCaraceristica": {
+                                    "value": {
+                                        "name": "azul",
+                                        "caracteris": ["azul", "castanho claro", "castanho escuro", "verde"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400":{
+                        "description": "TipoCaracteristica Already Exist!"
+                    },
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/TipoCaracteristica"
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }    
     },
     "components": {
         "schemas": {
@@ -72,8 +265,21 @@
                         "type": "string"
                     },
                     "tipoCaracteristicas": {
-                        "type": "ObjectId",
-                        "ref": "TipoCaracteristica"
+                        "type": "object",
+                        "properties":{
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "TipoCaracteristica": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
                     }
                 }
             }
