@@ -16,6 +16,7 @@ pacientesRoutes.get('/listid/:id', pacienteController.listById);
 pacientesRoutes.delete('/delete/:id', pacienteController.delete);
 pacientesRoutes.put('/update/:id', pacienteController.update);
 pacientesRoutes.post('/searchout/', pacienteController.listSearchOut);
+pacientesRoutes.get('/listexternalid/:id', pacienteController.listByExternalId);
 
 // upload termo de paciente
 const up = multer(upload.getConfig).fields([

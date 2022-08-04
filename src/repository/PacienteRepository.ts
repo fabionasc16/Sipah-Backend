@@ -850,21 +850,7 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async listByExternalId(id: string): Promise<any> {
-    const paciente = await Paciente.findOne({
-      externalId: id,
-    })
-      .populate({
-        path: 'tipoCaracteristicas',
-        populate: {
-          path: 'caracteristica',
-          model: 'Caracteristica',
-          select: 'name',
-        },
-      })
-      .populate({
-        path: 'imgPrincipal',
-        select: 'imagens',
-      });
+    const paciente = await Paciente.find({ externalId: id }, 'externalId');
     return paciente;
   }
 
