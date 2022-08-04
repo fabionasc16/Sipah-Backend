@@ -719,7 +719,7 @@ class PacienteRepository implements IPacienteRepository {
 
     const data = await Paciente.find(
       term,
-      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino imgPrincipalStr',
+      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino imgPrincipalStr externalId',
       {
         skip: pageNumber * pageSizeNumber,
         limit: pageSizeNumber,
@@ -791,7 +791,7 @@ class PacienteRepository implements IPacienteRepository {
 
     const data = await Paciente.find(
       term,
-      'idadeAproximada tipoCaracteristicas imgPrincipalStr',
+      'idadeAproximada tipoCaracteristicas imgPrincipalStr externalId',
       {
         skip: pageNumber * pageSizeNumber,
         limit: pageSizeNumber,
@@ -833,6 +833,25 @@ class PacienteRepository implements IPacienteRepository {
   async listById(id: string): Promise<any> {
     const paciente = await Paciente.findById({
       _id: new mongoose.Types.ObjectId(id),
+    })
+      .populate({
+        path: 'tipoCaracteristicas',
+        populate: {
+          path: 'caracteristica',
+          model: 'Caracteristica',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'imgPrincipal',
+        select: 'imagens',
+      });
+    return paciente;
+  }
+
+  async listByExternalId(id: string): Promise<any> {
+    const paciente = await Paciente.findOne({
+      externalId: id,
     })
       .populate({
         path: 'tipoCaracteristicas',
