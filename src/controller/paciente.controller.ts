@@ -67,9 +67,9 @@ class PacienteController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { id } = request.params;
+    const { externalId } = request.params;
     const pacient = container.resolve(PacienteService);
-    const data = await pacient.listByExternalId(id);
+    const data = await pacient.listByExternalId(externalId);
 
     return response.status(200).json(data);
   }
