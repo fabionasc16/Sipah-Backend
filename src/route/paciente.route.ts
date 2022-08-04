@@ -69,6 +69,7 @@ pacientesRoutes.post('/upload/:id', [
   pacienteController.uploadImagem,
 ]);
 
+pacientesRoutes.get('/openimage/:id', pacienteController.loadImageByIdOpen);
 // load Imagem de paciente
 pacientesRoutes.get('/load/:id', pacienteController.loadImagem);
 // load Imagem por ID da imagem

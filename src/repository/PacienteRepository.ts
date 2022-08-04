@@ -868,6 +868,14 @@ class PacienteRepository implements IPacienteRepository {
     });
   }
 
+  async loadImageByIdOpen(id: string): Promise<any> {
+    const img = await imagensPaciente.findById({
+      _id: new mongoose.Types.ObjectId(id),
+    });
+
+    return img;
+  }
+
   async deleteImage(id: string): Promise<void> {
     await imagensPaciente.findByIdAndDelete(id);
   }

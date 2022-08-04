@@ -301,6 +301,19 @@ class PacienteService {
     return imagem;
   }
 
+  async loadImageByIdOpen(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
+    }
+
+    const imagem = await this.pacienteRepository.loadImageByIdOpen(id);
+    if (!imagem) {
+      throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
+    }
+
+    return imagem;
+  }
+
   async deleteImage(id: string): Promise<void> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
