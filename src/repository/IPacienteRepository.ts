@@ -7,7 +7,7 @@ interface IPacienteRepository {
   listsearch(params: any): any;
   listSearchOut(params: any): Promise<any>;
   listById(id: string): Promise<any>;
-  listByExternalId(id: string): Promise<any>;
+  listByExternalId(externalId: string): Promise<any>;
   delete(id: string): Promise<void>;
   // update(id: string, data: IUpdatePacienteDTO): Promise<void>;
 

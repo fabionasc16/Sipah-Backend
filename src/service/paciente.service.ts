@@ -108,12 +108,12 @@ class PacienteService {
     return patient;
   }
 
-  async listByExternalId(id: string): Promise<any> {
-    if (!id) {
-      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
+  async listByExternalId(externalId: string): Promise<any> {
+    if (!externalId) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID Externo`);
     }
 
-    const patient = await this.pacienteRepository.listByExternalId(id);
+    const patient = await this.pacienteRepository.listByExternalId(externalId);
     if (!patient) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }

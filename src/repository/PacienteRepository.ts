@@ -849,8 +849,9 @@ class PacienteRepository implements IPacienteRepository {
     return paciente;
   }
 
-  async listByExternalId(id: string): Promise<any> {
-    const paciente = await Paciente.find({ externalId: id }, 'externalId');
+  async listByExternalId(externalId: string): Promise<any> {
+    console.log(externalId);
+    const paciente = await Paciente.find({ externalId }, '_id');
     return paciente;
   }
 
