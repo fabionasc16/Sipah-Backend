@@ -246,6 +246,16 @@ class PacienteController {
     return response.status(200).json(data);
   }
 
+  async loadImageByIdOpen(request: Request, response: Response): Promise<any> {
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+
+    const data = await importFile.loadImageByIdOpen(id);
+
+    const raiz = path.join(__dirname, '..', '..');
+    return response.sendFile(raiz + data.imagens);
+  }
+
   async deleteImagem(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const useCase = container.resolve(PacienteService);
