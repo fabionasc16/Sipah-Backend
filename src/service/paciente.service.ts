@@ -108,6 +108,19 @@ class PacienteService {
     return patient;
   }
 
+  async listByExternalId(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
+    }
+
+    const patient = await this.pacienteRepository.listByExternalId(id);
+    if (!patient) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    return patient;
+  }
+
   async delete(id: string): Promise<void> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);

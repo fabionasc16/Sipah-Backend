@@ -63,6 +63,17 @@ class PacienteController {
     return response.status(200).json(data);
   }
 
+  async listByExternalId(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+    const pacient = container.resolve(PacienteService);
+    const data = await pacient.listByExternalId(id);
+
+    return response.status(200).json(data);
+  }
+
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const useCase = container.resolve(PacienteService);
