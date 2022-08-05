@@ -64,7 +64,8 @@ class Upload {
         callback(null, this.url);
       },
       filename: (request, file, callback) => {
-        callback(null, `${this.userid}-${Date.now()}-${file.originalname}`);
+        // callback(null, `${this.userid}-${Date.now()}-${file.originalname}`);
+        callback(null, `${this.userid}-${Date.now()}-${file.originalname}.jpg`);
       },
     });
   }
