@@ -8,6 +8,10 @@ const imagens = new Schema(
       type: Number,
       select: false,
     },
+    dataEntrada: {
+      type: mongoose.Schema.Types.Date,
+      default: Date.now,
+    },
     imagens: {
       type: mongoose.Schema.Types.String,
     },

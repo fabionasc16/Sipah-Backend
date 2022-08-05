@@ -299,17 +299,22 @@ class PacienteController {
                 ),
               );
           }
+
           await useCase.deleteImage(id);
+          // Atualizar a imgPrincipal do Paciente se a Imagem for a primeira (a próxima mais antiga)
+          // 1 - Verificar se há outra imagem para atualizar em imgPrincipal
+          const idPaciente = imagem.paciente + '';
+          const existImg = await useCase.loadImage(idPaciente);
+
+          // const imagem = await useCase.loadImageById(id);
+          // 2 - Atualizar imgPrincipal
           return response.status(204).send();
         });
+
+        return response
+          .status(400)
+          .send(new AppError('Não foi possível remover o arquivo.'));
       });
-      // return response
-      //   .status(400)
-      //   .send(
-      //     new AppError(
-      //       'Não foi possível remover o arquivo. Tente novamente mais tarde',
-      //     ),
-      //   );
     } catch (error) {
       return response
         .status(400)
