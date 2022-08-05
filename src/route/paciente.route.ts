@@ -15,7 +15,11 @@ pacientesRoutes.post('/list/', pacienteController.listsearch);
 pacientesRoutes.get('/listid/:id', pacienteController.listById);
 pacientesRoutes.delete('/delete/:id', pacienteController.delete);
 pacientesRoutes.put('/update/:id', pacienteController.update);
-// pacientesRoutes.put('/discharged/:id', pacienteController.discharged);
+pacientesRoutes.post('/searchout/', pacienteController.listSearchOut);
+pacientesRoutes.get(
+  '/listexternalid/:externalId',
+  pacienteController.listByExternalId,
+);
 
 // upload termo de paciente
 const up = multer(upload.getConfig).fields([
@@ -69,6 +73,7 @@ pacientesRoutes.post('/upload/:id', [
   pacienteController.uploadImagem,
 ]);
 
+pacientesRoutes.get('/openimage/:id', pacienteController.loadImageByIdOpen);
 // load Imagem de paciente
 pacientesRoutes.get('/load/:id', pacienteController.loadImagem);
 // load Imagem por ID da imagem

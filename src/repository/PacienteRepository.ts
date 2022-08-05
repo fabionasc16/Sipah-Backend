@@ -31,7 +31,6 @@ class PacienteRepository implements IPacienteRepository {
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
-          { idExterno: search },
         ],
       };
     }
@@ -239,21 +238,17 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     if (params.dataIdentificacao) {
-      $and.push({ dataIdentificacao: params.dataIdentificacao });
+      $and.push({ genero: params.genero });
     }
 
     if (params.meioIdentificacao) {
-      $and.push({ meioIdentificacao: params.meioIdentificacao });
+      $and.push({ genero: params.genero });
     }
 
     if (params.tipoCaracteristicas) {
       params.tipoCaracteristicas.forEach(element => {
         $and.push({ tipoCaracteristicas: element });
       });
-    }
-
-    if (params.idExterno) {
-      $and.push({ idExterno: params.idExterno });
     }
 
     if ($and.length) {
@@ -337,7 +332,6 @@ class PacienteRepository implements IPacienteRepository {
           dataIdentificacao: 1,
           meioIdentificacao: 1,
           tipoCaracteristicas: 1,
-          idExterno: 1,
         },
       },
     ])
@@ -395,7 +389,6 @@ class PacienteRepository implements IPacienteRepository {
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
-          { idExterno: search },
         ],
       };
     }
@@ -716,9 +709,75 @@ class PacienteRepository implements IPacienteRepository {
       }
     }
 
-    if (params.body.idExterno) {
-      if (params.body.idExterno !== '') {
-        $and.push({ idExterno: params.body.idExterno });
+    if ($and.length) {
+      Object.assign(term, { $and });
+    }
+
+    const total = await Paciente.countDocuments(term);
+    const pageNumber = parseInt(page, 10) - 1;
+    const pageSizeNumber = parseInt(pageSize, 10);
+
+    const data = await Paciente.find(
+      term,
+      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino imgPrincipalStr externalId',
+      {
+        skip: pageNumber * pageSizeNumber,
+        limit: pageSizeNumber,
+      },
+    )
+      .populate({
+        path: 'tipoCaracteristicas',
+        populate: {
+          path: 'caracteristica',
+          model: 'Caracteristica',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'imgPrincipal',
+        select: 'imagens',
+      });
+
+    const result = {
+      currentPage: page,
+      perPage: pageSize,
+      total,
+      data,
+    };
+
+    return result;
+  }
+
+  async listSearchOut(params: any): Promise<any> {
+    const page =
+      params.query.currentPage != null ? `${params.query.currentPage}` : '1';
+    const pageSize = params.query.perPage != null ? params.query.perPage : '10';
+    const search = params.query.search != null ? params.query.search : '';
+    let term = {};
+
+    const $and = [];
+
+    $and.push({
+      autorizaConsulta: 'Sim',
+    });
+
+    if (params.body.idadeAproximada) {
+      if (params.body.idadeAproximada !== '') {
+        const min = Number(params.body.idadeAproximada) - 5;
+        const max = Number(params.body.idadeAproximada) + 5;
+        $and.push({
+          idadeAproximada: { $gte: min, $lte: max },
+        });
+      }
+    }
+
+    if (params.body.tipoCaracteristicas) {
+      if (params.body.tipoCaracteristicas.length > 0) {
+        params.body.tipoCaracteristicas.forEach(element => {
+          $and.push({
+            tipoCaracteristicas: new mongoose.Types.ObjectId(element),
+          });
+        });
       }
     }
 
@@ -732,107 +791,25 @@ class PacienteRepository implements IPacienteRepository {
 
     const data = await Paciente.find(
       term,
-      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino idExterno',
+      'idadeAproximada tipoCaracteristicas imgPrincipalStr externalId',
       {
         skip: pageNumber * pageSizeNumber,
         limit: pageSizeNumber,
       },
-    ).populate({
-      path: 'tipoCaracteristicas',
-      populate: {
-        path: 'caracteristica',
-        model: 'Caracteristica',
-        select: 'name',
-      },
-    });
+    )
+      .populate({
+        path: 'tipoCaracteristicas',
+        populate: {
+          path: 'caracteristica',
+          model: 'Caracteristica',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'imgPrincipal',
+        select: 'imagens',
+      });
 
-    // const parcial = await Paciente.aggregate([])
-    //   .match(term)
-    //   .skip(pageNumber * pageSizeNumber)
-    //   .limit(pageSizeNumber)
-    //   .project({
-    //     dataEntrada: 1,
-    //     horaEntrada: 1,
-    //     numProntuario: 1,
-    //     entradaAtraves: 1,
-    //     statusRegistro: 1,
-    //     statusPaciente: 1,
-    //     nomePaciente: 1,
-    //     nomeMae: 1,
-    //     dataNascimento: 1,
-    //     rg: 1,
-    //     cpf: 1,
-    //     cns: 1,
-    //     nacionalidade: 1,
-    //     pais: 1,
-    //     estaturaAproximada: {
-    //       $convert: { input: '$estaturaAproximada', to: 'string' },
-    //     },
-    //     pesoAproximado: {
-    //       $convert: { input: '$pesoAproximado', to: 'string' },
-    //     },
-    //     idadeAproximada: {
-    //       $convert: { input: '$idadeAproximada', to: 'string' },
-    //     },
-    //     condicoesEncontrada: 1,
-    //     localEncontrado: 1,
-    //     sinaisParticulares: 1,
-    //     acessoriosUtilizados: 1,
-    //     vestimentas: 1,
-    //     barba: 1,
-    //     bigode: 1,
-    //     bairroEncontrado: 1,
-    //     deficiencia: 1,
-    //     naoInformaContato: 1,
-    //     nomeContato: 1,
-    //     grauParentescoSelected: 1,
-    //     telefoneContato: 1,
-    //     cpfContato: 1,
-    //     genero: 1,
-    //     generoOutro: 1,
-    //     unidade: 1,
-    //     nomeSocialPaciente: 1,
-    //     apelidoPaciente: 1,
-    //     vitimaAbandono: 1,
-    //     querEncontro: 1,
-    //     autorizaConsulta: 1,
-    //     numRegistroExterno: 1,
-    //     unidadeSaudeOrigem: 1,
-    //     conscienciaPaciente: 1,
-    //     transtornosPaciente: 1,
-    //     tratamentoPsicologico: 1,
-    //     descricaoEstadoPaciente: 1,
-    //     dataIdentificacao: 1,
-    //     meioIdentificacao: 1,
-    //     tipoCaracteristicas: 1,
-    //   });
-
-    // const data = await Paciente.populate(parcial, {
-    //   path: 'tipoCaracteristicas',
-    //   populate: {
-    //     path: 'caracteristica',
-    //     model: 'Caracteristica',
-    //     select: ['name'],
-    //   },
-    // });
-
-    // const dataFilter = [];
-    // if (params.tipos_caracteristicas) {
-    //   dataFilter = data.filter(elemento => {
-    //     if (
-    //       elemento.tipos_caracteristicas.length &&
-    //       this.arrayCompare(
-    //         elemento.tipos_caracteristicas,
-    //         params.tipos_caracteristicas,
-    //       ) === params.tipos_caracteristicas.length
-    //     ) {
-    //       return true;
-    //     }
-    //     return false;
-    //   });
-    // }
-
-    // const dados = dataFilter.length ? dataFilter : data;
     const result = {
       currentPage: page,
       perPage: pageSize,
@@ -856,77 +833,27 @@ class PacienteRepository implements IPacienteRepository {
   async listById(id: string): Promise<any> {
     const paciente = await Paciente.findById({
       _id: new mongoose.Types.ObjectId(id),
-    }).populate({
-      path: 'tipoCaracteristicas',
-      populate: {
-        path: 'caracteristica',
-        model: 'Caracteristica',
-        select: 'name',
-      },
-    });
+    })
+      .populate({
+        path: 'tipoCaracteristicas',
+        populate: {
+          path: 'caracteristica',
+          model: 'Caracteristica',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'imgPrincipal',
+        select: 'imagens',
+      });
     return paciente;
   }
 
-  // async update(id: string, data: IUpdatePacienteDTO): Promise<any> {
-  //   return await Paciente.findByIdAndUpdate(
-  //     { _id: id },
-  //     {
-  //       dataEntrada: data.dataEntrada,
-  //       horaEntrada: data.horaEntrada,
-  //       dataSaida: data.dataSaida,
-  //       horaSaida: data.horaSaida,
-  //       formaSaida: data.formaSaida,
-  //       modoSaida: data.modoSaida,
-  //       observacao: data.observacao,
-  //       numProntuario: data.numProntuario,
-  //       entradaAtraves: data.entradaAtraves,
-  //       statusRegistro: data.statusRegistro,
-  //       statusPaciente: data.statusPaciente,
-  //       nomePaciente: data.nomePaciente,
-  //       nomeMae: data.nomeMae,
-  //       dataNascimento: data.dataNascimento,
-  //       rg: data.rg,
-  //       cpf: data.cpf,
-  //       cns: data.cns,
-  //       nacionalidade: data.nacionalidade,
-  //       pais: data.pais,
-  //       estaturaAproximada: Number(data.estaturaAproximada?data.estaturaAproximada:'0'),
-  //       pesoAproximado: Number(data.pesoAproximado?data.pesoAproximado:'0'),
-  //       idadeAproximada: Number(data.idadeAproximada?data.idadeAproximada:'0'),
-  //       condicoesEncontrada: data.condicoesEncontrada,
-  //       localEncontrado: data.localEncontrado,
-  //       sinaisParticulares: data.sinaisParticulares,
-  //       acessoriosUtilizados: data.acessoriosUtilizados,
-  //       vestimentas: data.vestimentas,
-  //       barba: data.barba ? data.barba : '',
-  //       bigode: data.bigode ? data.bigode : '',
-  //       bairroEncontrado: data.bairroEncontrado,
-  //       deficiencia: data.deficiencia,
-  //       naoInformaContato: data.naoInformaContato,
-  //       nomeContato: data.nomeContato,
-  //       grauParentescoSelected: data.grauParentescoSelected,
-  //       telefoneContato: data.telefoneContato,
-  //       cpfContato: data.cpfContato,
-  //       genero: data.genero,
-  //       generoOutro: data.generoOutro,
-  //       unidade: data.unidade,
-  //       nomeSocialPaciente: data.nomeSocialPaciente,
-  //       apelidoPaciente: data.apelidoPaciente,
-  //       vitimaAbandono: data.vitimaAbandono,
-  //       querEncontro: data.querEncontro,
-  //       autorizaConsulta: data.autorizaConsulta,
-  //       numRegistroExterno: data.numRegistroExterno,
-  //       unidadeSaudeOrigem: data.unidadeSaudeOrigem,
-  //       conscienciaPaciente: data.conscienciaPaciente,
-  //       transtornosPaciente: data.transtornosPaciente,
-  //       tratamentoPsicologico: data.tratamentoPsicologico,
-  //       descricaoEstadoPaciente: data.descricaoEstadoPaciente,
-  //       dataIdentificacao: data.dataIdentificacao,
-  //       meioIdentificacao: data.meioIdentificacao,
-  //       tipoCaracteristicas: data.tipoCaracteristicas,
-  //     },
-  //   );
-  // }
+  async listByExternalId(externalId: string): Promise<any> {
+    console.log(externalId);
+    const paciente = await Paciente.find({ externalId }, '_id');
+    return paciente;
+  }
 
   async uploadImage(id: string, filename: string): Promise<any> {
     return imagensPaciente.create({
@@ -945,6 +872,14 @@ class PacienteRepository implements IPacienteRepository {
     return imagensPaciente.findById({
       _id: new mongoose.Types.ObjectId(id),
     });
+  }
+
+  async loadImageByIdOpen(id: string): Promise<any> {
+    const img = await imagensPaciente.findById({
+      _id: new mongoose.Types.ObjectId(id),
+    });
+
+    return img;
   }
 
   async deleteImage(id: string): Promise<void> {

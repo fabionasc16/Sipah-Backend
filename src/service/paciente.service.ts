@@ -54,7 +54,6 @@ interface IRequest {
   dataIdentificacao?: string;
   meioIdentificacao?: string;
   tipoCaracteristicas: any;
-  idExterno: string;
 }
 
 @injectable()
@@ -87,12 +86,34 @@ class PacienteService {
     return data;
   }
 
+  async listSearchOut(params: any) {
+    const data = await this.pacienteRepository.listSearchOut(params);
+    if (data.length === 0) {
+      throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
+    }
+
+    return data;
+  }
+
   async listById(id: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
     }
 
     const patient = await this.pacienteRepository.listById(id);
+    if (!patient) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    return patient;
+  }
+
+  async listByExternalId(externalId: string): Promise<any> {
+    if (!externalId) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID Externo`);
+    }
+
+    const patient = await this.pacienteRepository.listByExternalId(externalId);
     if (!patient) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
     }
@@ -286,6 +307,19 @@ class PacienteService {
     }
 
     const imagem = await this.pacienteRepository.loadImageById(id);
+    if (!imagem) {
+      throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
+    }
+
+    return imagem;
+  }
+
+  async loadImageByIdOpen(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
+    }
+
+    const imagem = await this.pacienteRepository.loadImageByIdOpen(id);
     if (!imagem) {
       throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
     }

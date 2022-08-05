@@ -115,8 +115,8 @@
         },
         "/caracteristica/id/{id}": {
             "get": {
-                "description":"Alterar caracteristica pelo ID",
-                "summary": "Alterar caracteristica pelo ID",
+                "description":"Busca caracteristica pelo ID",
+                "summary": "Busca caracteristica pelo ID",
                 "tags": ["Caracteristica"],
                 "parameters": [
                     {
@@ -144,8 +144,8 @@
         },   
         "/caracteristica/{id}": {
             "put": {
-                "description":"busca pelo ID da caracteristicas",
-                "summary": "lista da caracteristica pelo ID",
+                "description":"Alterar pelo ID da caracteristicas",
+                "summary": "Alterar da caracteristica pelo ID",
                 "tags": ["Caracteristica"],
                 "parameters": [
                     {
@@ -226,10 +226,10 @@
                                 "$ref": "#/components/schemas/TipoCaracteristica"
                             },
                             "examples": {
-                                "tipoCaraceristica": {
+                                "tipoCaracteristica": {
                                     "value": {
                                         "name": "azul",
-                                        "caracteris": ["azul", "castanho claro", "castanho escuro", "verde"]
+                                        "caracteristica": ["Cor olhos"]
                                     }
                                 }
                             }
@@ -253,8 +253,396 @@
                         }
                     }
                 }
+            },
+            "get": {
+                "description":"Listar tipo de caracteristicas",
+                "summary": "lista de todas os tipos de caracteristica",
+                "tags": ["TipoCaracteristica"],
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "Lista de todas os Tipos de Caracteristica cadastrada"
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
             }
-        }    
+        },
+        "/tipocaracteristica/{id}":{
+            "get": {
+                "description":"Busca tipo de caracteristica pelo ID",
+                "summary": "Busca tipo de caracteristica pelo ID",
+                "tags": ["TipoCaracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Nome do tipo caracteristica pelo ID",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/TipoCaracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            },
+            "put": {
+                "description":"busca pelo ID da caracteristicas",
+                "summary": "lista da caracteristica pelo ID",
+                "tags": ["TipoCaracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Lista da caracerisica buscada",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TipoCaracteristica"
+                            },
+                            "examples": {
+                                "caracteristica": {
+                                    "value": {
+                                        "name": "Cor_de_Olhos",
+                                        "tipoCaracteristicas": ["roxo", "amarelo", "mesclado", "vermelho"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            },
+            "delete": {
+                "description":"Deletar uma caracteristica",
+                "summary": "Deletar",
+                "tags": ["TipoCaracteristica"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "deletando a caracerisica buscada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/interessado": {
+            "post": {
+                "summary": "cadastro do interessado pela busca de paciente",
+                "tags": ["Interessado"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Interessado"
+                            },
+                            "examples": {
+                                "interessado": {
+                                    "value": {
+                                        "nome": "nome do interessado",
+                                        "dataNascimento": "1998/10/25",
+                                        "estadoCivil": "solteiro",
+                                        "nomeMae": "Nome da mãe",
+                                        "nomePai": "nome do pai",
+                                        "genero": "outro",
+                                        "generoOutro": "neutro",
+                                        "nacionalidade": "estrangeiro",
+                                        "pais": "Australia",
+                                        "cpf": "123.456.789-10",
+                                        "email": "teste@email.com",
+                                        "telefone": "(92)91234-5678",
+                                        "cep": "12345-678",
+                                        "logradouro": "Av. em algum lugar",
+                                        "numero": "1234",
+                                        "bairro": "Bairro Qualquer",
+                                        "complemento": "perto de algum lugar",
+                                        "municipio": "Manaus",
+                                        "estado": "Amazonas",
+                                        "grauParentesco": "Grau de Parentesco que esta procurando"                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400":{
+                        "description": "Interessado Already Exist!"
+                    },
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Interessado"
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description":"Listar as caracteristicas",
+                "summary": "lista de todas as caracteristica",
+                "tags": ["Interessado"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Lista de todas as Caracteristica cadastrada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Interessado"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/interessado/{id}": {
+            "get":{
+                "description":"Busca tipo de caracteristica pelo ID",
+                "summary": "Busca tipo de caracteristica pelo ID",
+                "tags": ["Interessado"],
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "path",
+                        "description": "Nome do tipo caracteristica pelo ID",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/TipoCaracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            },
+            "put":{
+                "description":"busca pelo ID do Interessado",
+                "summary": "lista do Interessado pelo ID",
+                "tags": ["Interessado"],
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "path",
+                        "description": "Lista do INteressado buscada",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Interessado"
+                            },
+                            "examples": {
+                                "caracteristica": {
+                                    "value": {
+                                        "nome": "nome atualizado",
+                                        "dataNascimento": "1998/10/25",
+                                        "estadoCivil": "casado",
+                                        "nomeMae": "Nome da mãe",
+                                        "nomePai": "nome do pai",
+                                        "genero": "outro",
+                                        "generoOutro": "neutro",
+                                        "nacionalidade": "estrangeiro",
+                                        "pais": "Australia",
+                                        "cpf": "123.456.789-10",
+                                        "email": "teste@email.com",
+                                        "telefone": "(92)91234-5678",
+                                        "cep": "12345-678",
+                                        "logradouro": "Av. em algum lugar",
+                                        "numero": "1234",
+                                        "bairro": "Bairro Qualquer",
+                                        "complemento": "perto de algum lugar",
+                                        "municipio": "belem",
+                                        "estado": "Para",
+                                        "grauParentesco": "Grau de Parentesco que esta procurando"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Interessado"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            },
+            "delete": {
+                "description":"Deletar uma caracteristica",
+                "summary": "Deletar",
+                "tags": ["Interessado"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "deletando a caracerisica buscada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Caracteristica"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "interessado/cpf/{cpf}": {
+            "get":{
+                "description":"Busca do interessado pelo CPF",
+                "summary": "Busca do interessado pelo CPF",
+                "tags": ["Interessado"],
+                "parameters": [
+                    {
+                        "name": "CPF",
+                        "in": "path",
+                        "description": "Nome do Interessado pelo CPF",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Interessado"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "interessado/detalhes/{id}": {
+            "get":{
+                "description":"Busca do interessado pelo ID",
+                "summary": "Busca do interessado pelo ID",
+                "tags": ["Interessado"],
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "path",
+                        "description": "Nome do Interessado pelo ID",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Interessado"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        }
+        
     },
     "components": {
         "schemas": {
@@ -279,7 +667,80 @@
                 "properties": {
                     "name": {
                         "type": "string"
+                    },
+                    "caracteristica": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
                     }
+                    
+                }
+            },
+            "Interessado": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "dataNascimento": {
+                        "type": "string"
+                    },
+                    "estadoCivil": {
+                        "type": "string"
+                    },
+                    "nomeMae": {
+                        "type": "string"
+                    },
+                    "nomePai": {
+                        "type": "string"
+                    },
+                    "genero": {
+                        "type": "string"
+                    },
+                    "generoOutro": {
+                        "type": "string"
+                    },
+                    "nacionalidade": {
+                        "type": "string"
+                    },
+                    "pais": {
+                        "type": "string"
+                    },
+                    "cpf": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "telefone": {
+                        "type": "string"
+                    },
+                    "cep": {
+                        "type": "string"
+                    },
+                    "logradouro": {
+                        "type": "string"
+                    },
+                    "numero": {
+                        "type": "string"
+                    },
+                    "bairro": {
+                        "type": "string"
+                    },
+                    "complemento": {
+                        "type": "string"
+                    },
+                    "municipio": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "grauParentesco": {
+                        "type": "string"
                     }
                 }
             }

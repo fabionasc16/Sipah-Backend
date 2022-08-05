@@ -314,13 +314,10 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.String,
       default: '',
     },
-    idExterno: {
-      type: mongoose.Schema.Types.String,
-    },
   },
   { versionKey: false, toJSON: { getters: true }, id: false },
 );
 
 const Paciente = mongoose.model('paciente', pacienteSchema);
 
-export { Paciente }
+export { Paciente };

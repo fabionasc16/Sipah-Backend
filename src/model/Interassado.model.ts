@@ -85,13 +85,7 @@ const interesadoSchema = new Schema({
   updated_at: {
     type: Date,
     default: Date.now,
-  },
-  idPaciente: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'paciente',
-    },
-  ]
+  }
 });
 
 const Interessado = mongoose.model('interessado', interesadoSchema);
