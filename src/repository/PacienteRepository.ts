@@ -863,9 +863,11 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async loadImage(id: string): Promise<any> {
-    return imagensPaciente.find({
-      paciente: new mongoose.Types.ObjectId(id),
-    });
+    return imagensPaciente
+      .find({
+        paciente: new mongoose.Types.ObjectId(id),
+      })
+      .sort('dataEntrada');
   }
 
   async loadImageById(id: string): Promise<any> {
