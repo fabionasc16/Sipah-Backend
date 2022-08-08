@@ -226,9 +226,9 @@ class PacienteController {
           message: 'Successfully uploaded',
         });
       }
-      return response.status(400).send({
-        message: 'Arquivo de Imagem não selecionado para upload',
-      });
+      // return response.status(400).send({
+      //   message: 'Arquivo de Imagem não selecionado para upload',
+      // });
     } catch (error) {
       return response
         .status(400)
@@ -303,17 +303,22 @@ class PacienteController {
           await useCase.deleteImage(id);
           // Atualizar a imgPrincipal do Paciente se a Imagem for a primeira (a próxima mais antiga)
           // 1 - Verificar se há outra imagem para atualizar em imgPrincipal
+          // 2 - Atualizar imgPrincipal
           const idPaciente = imagem.paciente + '';
           const existImg = await useCase.loadImage(idPaciente);
 
-          // const imagem = await useCase.loadImageById(id);
-          // 2 - Atualizar imgPrincipal
+          if (existImg.length > 0) {
+            await useCase.update(idPaciente, {
+              imgPrincipal: existImg[0]._id,
+            });
+          } else {
+            await useCase.update(idPaciente, {
+              imgPrincipal: null,
+            });
+          }
+
           return response.status(204).send();
         });
-
-        return response
-          .status(400)
-          .send(new AppError('Não foi possível remover o arquivo.'));
       });
     } catch (error) {
       return response
