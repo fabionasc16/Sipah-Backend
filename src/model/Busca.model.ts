@@ -11,13 +11,13 @@ const buscaSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  idPaciente: [
+  Paciente: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'paciente',
     },
   ],
-  idInteressado: [
+  Interessado: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'interessado',
@@ -25,6 +25,6 @@ const buscaSchema = new Schema({
   ]
 });
 
-const Busca = mongoose.model('buscaInteressado', buscaSchema);
+const Busca = mongoose.model('busca', buscaSchema);
 
 export { Busca };

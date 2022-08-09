@@ -85,7 +85,13 @@ const interesadoSchema = new Schema({
   updated_at: {
     type: Date,
     default: Date.now,
-  }
+  },
+  busca: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'busca',
+    },
+  ]
 });
 
 const Interessado = mongoose.model('interessado', interesadoSchema);

@@ -20,23 +20,13 @@ class BuscaController {
         return response.status(200).json(data);
     }
 
-    async listBuscaByCPF(request: Request, response: Response): Promise<any> {
-        let data = await BuscaController.service.listBuscaByCPF(request.params.cpf);
+    async listBuscaByPaciente(request: Request, response: Response): Promise<any> {
+        let data = await BuscaController.service.listBuscaByPaciente(request.params.Paciente);
         return response.status(200).json(data);
     }
 
-    async listBuscaById(request: Request, response: Response): Promise<any> {
-        let data = await BuscaController.service.listBuscaById(request.params.id);
-        return response.status(200).json(data);
-    }
-
-    async listBuscaByIdPaciente(request: Request, response: Response): Promise<any> {
-        let data = await BuscaController.service.listBuscaByIdPaciente(request.params.id);
-        return response.status(200).json(data);
-    }
-
-    async listBuscaByIdInteressado(request: Request, response: Response): Promise<any> {
-        let data = await BuscaController.service.listBuscaByIdInteressado(request.params.id);
+    async listBuscaByInteressado(request: Request, response: Response): Promise<any> {
+        let data = await BuscaController.service.listBuscaByInteressado(request.params.Interessado);
         return response.status(200).json(data);
     }
 

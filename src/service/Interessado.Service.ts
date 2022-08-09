@@ -20,6 +20,9 @@ export class InteressadoService {
     async listInteressadoById(id: string) {
         return this.interessadoRepository.listById(id);
     }
+    async listInteressadoByIdExterno(idExterno: string) {
+        return this.interessadoRepository.listByIdExterno(idExterno);
+    }
     async listInteressadoByCPF(cpf: string) {
         return this.interessadoRepository.listByCPF(cpf);
     }
@@ -38,6 +41,11 @@ export class InteressadoService {
     async listAllInteressado(params: any) {
         return await this.interessadoRepository.listAllInteressado(params);
     }
+
+    async createIdPaciente(idPaciente: string, interessado: any) {
+        interessado.idPaciente = idPaciente;
+        return await this.interessadoRepository.create(interessado);
+    } 
 
     /*async adcionandoIdPaciente(data: any) {
         const existIdPaciente = await this.

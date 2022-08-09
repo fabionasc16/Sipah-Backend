@@ -10,17 +10,11 @@ export class BuscaService {
     constructor() {
         this.buscaRepository = new BuscaRepository();
     }
-    async listBuscaById(id: string) {
-        return this.buscaRepository.listById(id);
+    async listBuscaByPaciente(Paciente: string) {
+        return this.buscaRepository.listByPaciente(Paciente);
     }
-    async listBuscaByIdPaciente(idPaciente: string) {
-        return this.buscaRepository.listByIdPaciente(idPaciente);
-    }
-    async listBuscaByIdInteressado(idInteressado: string) {
-        return this.buscaRepository.listByIdInteressado(idInteressado);
-    }
-    async listBuscaByCPF(cpf: string) {
-        return this.buscaRepository.listByCPF(cpf);
+    async listBuscaByInteressado(Interessado: string) {
+        return this.buscaRepository.listByInteressado(Interessado);
     }
     async create(data: any) {
         return await this.buscaRepository.create(data);

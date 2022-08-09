@@ -10,13 +10,9 @@ buscaRoutes.post('/', buscaController.createBusca);
 
 buscaRoutes.get('/', buscaController.listAllBusca);
 
-buscaRoutes.get('/detalhes/:id', buscaController.listBuscaById);
+buscaRoutes.get('/interessado/:Interessado', buscaController.listBuscaByInteressado);
 
-buscaRoutes.get('/cpf/:cpf', buscaController.listBuscaByCPF);
-
-buscaRoutes.get('/:idInteressado', buscaController.listBuscaByIdInteressado);
-
-buscaRoutes.get('/:idPaciente', buscaController.listBuscaByIdPaciente);
+buscaRoutes.get('/:Paciente', buscaController.listBuscaByPaciente);
 
 
 

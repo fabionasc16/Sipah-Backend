@@ -314,6 +314,12 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.String,
       default: '',
     },
+    busca: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'busca',
+      },
+    ]
   },
   { versionKey: false, toJSON: { getters: true }, id: false },
 );
