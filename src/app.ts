@@ -7,6 +7,8 @@ import 'express-async-errors';
 import { Messages } from 'messages/Messages';
 import morgan from 'morgan';
 import { appRoutes } from 'route';
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "./swagger.json"
 
 import 'singleton';
 
@@ -19,6 +21,7 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
   }),
 );
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use(express.json());
 app.use('/images', express.static('images'));
 app.use(morgan('combined'));
