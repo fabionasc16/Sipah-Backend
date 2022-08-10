@@ -41,10 +41,28 @@ class PacienteController {
     return response.status(200).json(data);
   }
 
+  async listSearchOut(request: Request, response: Response): Promise<any> {
+    const list = container.resolve(PacienteService);
+    const data = await list.listSearchOut(request);
+
+    return response.status(200).json(data);
+  }
+
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const pacient = container.resolve(PacienteService);
     const data = await pacient.listById(id);
+
+    return response.status(200).json(data);
+  }
+
+  async listByExternalId(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { externalId } = request.params;
+    const pacient = container.resolve(PacienteService);
+    const data = await pacient.listByExternalId(externalId);
 
     return response.status(200).json(data);
   }
@@ -68,16 +86,33 @@ class PacienteController {
         for (let i = 0; i < arquivos.length; i += 1) {
           files.push(`/images/${arquivos[i].filename}`);
 
-          await importFile.uploadImage(id, files[i]);
+          const img = await importFile.uploadImage(id, files[i]);
+          if (i === 0) {
+            const pacienteConsulta = await importFile.listById(
+              img.paciente + '',
+            );
+            if (
+              // pacienteConsulta.autorizaConsulta === 'Sim' &&
+              !pacienteConsulta.imgPrincipal
+            ) {
+              try {
+                const texto = '{"imgPrincipal":"' + img._id + '' + '"}';
+                const paciente = JSON.parse(texto);
+                const result = await importFile.update(id, paciente);
+              } catch (error) {
+                return response.status(404).send(error.message);
+              }
+            }
+          }
         }
 
         return response.status(201).send({
           message: 'Successfully uploaded',
         });
       }
-      return response.status(400).send({
-        message: 'Arquivo de Imagem não selecionado para upload',
-      });
+      // return response.status(400).send({
+      //   message: 'Arquivo de Imagem não selecionado para upload',
+      // });
     } catch (error) {
       return response
         .status(400)
@@ -104,6 +139,16 @@ class PacienteController {
     const data = await importFile.loadImageById(id);
 
     return response.status(200).json(data);
+  }
+
+  async loadImageByIdOpen(request: Request, response: Response): Promise<any> {
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+
+    const data = await importFile.loadImageByIdOpen(id);
+
+    const raiz = path.join(__dirname, '..', '..');
+    return response.sendFile(raiz + data.imagens);
   }
 
   async deleteImagem(request: Request, response: Response): Promise<Response> {
@@ -138,17 +183,27 @@ class PacienteController {
                 ),
               );
           }
+
           await useCase.deleteImage(id);
+          // Atualizar a imgPrincipal do Paciente se a Imagem for a primeira (a próxima mais antiga)
+          // 1 - Verificar se há outra imagem para atualizar em imgPrincipal
+          // 2 - Atualizar imgPrincipal
+          const idPaciente = imagem.paciente + '';
+          const existImg = await useCase.loadImage(idPaciente);
+
+          if (existImg.length > 0) {
+            await useCase.update(idPaciente, {
+              imgPrincipal: existImg[0]._id,
+            });
+          } else {
+            await useCase.update(idPaciente, {
+              imgPrincipal: null,
+            });
+          }
+
           return response.status(204).send();
         });
       });
-      // return response
-      //   .status(400)
-      //   .send(
-      //     new AppError(
-      //       'Não foi possível remover o arquivo. Tente novamente mais tarde',
-      //     ),
-      //   );
     } catch (error) {
       return response
         .status(400)
@@ -203,10 +258,10 @@ class PacienteController {
     const paciente = request.body;
 
     try {
-      const result = await service.update(id, paciente);
+      await service.update(id, paciente);
       return response
         .status(200)
-        .json({ acknowledge: true, status: 'updated', content: result });
+        .json({ acknowledge: true, status: 'updated' });
     } catch (error) {
       return response.status(404).send(error.message);
     }

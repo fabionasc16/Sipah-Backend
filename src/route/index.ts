@@ -1,11 +1,13 @@
 import { Router } from 'express';
 
 import { caracteristicaRoutes } from './Caracteristica.routes';
-import { interessadoRoutes } from './Interessado.routes';
 import { pacientesRoutes } from './paciente.route';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
 import { unidadeRoutes } from './unidade.routes';
 import { usuarioRoutes } from './Usuario.routes';
+import { interessadoRoutes } from './Interessado.routes';
+import { buscaRoutes } from './busca.routes';
+
 
 const appRoutes = Router();
 
@@ -26,6 +28,10 @@ appRoutes.use('/usuario', usuarioRoutes);
 appRoutes.use('/paciente', pacientesRoutes);
 
 appRoutes.use('/interessado', interessadoRoutes);
+
+appRoutes.use('/busca', buscaRoutes);
+
+// * -------------------- Rotas de Sistema - Usuario --------------------
 
 appRoutes.use('/caracteristica', caracteristicaRoutes);
 

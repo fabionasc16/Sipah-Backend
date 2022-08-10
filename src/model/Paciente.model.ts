@@ -70,6 +70,23 @@ function setNum(num) {
   return Number(num);
 }
 
+function getImgPrincipal() {
+  if (this.imgPrincipal !== null) {
+    return this.imgPrincipal.imagens.toString();
+  }
+  return null;
+}
+
+function setExternalId() {
+  // I generate the UID from two parts here
+  // to ensure the random number provide enough bits.
+  const firstPart = (Math.random() * 46656) | 0;
+  const secondPart = (Math.random() * 46656) | 0;
+  const first = ('000' + firstPart.toString(36)).slice(-3);
+  const second = ('000' + secondPart.toString(36)).slice(-3);
+  return first + second;
+}
+
 const pacienteSchema = new Schema(
   {
     __v: {
@@ -316,6 +333,21 @@ const pacienteSchema = new Schema(
     unidadeSaudeDestino: {
       type: mongoose.Schema.Types.String,
       default: '',
+    },
+    imgPrincipal: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'imagensPaciente',
+      default: null,
+      // get: getImgPrincipal,
+    },
+    imgPrincipalStr: {
+      type: mongoose.Schema.Types.String,
+      get: getImgPrincipal,
+    },
+    externalId: {
+      type: mongoose.Schema.Types.String,
+      default: setExternalId,
+      unique: [true, 'External ID in Use'],
     },
   },
   { versionKey: false, toJSON: { getters: true }, id: false },

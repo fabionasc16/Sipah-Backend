@@ -42,7 +42,7 @@ class Upload {
           }
         }
         // const qtdImgReq = request.files.length;
-        const qtdImgDB = 0;
+        // const qtdImgDB = 0;
         if (this.qtdSalvo !== null) {
           this.qtdImgDB = this.qtdSalvo.length;
           this.max = this.qtdImgReq + this.qtdImgDB;
@@ -64,7 +64,8 @@ class Upload {
         callback(null, this.url);
       },
       filename: (request, file, callback) => {
-        callback(null, `${this.userid}-${Date.now()}-${file.originalname}`);
+        // callback(null, `${this.userid}-${Date.now()}-${file.originalname}`);
+        callback(null, `${this.userid}-${Date.now()}-${file.originalname}.jpg`);
       },
     });
   }
