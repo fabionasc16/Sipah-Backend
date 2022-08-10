@@ -34,16 +34,16 @@ class PacienteController {
     }
   }
 
-  async list(request: Request, response: Response): Promise<any> {
+  async listsearch(request: Request, response: Response): Promise<any> {
     const list = container.resolve(PacienteService);
-    const data = await list.list(request.query);
+    const data = await list.listsearch(request);
 
     return response.status(200).json(data);
   }
 
-  async listsearch(request: Request, response: Response): Promise<any> {
+  async listSearchOut(request: Request, response: Response): Promise<any> {
     const list = container.resolve(PacienteService);
-    const data = await list.listsearch(request);
+    const data = await list.listSearchOut(request);
 
     return response.status(200).json(data);
   }
@@ -56,6 +56,17 @@ class PacienteController {
     return response.status(200).json(data);
   }
 
+  async listByExternalId(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { externalId } = request.params;
+    const pacient = container.resolve(PacienteService);
+    const data = await pacient.listByExternalId(externalId);
+
+    return response.status(200).json(data);
+  }
+
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const useCase = container.resolve(PacienteService);
@@ -63,115 +74,6 @@ class PacienteController {
     await useCase.delete(id);
     return response.status(204).send();
   }
-
-  // async update(request: Request, response: Response): Promise<Response> {
-  //   const { id } = request.params;
-  //   const {
-  //     dataEntrada,
-  //     horaEntrada,
-  //     numProntuario,
-  //     entradaAtraves,
-  //     statusRegistro,
-  //     statusPaciente,
-  //     nomePaciente,
-  //     nomeMae,
-  //     dataNascimento,
-  //     rg,
-  //     cpf,
-  //     cns,
-  //     nacionalidade,
-  //     pais,
-  //     estaturaAproximada,
-  //     pesoAproximado,
-  //     idadeAproximada,
-  //     condicoesEncontrada,
-  //     localEncontrado,
-  //     sinaisParticulares,
-  //     acessoriosUtilizados,
-  //     vestimentas,
-  //     barba,
-  //     bigode,
-  //     bairroEncontrado,
-  //     deficiencia,
-  //     naoInformaContato,
-  //     nomeContato,
-  //     grauParentescoSelected,
-  //     telefoneContato,
-  //     cpfContato,
-  //     genero,
-  //     generoOutro,
-  //     unidade,
-  //     nomeSocialPaciente,
-  //     apelidoPaciente,
-  //     vitimaAbandono,
-  //     querEncontro,
-  //     autorizaConsulta,
-  //     numRegistroExterno,
-  //     unidadeSaudeOrigem,
-  //     conscienciaPaciente,
-  //     transtornosPaciente,
-  //     tratamentoPsicologico,
-  //     descricaoEstadoPaciente,
-  //     dataIdentificacao,
-  //     meioIdentificacao,
-  //     tipoCaracteristicas,
-  //   } = request.body;
-
-  //   const update = container.resolve(PacienteService);
-
-  //   await update.update(id, {
-  //     dataEntrada,
-  //     horaEntrada,
-  //     numProntuario,
-  //     entradaAtraves,
-  //     statusRegistro,
-  //     statusPaciente,
-  //     nomePaciente,
-  //     nomeMae,
-  //     dataNascimento,
-  //     rg,
-  //     cpf,
-  //     cns,
-  //     nacionalidade,
-  //     pais,
-  //     estaturaAproximada,
-  //     pesoAproximado,
-  //     idadeAproximada,
-  //     condicoesEncontrada,
-  //     localEncontrado,
-  //     sinaisParticulares,
-  //     acessoriosUtilizados,
-  //     vestimentas,
-  //     barba,
-  //     bigode,
-  //     bairroEncontrado,
-  //     deficiencia,
-  //     naoInformaContato,
-  //     nomeContato,
-  //     grauParentescoSelected,
-  //     telefoneContato,
-  //     cpfContato,
-  //     genero,
-  //     generoOutro,
-  //     unidade,
-  //     nomeSocialPaciente,
-  //     apelidoPaciente,
-  //     vitimaAbandono,
-  //     querEncontro,
-  //     autorizaConsulta,
-  //     numRegistroExterno,
-  //     unidadeSaudeOrigem,
-  //     conscienciaPaciente,
-  //     transtornosPaciente,
-  //     tratamentoPsicologico,
-  //     descricaoEstadoPaciente,
-  //     dataIdentificacao,
-  //     meioIdentificacao,
-  //     tipoCaracteristicas,
-  //   });
-
-  //   return response.status(204).send();
-  // }
 
   async uploadImagem(request: Request, response: Response): Promise<Response> {
     try {
@@ -190,7 +92,7 @@ class PacienteController {
               img.paciente + '',
             );
             if (
-              pacienteConsulta.autorizaConsulta === 'Sim' &&
+              // pacienteConsulta.autorizaConsulta === 'Sim' &&
               !pacienteConsulta.imgPrincipal
             ) {
               try {
@@ -208,9 +110,9 @@ class PacienteController {
           message: 'Successfully uploaded',
         });
       }
-      return response.status(400).send({
-        message: 'Arquivo de Imagem não selecionado para upload',
-      });
+      // return response.status(400).send({
+      //   message: 'Arquivo de Imagem não selecionado para upload',
+      // });
     } catch (error) {
       return response
         .status(400)
@@ -237,6 +139,16 @@ class PacienteController {
     const data = await importFile.loadImageById(id);
 
     return response.status(200).json(data);
+  }
+
+  async loadImageByIdOpen(request: Request, response: Response): Promise<any> {
+    const { id } = request.params;
+    const importFile = container.resolve(PacienteService);
+
+    const data = await importFile.loadImageByIdOpen(id);
+
+    const raiz = path.join(__dirname, '..', '..');
+    return response.sendFile(raiz + data.imagens);
   }
 
   async deleteImagem(request: Request, response: Response): Promise<Response> {
@@ -271,17 +183,27 @@ class PacienteController {
                 ),
               );
           }
+
           await useCase.deleteImage(id);
+          // Atualizar a imgPrincipal do Paciente se a Imagem for a primeira (a próxima mais antiga)
+          // 1 - Verificar se há outra imagem para atualizar em imgPrincipal
+          // 2 - Atualizar imgPrincipal
+          const idPaciente = imagem.paciente + '';
+          const existImg = await useCase.loadImage(idPaciente);
+
+          if (existImg.length > 0) {
+            await useCase.update(idPaciente, {
+              imgPrincipal: existImg[0]._id,
+            });
+          } else {
+            await useCase.update(idPaciente, {
+              imgPrincipal: null,
+            });
+          }
+
           return response.status(204).send();
         });
       });
-      // return response
-      //   .status(400)
-      //   .send(
-      //     new AppError(
-      //       'Não foi possível remover o arquivo. Tente novamente mais tarde',
-      //     ),
-      //   );
     } catch (error) {
       return response
         .status(400)

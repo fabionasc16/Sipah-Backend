@@ -68,8 +68,8 @@ class PacienteService {
     return cadastroPaciente;
   }
 
-  async list(params: any) {
-    const data = await this.pacienteRepository.list(params);
+  async listsearch(params: any) {
+    const data = await this.pacienteRepository.listsearch(params);
     if (data.length === 0) {
       throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
     }
@@ -77,8 +77,8 @@ class PacienteService {
     return data;
   }
 
-  async listsearch(params: any) {
-    const data = await this.pacienteRepository.listsearch(params);
+  async listSearchOut(params: any) {
+    const data = await this.pacienteRepository.listSearchOut(params);
     if (data.length === 0) {
       throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
     }
@@ -99,6 +99,19 @@ class PacienteService {
     return patient;
   }
 
+  async listByExternalId(externalId: string): Promise<any> {
+    if (!externalId) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID Externo`);
+    }
+
+    const patient = await this.pacienteRepository.listByExternalId(externalId);
+    if (!patient) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    return patient;
+  }
+
   async delete(id: string): Promise<void> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
@@ -111,149 +124,6 @@ class PacienteService {
 
     await this.pacienteRepository.delete(id);
   }
-
-  // async update(id: string, data: IRequest): Promise<void> {
-  //   if (!id) {
-  //     throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
-  //   }
-
-  //   // const paciente = await Paciente.findById({
-  //   //   _id: new mongoose.Types.ObjectId(id),
-  //   // });
-  //   const paciente = await this.pacienteRepository.listById(id);
-
-  //   if (!paciente) {
-  //     throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
-  //   }
-
-  //   if (data.numProntuario !== '') {
-  //     const numProntuarioExists = await Paciente.findOne({
-  //       numProntuario: data.numProntuario,
-  //     });
-
-  //     if (numProntuarioExists) {
-  //       if (numProntuarioExists._id.toString() !== id) {
-  //         throw new AppError('Número de Prontuário já cadastrado');
-  //       }
-  //     }
-  //   }
-
-  //   paciente.dataEntrada = data.dataEntrada;
-
-  //   paciente.horaEntrada = data.horaEntrada;
-
-  //   paciente.numProntuario = data.numProntuario;
-
-  //   paciente.entradaAtraves = data.entradaAtraves;
-
-  //   paciente.statusRegistro = data.statusRegistro;
-
-  //   paciente.statusPaciente = data.statusPaciente;
-
-  //   paciente.nomePaciente = data.nomePaciente;
-
-  //   paciente.nomeMae = data.nomeMae;
-
-  //   paciente.dataNascimento = data.dataNascimento;
-
-  //   paciente.rg = data.rg;
-
-  //   paciente.cpf = data.cpf;
-
-  //   paciente.cns = data.cns;
-
-  //   paciente.nacionalidade = data.nacionalidade;
-
-  //   paciente.pais = data.pais;
-
-  //   paciente.estaturaAproximada = data.estaturaAproximada;
-
-  //   paciente.pesoAproximado = data.pesoAproximado;
-
-  //   paciente.idadeAproximada = data.idadeAproximada;
-
-  //   paciente.condicoesEncontrada = data.condicoesEncontrada;
-
-  //   paciente.localEncontrado = data.localEncontrado;
-
-  //   paciente.sinaisParticulares = data.sinaisParticulares;
-
-  //   paciente.acessoriosUtilizados = data.acessoriosUtilizados;
-
-  //   paciente.vestimentas = data.vestimentas;
-
-  //   paciente.barba = data.barba;
-
-  //   paciente.bigode = data.bigode;
-
-  //   paciente.bairroEncontrado = data.bairroEncontrado;
-
-  //   paciente.deficiencia = data.deficiencia;
-
-  //   paciente.naoInformaContato = data.naoInformaContato;
-
-  //   paciente.nomeContato = data.nomeContato;
-
-  //   paciente.grauParentescoSelected = data.grauParentescoSelected;
-
-  //   paciente.telefoneContato = data.telefoneContato;
-
-  //   paciente.cpfContato = data.cpfContato;
-
-  //   paciente.genero = data.genero;
-
-  //   paciente.generoOutro = data.generoOutro;
-
-  //   paciente.unidade = data.unidade;
-
-  //   paciente.nomeSocialPaciente = data.nomeSocialPaciente;
-
-  //   paciente.apelidoPaciente = data.apelidoPaciente;
-
-  //   paciente.vitimaAbandono = data.vitimaAbandono;
-
-  //   paciente.querEncontro = data.querEncontro;
-
-  //   paciente.autorizaConsulta = data.autorizaConsulta;
-
-  //   paciente.numRegistroExterno = data.numRegistroExterno;
-
-  //   paciente.unidadeSaudeOrigem = data.unidadeSaudeOrigem;
-
-  //   paciente.conscienciaPaciente = data.conscienciaPaciente;
-
-  //   paciente.transtornosPaciente = data.transtornosPaciente;
-
-  //   paciente.tratamentoPsicologico = data.tratamentoPsicologico;
-
-  //   paciente.descricaoEstadoPaciente = data.descricaoEstadoPaciente;
-
-  //   paciente.dataIdentificacao = data.dataIdentificacao;
-
-  //   paciente.meioIdentificacao = data.meioIdentificacao;
-
-  //   paciente.tipoCaracteristicas = data.tipoCaracteristicas;
-
-  //   await this.pacienteRepository.update(id, paciente);
-  //   // update paciente
-  //   // await this.pacienteRepository.update(id, paciente);
-
-  //   // // se houver características alteradas
-  //   // if (data.tipoCaracteristicas) {
-  //   //   if (data.tipoCaracteristicas.length !== 0) {
-  //   //     // limpa-se o vetor de características antigas
-  //   //     for (let i = paciente.tipoCaracteristicas.length; i > 0; i -= 1) {
-  //   //       paciente.tipoCaracteristicas.pop();
-  //   //     }
-
-  //   //     // insere as características novas
-  //   //     await data.tipoCaracteristicas.map(async caracteristica => {
-  //   //       await paciente.tipoCaracteristicas.push(caracteristica);
-  //   //     });
-  //   //     await paciente.save();
-  //   //   }
-  //   // }
-  // }
 
   async uploadImage(id: string, arquivo: string): Promise<void> {
     if (!id) {
@@ -285,6 +155,19 @@ class PacienteService {
     }
 
     const imagem = await this.pacienteRepository.loadImageById(id);
+    if (!imagem) {
+      throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
+    }
+
+    return imagem;
+  }
+
+  async loadImageByIdOpen(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID da Imagem`);
+    }
+
+    const imagem = await this.pacienteRepository.loadImageByIdOpen(id);
     if (!imagem) {
       throw new AppError(Messages.IMAGEM_NOT_FOUND, 404);
     }
