@@ -23,8 +23,4 @@ export class BuscaService {
     async listAllBusca(params: any) {
         return await this.buscaRepository.listAllBusca(params);
     }
-
-    /*async adcionandoIdPaciente(data: any) {
-        const existIdPaciente = await this.
-    }*/
 }

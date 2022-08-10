@@ -39,11 +39,6 @@ class InteressadoController {
         return response.status(200).json(data);
     }
 
-    async updateIdPaciente(request: Request, response: Response): Promise<any> {
-        let data = await InteressadoController.service.updateInteressado(request.params.id, request.body);
-        return response.status(200).json(data);
-    }
-
 
     /*async mudarStatus(request: Request, response: Response): Promise<any> {
         let data = await InteressadoController.service.mudarStatus(request.params.id);
