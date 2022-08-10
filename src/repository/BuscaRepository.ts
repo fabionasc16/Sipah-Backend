@@ -71,7 +71,7 @@ class BuscaRepository implements IBuscaRepository {
 
     // Caso a uma palavra para busca seja enviada
     if (search) {
-      filters = { $and: [{ $or: [{ Paciente: search }, { Interessado: search }] }, { excluido: false }] };
+      filters = { $and: [{ $or: [{ Paciente: search }, { Interessado: search }] }] };
     }
 
     let total = await Busca.countDocuments(filters);

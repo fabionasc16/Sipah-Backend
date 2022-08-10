@@ -19,14 +19,14 @@ class InteressadoRepository implements IInteressadoRepository {
   async listByCPF(cpf: string): Promise<any[]> {
     const data = await Interessado.findOne({
       cpf
-    }).populate('idPaciente');
+    });
     return data;
   }
 
   async listById(id: string): Promise<any> {
     const data = await Interessado.findById({
       _id: new mongoose.Types.ObjectId(id),
-    }).populate('idPaciente');
+    });
     return data;
   }
 
@@ -38,7 +38,7 @@ class InteressadoRepository implements IInteressadoRepository {
 
     // Caso a uma palavra para busca seja enviada
     if (search) {
-      filters = { $and:[{ $or: [{ nome: search }, { cpf: search }, { cpfSemFormatacao: search }, { idPaciente: search }]}, { excluido:false }] };
+      filters = { $and:[{ $or: [{ nome: search }, { cpf: search }, { cpfSemFormatacao: search }]}, { excluido:false }] };
     }
 
     let total = await Interessado.countDocuments(filters);
@@ -47,15 +47,15 @@ class InteressadoRepository implements IInteressadoRepository {
 
     let data = await Interessado.find(
       filters,
-      ' nome cpf  idPaciente ',
-      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber, sort:{ status:-1,nome:1} }).populate('idPaciente');
+      ' nome cpf   ',
+      { skip: pageNumber * pageSizeNumber, limit: pageSizeNumber, sort:{ status:-1,nome:1} });
 
     let result = await { 'currentPage': page, 'perPage': pageSize, 'total': total, 'data': data };
 
     const data_a = await Interessado.find(filters, 'tipoCaracteristicas', {
       skip: pageNumber * pageSizeNumber,
       limit: pageSizeNumber,
-    }).populate('idPaciente');
+    });
 
     return result;
   }
