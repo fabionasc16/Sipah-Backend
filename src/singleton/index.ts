@@ -2,6 +2,8 @@ import { CaracteristicaRepository } from 'repository/CaracteristicaRepository';
 import { ICaracteristicaRepository } from 'repository/ICaracteristicaRepository';
 import { IPacienteRepository } from 'repository/IPacienteRepository';
 import { ITipoCaracteristicaRepository } from 'repository/ITipoCaracteristicaRepository';
+import { IUnidadeRepository } from 'repository/IUnidadeRepository';
+import { UnidadeRepository } from 'repository/unidade.repository';
 import { PacienteRepository } from 'repository/PacienteRepository';
 import { TipoCaracteristicaRepository } from 'repository/TipoCaracteristicaRepository';
 import { IInteressadoRepository } from 'repository/IInteressadoRepository';
@@ -42,4 +44,9 @@ container.registerSingleton<IInteressadoRepository>(
 container.registerSingleton<IBuscaRepository>(
   'BuscaRepository',
   BuscaRepository,
+);
+
+container.registerSingleton<IUnidadeRepository>(
+  'UnidadeRepository',
+  UnidadeRepository,
 );
