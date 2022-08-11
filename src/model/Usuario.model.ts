@@ -19,9 +19,13 @@ const usuarioSchema = new Schema({
   setorUsuario: {
     type: mongoose.Schema.Types.String,
   },
-  unidadeUsuario: {
-    type: mongoose.Schema.Types.String,
-  },
+  unidadeUsuario: [
+    {
+      // type: mongoose.Schema.Types.String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'unidade',
+    },
+  ],
   nome: {
     type: mongoose.Schema.Types.String,
   },
@@ -63,7 +67,7 @@ const usuarioSchema = new Schema({
   },
   logradouro: {
     type: mongoose.Schema.Types.String,
-  }, 
+  },
   complemento: {
     type: mongoose.Schema.Types.String,
   },
@@ -79,7 +83,7 @@ const usuarioSchema = new Schema({
   estado: {
     type: mongoose.Schema.Types.String,
   },
-   pais: {
+  pais: {
     type: mongoose.Schema.Types.String,
   },
   telefone: {
@@ -87,14 +91,14 @@ const usuarioSchema = new Schema({
   },
   email: {
     type: mongoose.Schema.Types.String,
-  }, 
+  },
   status: {
     type: mongoose.Schema.Types.Boolean,
-    default: true
+    default: true,
   },
   excluido: {
     type: mongoose.Schema.Types.Boolean,
-    default: false
+    default: false,
   },
   created_at: {
     type: Date,
