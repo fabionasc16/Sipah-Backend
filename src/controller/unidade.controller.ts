@@ -36,11 +36,12 @@ class UnidadeController {
     }
   }
 
-  async delete(request: Request, response: Response): Promise<Response> {
+  async delete(request: Request, response: Response): Promise<any> {
     const { id } = request.params;
     const service = container.resolve(UnidadeService);
 
-    await service.delete(id);
+    const data = await service.delete(id);
+    return response.status(200).json(data);
   }
 }
 

@@ -46,10 +46,10 @@ class UnidadeService {
 
     const result = await this.unidadeRepository.listById(id);
     if (!result) {
-      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+      throw new AppError(Messages.UNIDADE_NOT_FOUND, 404);
     }
 
-    await this.unidadeRepository.delete(id);
+    return await this.unidadeRepository.delete(id);
   }
 
   async update(id: string, data: any): Promise<void> {
