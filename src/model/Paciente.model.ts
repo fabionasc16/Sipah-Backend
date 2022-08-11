@@ -82,9 +82,47 @@ function setExternalId() {
   // to ensure the random number provide enough bits.
   const firstPart = (Math.random() * 46656) | 0;
   const secondPart = (Math.random() * 46656) | 0;
-  const first = ('000' + firstPart.toString(36)).slice(-3);
-  const second = ('000' + secondPart.toString(36)).slice(-3);
+  const first = `000${firstPart.toString(36)}`.slice(-3);
+  const second = `000${secondPart.toString(36)}`.slice(-3);
   return first + second;
+}
+
+function getStatusRegistro(status) {
+  switch (status) {
+    case 1:
+      return 'Cadastrado';
+      break;
+
+    case 2:
+      return 'Atualizado';
+      break;
+
+    case 3:
+      return 'Finalizado';
+      break;
+
+    default:
+      break;
+  }
+}
+
+function setStatusRegistro(status) {
+  switch (status) {
+    case 'Cadastrado':
+      return 1;
+      break;
+
+    case 'Atualizado':
+      return 2;
+      break;
+
+    case 'Finalizado':
+      return 3;
+      break;
+
+    default:
+      break;
+  }
 }
 
 const pacienteSchema = new Schema(
@@ -135,8 +173,10 @@ const pacienteSchema = new Schema(
       required: [true, 'Preencha o campo: Entrada através de'],
     },
     statusRegistro: {
-      type: mongoose.Schema.Types.String,
-      default: 'Cadastrado',
+      type: mongoose.Schema.Types.Number,
+      default: 1,
+      set: setStatusRegistro,
+      get: getStatusRegistro,
     },
     statusPaciente: {
       type: mongoose.Schema.Types.String,
