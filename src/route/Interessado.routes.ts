@@ -18,8 +18,6 @@ interessadoRoutes.delete('/:id', interessadoController.deleteInteressado);
 
 interessadoRoutes.put('/:id', interessadoController.updateInteressado);
 
-interessadoRoutes.post('/:id', interessadoController.updateInteressado);
-
 
 
 //interessadoRoutes.put('/mudar/status/:id', interessadoController.mudarStatus);
