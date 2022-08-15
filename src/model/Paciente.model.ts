@@ -84,6 +84,74 @@ function setExternalId() {
   return first + second;
 }
 
+function getStatusRegistro(status) {
+
+  switch (status) {
+
+    case 1:
+
+      return 'Cadastrado';
+
+      break;
+
+
+    case 2:
+
+      return 'Atualizado';
+
+      break;
+
+
+    case 3:
+
+      return 'Finalizado';
+
+      break;
+
+
+    default:
+
+      break;
+
+  }
+
+}
+
+
+function setStatusRegistro(status) {
+
+  switch (status) {
+
+    case 'Cadastrado':
+
+      return 1;
+
+      break;
+
+
+    case 'Atualizado':
+
+      return 2;
+
+      break;
+
+
+    case 'Finalizado':
+
+      return 3;
+
+      break;
+
+
+    default:
+
+      break;
+
+  }
+
+}
+
+
 const pacienteSchema = new Schema(
   {
     __v: {

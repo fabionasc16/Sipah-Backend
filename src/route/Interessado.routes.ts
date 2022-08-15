@@ -14,13 +14,9 @@ interessadoRoutes.get('/detalhes/:id', interessadoController.listInteressadoById
 
 interessadoRoutes.get('/cpf/:cpf', interessadoController.listInteressadoByCPF);
 
-interessadoRoutes.get('/id/:idExterno', interessadoController.listInteressadoByIdExterno);
-
 interessadoRoutes.delete('/:id', interessadoController.deleteInteressado);
 
 interessadoRoutes.put('/:id', interessadoController.updateInteressado);
-
-interessadoRoutes.post('/:id', interessadoController.createIdPaciente);
 
 
 

@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API do sistema Ticados",
+        "title": "API do sistema SIPAH",
         "description": "Essa API tem como finalidade armazenar infomaçoes sobre pessoas sem identificação nos hospitais e os provaveis interessados em achar pessoas desaparecidos",
         "termsOfService": "http://localhost:3300/terms/",
         "version": "1.0.0"
@@ -12,7 +12,7 @@
             "description": "API de Teste"
         },
         {
-            "url":"http:10.200.7.27:3301",
+            "url":"http:https://sistemas.saude.am.gov.br/sipah/#/",
             "description": "API de Produção"
         }
     ],
@@ -584,7 +584,7 @@
                 }
             }
         },
-        "interessado/cpf/{cpf}": {
+        "/interessado/cpf/{cpf}": {
             "get":{
                 "description":"Busca do interessado pelo CPF",
                 "summary": "Busca do interessado pelo CPF",
@@ -613,7 +613,7 @@
                 }
             }
         },
-        "interessado/detalhes/{id}": {
+        "/interessado/detalhes/{id}": {
             "get":{
                 "description":"Busca do interessado pelo ID",
                 "summary": "Busca do interessado pelo ID",
@@ -641,8 +641,479 @@
                     } 
                 }
             }
+        },
+        "/busca/":{
+            "post": {
+                "summary": "cadastro de busca",
+                "tags": ["Busca"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Busca"
+                            },
+                            "examples": {
+                                "busca": {
+                                    "value": {
+                                        "Paciente": ["62f3fd9c80a4db1d21049e53"],
+                                        "Interessado": ["62f3fd9c80a4db1d21049e53"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Busca"
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description":"Listar as Buscas",
+                "summary": "lista de todas as Buscas",
+                "tags": ["Busca"],
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "Lista de todas as Buscas feitas",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Busca"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/buscar/:Interessado": {
+            "get": {
+                "description":"Listar as Buscas",
+                "summary": "lista de todas as Buscas",
+                "tags": ["Busca"],
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "Lista de todas as Buscas feitas",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Busca"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "buscar/:Paciente": {
+            "get": {
+                "description":"Listar as Buscas",
+                "summary": "lista de todas as Buscas",
+                "tags": ["Busca"],
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "Lista de todas as Buscas feitas",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Busca"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/paciente": {
+            "post": {
+                "summary": "cadastro do Paciente",
+                "tags": ["Paciente"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Paciente"
+                            },
+                            "examples": {
+                                "interessado": {
+                                    "value": {
+                                        "dataEntrada": "YYYY/MM/DD",
+                                        "horaEntrada": "00:00",
+                                        "dataSaida": "YYYY/MM/DD",
+                                        "horaSaida": "00:00",
+                                        "formaSaida": "alta",
+                                        "modoSaida": "outro",
+                                        "numProntuario": "12345689",
+                                        "entradaAtraves": "Policia",
+                                        "statusPaciente": "Não identificado",
+                                        "nomePaciente": "",
+                                        "nomeMae": "",
+                                        "dataNascimento": "",
+                                        "rg": "",
+                                        "cpf": "",
+                                        "cns": "",
+                                        "nacionalidade": "",
+                                        "pais": "",
+                                        "estaturaAproximada": 1.7,
+                                        "pesoAproximado": 80,
+                                        "idadeAproximada": 25,
+                                        "condicoesEncontrada": "muito machucado",
+                                        "localEncontrado": "na rua ",
+                                        "sinaisParticulares": "ex: sinal, tatuagem, cicatriz...",
+                                        "acessoriosUtilizados": "ex: pulseira, cordão, brinco...",
+                                        "vestimentas": "Roupa do paciente",
+                                        "barba": "sim | não",
+                                        "bigode": "sim | não",
+                                        "bairroEncontrado": "São Geraldo",
+                                        "deficiencia": "sim | não",
+                                        "naoInformaContato": "1 | 0",
+                                        "nomeContato": "nome do cidadão que levou o paciente para a unidade",
+                                        "grauParentescoSelected": "Grau de Parentesco da pessoa que levou o paciente para a unidade",
+                                        "telefoneContato": "telefone da pessoa que levou o paciente para a unidade",
+                                        "cpfContato": "123.456.789-10",
+                                        "genero": "genero da pessoa que levou o paciente para a unidade",
+                                        "generoOutro": "genero caso não se identifique  com masculino|feminino da pessoa que levou o paciente para a unidade",
+                                        "unidade": "28 de agosto",
+                                        "nomeSocialPaciente": "Nome social para caso em que o paciente se identifique com o mesmo",
+                                        "apelidoPaciente": "Apelido do paciente caso tenha",
+                                        "vitimaAbandono": "sim | não",
+                                        "querEncontro": "sim | não",
+                                        "autorizaConsulta": "sim | não",
+                                        "numRegistroExterno": "Numero de registro externo",
+                                        "unidadeSaudeOrigem": "28 de agosto",
+                                        "conscienciaPaciente": "sim | não",
+                                        "transtornosPaciente": "sim | não",
+                                        "tratamentoPsicologico": "sim | não",
+                                        "descricaoEstadoPaciente": "Descrição do comportamento , congruencia, sintomas e condição psicologico",
+                                        "tipoCaracteristicas": "",                                          
+                                        "dataIdentificacao": "YYYY/MM/DD",
+                                        "meioIdentificacao": "Ong",
+                                        "observacao": "observação",
+                                        "unidadeSaudeDestino": "",
+                                        "imgPrincipal": "",
+                                        "imgPrincipalStr": "",
+                                        "externalId": "Id gerado automaticamente"
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400":{
+                        "description": "Paciente Already Exist!"
+                    },
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Paciente"
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/paciente/list": {
+            "get": {
+                "description":"Listar dos Paciente ",
+                "summary": "lista de todas os Pacientes",
+                "tags": ["Paciente"],
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "Lista de todas os Pacientes cadastrada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Paciente"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/paciente/list/:id": {
+            "get": {
+                "description":"Listar dos Paciente pelo ID",
+                "summary": "lista pelo ID",
+                "tags": ["Paciente"],
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "Lista de todas os Pacientes cadastrada",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Paciente"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/paciente/delete/:id": {
+            "delete": {
+                "description":"Deletar um Paciente",
+                "summary": "Deletar",
+                "tags": ["Paciente"],
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "deletando Paciente",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Paciente"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/paciente/update/:id": {
+            "put":{
+                "description":"Atualizando Paciente",
+                "summary": "Atualizando",
+                "tags": ["Paciente"],
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "path",
+                        "description": "Atualizando Paciente",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Paciente"
+                            },
+                            "examples": {
+                                "caracteristica": {
+                                    "value": {
+                                        "dataEntrada": "YYYY/MM/DD",
+                                        "horaEntrada": "00:00",
+                                        "dataSaida": "YYYY/MM/DD",
+                                        "horaSaida": "00:00",
+                                        "formaSaida": "alta",
+                                        "modoSaida": "outro",
+                                        "numProntuario": "12345689",
+                                        "entradaAtraves": "Policia",
+                                        "statusPaciente": "Não identificado",
+                                        "nomePaciente": "",
+                                        "nomeMae": "",
+                                        "dataNascimento": "",
+                                        "rg": "",
+                                        "cpf": "",
+                                        "cns": "",
+                                        "nacionalidade": "",
+                                        "pais": "",
+                                        "estaturaAproximada": 1.7,
+                                        "pesoAproximado": 80,
+                                        "idadeAproximada": 25,
+                                        "condicoesEncontrada": "muito machucado",
+                                        "localEncontrado": "na rua ",
+                                        "sinaisParticulares": "ex: sinal, tatuagem, cicatriz...",
+                                        "acessoriosUtilizados": "ex: pulseira, cordão, brinco...",
+                                        "vestimentas": "Roupa do paciente",
+                                        "barba": "sim | não",
+                                        "bigode": "sim | não",
+                                        "bairroEncontrado": "São Geraldo",
+                                        "deficiencia": "sim | não",
+                                        "naoInformaContato": "1 | 0",
+                                        "nomeContato": "nome do cidadão que levou o paciente para a unidade",
+                                        "grauParentescoSelected": "Grau de Parentesco da pessoa que levou o paciente para a unidade",
+                                        "telefoneContato": "telefone da pessoa que levou o paciente para a unidade",
+                                        "cpfContato": "123.456.789-10",
+                                        "genero": "genero da pessoa que levou o paciente para a unidade",
+                                        "generoOutro": "genero caso não se identifique  com masculino|feminino da pessoa que levou o paciente para a unidade",
+                                        "unidade": "28 de agosto",
+                                        "nomeSocialPaciente": "Nome social para caso em que o paciente se identifique com o mesmo",
+                                        "apelidoPaciente": "Apelido do paciente caso tenha",
+                                        "vitimaAbandono": "sim | não",
+                                        "querEncontro": "sim | não",
+                                        "autorizaConsulta": "sim | não",
+                                        "numRegistroExterno": "Numero de registro externo",
+                                        "unidadeSaudeOrigem": "28 de agosto",
+                                        "conscienciaPaciente": "sim | não",
+                                        "transtornosPaciente": "sim | não",
+                                        "tratamentoPsicologico": "sim | não",
+                                        "descricaoEstadoPaciente": "Descrição do comportamento , congruencia, sintomas e condição psicologico",
+                                        "tipoCaracteristicas": "",                                          
+                                        "dataIdentificacao": "YYYY/MM/DD",
+                                        "meioIdentificacao": "Ong",
+                                        "observacao": "observação",
+                                        "unidadeSaudeDestino": "",
+                                        "imgPrincipal": "",
+                                        "imgPrincipalStr": "",
+                                        "externalId": "Id gerado automaticamente"
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Paciente"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        },
+        "/paciente/searchout": {
+
+        },
+        "/usuario":{
+            "post": {
+                "summary": "cadastro de Usuario",
+                "tags": ["Busca"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            },
+                            "examples": {
+                                "busca": {
+                                    "value": {
+                                        "Paciente": ["62f3fd9c80a4db1d21049e53"],
+                                        "Interessado": ["62f3fd9c80a4db1d21049e53"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Busca"
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description":"Listar as Buscas",
+                "summary": "lista de todas as Buscas",
+                "tags": ["Busca"],
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "Lista de todas as Buscas feitas",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "200": {
+                        "description": "sucess",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Busca"
+                                    
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
         }
-        
     },
     "components": {
         "schemas": {
@@ -740,6 +1211,210 @@
                         "type": "string"
                     },
                     "grauParentesco": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Busca":{
+                "type": "object",
+                "properties": {
+                    "Paciente": {
+                        "type": "object",
+                        "properties":{
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "Interessado": {
+                        "type": "object",
+                        "properties":{
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "Paciente": {
+                "type": "object",
+                "properties":{
+                    "dataEntrada": {
+                        "type": "Date"
+                    },
+                    "horaEntrada": {
+                        "type": "Date"
+                    },
+                    "dataSaida": {
+                        "type": "Date"
+                    },
+                    "horaSaida": {
+                        "type": "Date"
+                    },
+                    "formaSaida": {
+                        "type": "string"
+                    },
+                    "modoSaida": {
+                        "type": "string"
+                    },
+                    "numProntuario": {
+                        "type": "string"
+                    },
+                    "entradaAtraves": {
+                        "type": "string"
+                    },
+                    "statusRegistro": {
+                        "type": "string"
+                    },
+                    "statusPaciente": {
+                        "type": "string"
+                    },
+                    "nomePaciente": {
+                        "type": "string"
+                    },
+                    "nomeMae": {
+                        "type": "string"
+                    },
+                    "dataNascimento": {
+                        "type": "Date"
+                    },
+                    "rg": {
+                        "type": "string"
+                    },
+                    "cns": {
+                        "type": "string"
+                    },
+                    "nacionalidade": {
+                        "type": "string"
+                    },
+                    "pais": {
+                        "type": "string"
+                    },
+                    "estaturaAproximada": {
+                        "type": "Number"
+                    },
+                    "pesoAproximado": {
+                        "type": "Number"
+                    },
+                    "idadeAproximada": {
+                        "type": "Number"
+                    },
+                    "condicoesEncontrada": {
+                        "type": "string"
+                    },
+                    "localEncontrado": {
+                        "type": "string"
+                    },
+                    "sinaisParticulares": {
+                        "type": "string"
+                    },
+                    "acessoriosUtilizados": {
+                        "type": "string"
+                    },
+                    "vestimentas": {
+                        "type": "string"
+                    },
+                    "barba": {
+                        "type": "string"
+                    },
+                    "bigode": {
+                        "type": "string"
+                    },
+                    "bairroEncontrado": {
+                        "type": "string"
+                    },
+                    "deficiencia": {
+                        "type": "string"
+                    },
+                    "naoInformaContato": {
+                        "type": "Boolean"
+                    },
+                    "nomeContato": {
+                        "type": "string"
+                    },
+                    "grauParentescoSelected": {
+                        "type": "string"
+                    },
+                    "telefoneContato": {
+                        "type": "string"
+                    },
+                    "cpfContato": {
+                        "type": "string"
+                    },
+                    "genero": {
+                        "type": "string"
+                    },
+                    "generoOutro": {
+                        "type": "string"
+                    },
+                    "unidade": {
+                        "type": "string"
+                    },
+                    "nomeSocialPaciente": {
+                        "type": "string"
+                    },
+                    "apelidoPaciente": {
+                        "type": "string"
+                    },
+                    "vitimaAbandono": {
+                        "type": "string"
+                    },
+                    "querEncontro": {
+                        "type": "string"
+                    },
+                    "autorizaConsulta": {
+                        "type": "string"
+                    },
+                    "numRegistroExterno": {
+                        "type": "string"
+                    },
+                    "unidadeSaudeOrigem": {
+                        "type": "string"
+                    },
+                    "conscienciaPaciente": {
+                        "type": "string"
+                    },
+                    "transtornosPaciente": {
+                        "type": "string"
+                    },
+                    "tratamentoPsicologico": {
+                        "type": "string"
+                    },
+                    "descricaoEstadoPaciente": {
+                        "type": "string"
+                    },
+                    "tipoCaracteristicas": {
+                        "type": "object",
+                        "properties":{
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "dataIdentificacao": {
+                        "type": "string"
+                    },
+                    "meioIdentificacao": {
+                        "type": "string"
+                    },
+                    "observacao": {
+                        "type": "string"
+                    },
+                    "unidadeSaudeDestino": {
+                        "type": "string"
+                    },
+                    "imgPrincipal": {
+                        "type": "string"
+                    },
+                    "imgPrincipalStr": {
+                        "type": "object",
+                        "properties":{
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "externalId": {
                         "type": "string"
                     }
                 }

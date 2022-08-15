@@ -20,9 +20,6 @@ export class InteressadoService {
     async listInteressadoById(id: string) {
         return this.interessadoRepository.listById(id);
     }
-    async listInteressadoByIdExterno(idExterno: string) {
-        return this.interessadoRepository.listByIdExterno(idExterno);
-    }
     async listInteressadoByCPF(cpf: string) {
         return this.interessadoRepository.listByCPF(cpf);
     }
