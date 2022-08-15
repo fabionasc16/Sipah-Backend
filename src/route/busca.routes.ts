@@ -14,8 +14,4 @@ buscaRoutes.get('/interessado/:Interessado', buscaController.listBuscaByInteress
 
 buscaRoutes.get('/:Paciente', buscaController.listBuscaByPaciente);
 
-
-
-//interessadoRoutes.put('/mudar/status/:id', interessadoController.mudarStatus);
-
 export { buscaRoutes };
