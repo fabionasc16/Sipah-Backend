@@ -39,19 +39,11 @@ class InteressadoController {
         return response.status(200).json(data);
     }
 
-    async createIdPaciente(request: Request, response: Response): Promise<any> {
-      try {
-        let data = await InteressadoController.service.createIdPaciente(request.params.idPaciente, request.body);
-        return response.status(200).json(data); 
-      } catch (error) {
-        return response.status(500).json(error);
-      }
-    }
-    
-    async listInteressadoByIdExterno(request: Request, response: Response): Promise<any> {
-        let data = await InteressadoController.service.listInteressadoByIdExterno(request.params.idExterno);
+    async updateIdPaciente(request: Request, response: Response): Promise<any> {
+        let data = await InteressadoController.service.updateInteressado(request.params.id, request.body);
         return response.status(200).json(data);
     }
+
 
     /*async mudarStatus(request: Request, response: Response): Promise<any> {
         let data = await InteressadoController.service.mudarStatus(request.params.id);

@@ -86,10 +86,10 @@ const interesadoSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  busca: [
+  idPaciente: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'busca',
+      ref: 'paciente',
     },
   ]
 });

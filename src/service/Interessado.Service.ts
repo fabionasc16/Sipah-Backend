@@ -42,11 +42,6 @@ export class InteressadoService {
         return await this.interessadoRepository.listAllInteressado(params);
     }
 
-    async createIdPaciente(idPaciente: string, interessado: any) {
-        interessado.idPaciente = idPaciente;
-        return await this.interessadoRepository.create(interessado);
-    } 
-
     /*async adcionandoIdPaciente(data: any) {
         const existIdPaciente = await this.
     }*/

@@ -4,8 +4,10 @@ export enum Messages {
   PACIENTE_ALREADY_EXISTS = 'Já existe um registro de paciente no sistema. Por favor, verifique o nome do paciente e se ele já possui cadastro em outra unidade',
   ERROR_SAVING_PACIENTE = 'Erro ao recuperar as características informadas. Contate o administrador do sistema para mais detalhes',
   NO_PACIENTES_REGISTERED = 'Não há pacientes cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
+  NO_UNIDADE_REGISTERED = 'Não há unidades cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
   NO_USUARIO_REGISTERED = 'Não há usuario cadastrados no sistema. Cadastre uma nova entrada e tente novamente',
   PACIENTE_NOT_FOUND = 'Nenhum paciente foi encontrado no sistema com as informações passadas. Verifique os dados e tente novamente',
+  UNIDADE_NOT_FOUND = 'Nenhuma unidade foi encontrada no sistema com as informações passadas. Verifique os dados e tente novamente',
   IMAGEM_NOT_FOUND = 'Nenhuma imagem foi encontrado no sistema com as informações passadas. Verifique os dados e tente novamente',
 
   // * Características de Pacientes
