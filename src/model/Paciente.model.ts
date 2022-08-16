@@ -10,7 +10,8 @@ function getData(data) {
     const mounth = datac.substring(5, 7);
     const day = datac.substring(8, 10);
 
-    const hr = new Date(+year, +mounth - 1, +day + 1, 0, 0, 0, 0);
+    // const hr = new Date(+year, +mounth - 1, +day + 1, 0, 0, 0, 0);
+    const hr = new Date(+year, +mounth - 1, +day, 0, 0, 0, 0);
     return moment(hr).format('YYYY-MM-DD');
   }
   return null;
@@ -32,30 +33,32 @@ function getHora(hora) {
 }
 
 function setHoraEntrada(hrIN) {
-  const data = moment(this.dataEntrada).format('YYYY-MM-DD');
-  const year = data.substring(0, 4);
-  const mounth = data.substring(5, 7);
-  const day = data.substring(8, 10);
+  // const data = moment(this.dataEntrada).format('YYYY-MM-DD');
+  // const year = data.substring(0, 4);
+  // const mounth = data.substring(5, 7);
+  // const day = data.substring(8, 10);
 
   const hour = hrIN.substring(0, 2);
   const min = hrIN.substring(3, 5);
   const sec = hrIN.substring(6, 8);
 
-  const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
+  // const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
+  const hr = new Date(0, 0, 0, +hour, +min, +sec, 0);
   return hr;
 }
 
 function setHoraSaida(hrOut) {
-  const data = moment(this.dataSaida).format('YYYY-MM-DD');
-  const year = data.substring(0, 4);
-  const mounth = data.substring(5, 7);
-  const day = data.substring(8, 10);
+  // const data = moment(this.dataSaida).format('YYYY-MM-DD');
+  // const year = data.substring(0, 4);
+  // const mounth = data.substring(5, 7);
+  // const day = data.substring(8, 10);
 
   const hour = hrOut.substring(0, 2);
   const min = hrOut.substring(3, 5);
   const sec = hrOut.substring(6, 8);
 
-  const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
+  // const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
+  const hr = new Date(0, 0, 0, +hour, +min, +sec, 0);
   return hr;
 }
 
@@ -79,78 +82,48 @@ function setExternalId() {
   // to ensure the random number provide enough bits.
   const firstPart = (Math.random() * 46656) | 0;
   const secondPart = (Math.random() * 46656) | 0;
-  const first = ('000' + firstPart.toString(36)).slice(-3);
-  const second = ('000' + secondPart.toString(36)).slice(-3);
+  const first = `000${firstPart.toString(36)}`.slice(-3);
+  const second = `000${secondPart.toString(36)}`.slice(-3);
   return first + second;
 }
 
 function getStatusRegistro(status) {
-
   switch (status) {
-
     case 1:
-
       return 'Cadastrado';
-
       break;
-
 
     case 2:
-
       return 'Atualizado';
-
       break;
-
 
     case 3:
-
       return 'Finalizado';
-
       break;
-
 
     default:
-
       break;
-
   }
-
 }
-
 
 function setStatusRegistro(status) {
-
   switch (status) {
-
     case 'Cadastrado':
-
       return 1;
-
       break;
-
 
     case 'Atualizado':
-
       return 2;
-
       break;
-
 
     case 'Finalizado':
-
       return 3;
-
       break;
-
 
     default:
-
       break;
-
   }
-
 }
-
 
 const pacienteSchema = new Schema(
   {
@@ -401,12 +374,21 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.String,
       default: '',
     },
-    busca: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'busca',
-      },
-    ]
+    imgPrincipal: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'imagensPaciente',
+      default: null,
+      // get: getImgPrincipal,
+    },
+    imgPrincipalStr: {
+      type: mongoose.Schema.Types.String,
+      get: getImgPrincipal,
+    },
+    externalId: {
+      type: mongoose.Schema.Types.String,
+      default: setExternalId,
+      unique: [true, 'External ID in Use'],
+    },
   },
   { versionKey: false, toJSON: { getters: true }, id: false },
 );

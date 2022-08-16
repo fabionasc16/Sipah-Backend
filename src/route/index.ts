@@ -37,4 +37,6 @@ appRoutes.use('/caracteristica', caracteristicaRoutes);
 
 appRoutes.use('/tipocaracteristica', tipoCaracteristicaRoutes);
 
+appRoutes.use('/unidade', unidadeRoutes);
+
 export { appRoutes };

@@ -38,3 +38,15 @@ container.registerSingleton<IInteressadoRepository>(
   'InteressadoRepository',
   InteressadoRepository,
 );
+
+// * --------------------- Cadastro de Busca ---------------------
+
+container.registerSingleton<IBuscaRepository>(
+  'BuscaRepository',
+  BuscaRepository,
+);
+
+container.registerSingleton<IUnidadeRepository>(
+  'UnidadeRepository',
+  UnidadeRepository,
+);
