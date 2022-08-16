@@ -406,7 +406,21 @@ const pacienteSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'busca',
       },
-    ]
+    ], imgPrincipal: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'imagensPaciente',
+      default: null,
+      // get: getImgPrincipal,
+    },
+    imgPrincipalStr: {
+      type: mongoose.Schema.Types.String,
+      get: getImgPrincipal,
+    },
+    externalId: {
+      type: mongoose.Schema.Types.String,
+      default: setExternalId,
+      unique: [true, 'External ID in Use'],
+    },
   },
   { versionKey: false, toJSON: { getters: true }, id: false },
 );
