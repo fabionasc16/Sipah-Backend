@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { caracteristicaRoutes } from './Caracteristica.routes';
 import { pacientesRoutes } from './paciente.route';
 import { tipoCaracteristicaRoutes } from './TipoCaracteristica.routes';
-import { unidadeRoutes } from './Unidade.routes';
+import { unidadeRoutes } from './unidade.routes';
 import { usuarioRoutes } from './Usuario.routes';
 import { interessadoRoutes } from './Interessado.routes';
 import { buscaRoutes } from './busca.routes';
@@ -36,5 +36,7 @@ appRoutes.use('/busca', buscaRoutes);
 appRoutes.use('/caracteristica', caracteristicaRoutes);
 
 appRoutes.use('/tipocaracteristica', tipoCaracteristicaRoutes);
+
+appRoutes.use('/unidade', unidadeRoutes);
 
 export { appRoutes };
