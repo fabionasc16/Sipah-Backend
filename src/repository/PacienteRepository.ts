@@ -13,6 +13,7 @@ class PacienteRepository implements IPacienteRepository {
   async create(data: any): Promise<any> {
     // data.dataEntrada = await moment(data.dataEntrada).format('YYYY-MM-DD');
     // data.horaEntrada = await moment(data.horaEntrada).format('HH:mm:ss');
+    data.cpfSemFormatacao = data.cpf.replaceAll('.', '').replaceAll('-', '');
     const cadastroPaciente = await Paciente.create(data);
 
     return cadastroPaciente;
@@ -917,6 +918,17 @@ class PacienteRepository implements IPacienteRepository {
 
   async update(id: string, data: any): Promise<void> {
     return await Paciente.findByIdAndUpdate(id, data);
+  }
+
+  async listByIdTransfer(id: string): Promise<any> {
+    const paciente = await Paciente.find(
+      { _id: new mongoose.Types.ObjectId(id) },
+      '-_id',
+    );
+    if (paciente.length > 0) {
+      return paciente[0];
+    }
+    return null;
   }
 }
 

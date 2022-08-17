@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import { Messages } from 'messages/Messages';
 import { Paciente } from 'model/Paciente.model';
+import moment from 'moment';
 import path from 'path';
 import { container } from 'tsyringe';
 
@@ -327,6 +328,71 @@ class PacienteController {
             'Não foi possível remover o arquivo. Tente novamente mais tarde',
           ),
         );
+    }
+  }
+
+  async pacientTransfer(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const service = container.resolve(PacienteService);
+    const paciente = request.body;
+    const { id } = request.params;
+
+    try {
+      // 1 - verificar se paciente a ser transferido exist
+      let origin = await service.listByIdTransfer(id);
+      if (!origin) {
+        return response.status(400).send({
+          message: 'Usuário a ser transferido não existe',
+        });
+      }
+
+      // 2 - duplico registro do paciente, no entanto, em outra unidade de sáude
+      const dt = await moment().format('YYYY-MM-DD HH:mm:ss');
+      console.log(dt);
+      origin.dataEntrada = dt.substring(0, 10);
+      console.log(origin.dataEntrada);
+      origin.horaEntrada = dt.substring(11);
+      console.log(origin.horaEntrada);
+
+      const aux = origin.unidade;
+
+      origin.unidade = paciente.unidadeSaudeDestino;
+      origin.unidadeSaudeOrigem = aux;
+      origin.unidadeSaudeDestino = null;
+      origin.numProntuario = '011';
+
+      const oringinJSON = JSON.stringify(origin);
+
+      // return response.status(201).send(console.log(oringinJSON));
+      // 3 - Criar novo registro do paciente em outra unidade
+      const cadastroPacienteNovaUnidade = await service.create(oringinJSON);
+
+      console.log(cadastroPacienteNovaUnidade);
+      // 4 - Atualizo o status e unidade de destino do registro da unidade de origem
+      const up = await service.update(
+        id,
+        JSON.stringify({
+          statusRegistro: 'Finalizado',
+          unidadeSaudeDestino: paciente.unidadeSaudeDestino,
+        }),
+      );
+
+      return response
+        .status(201)
+        .json({ acknowledge: true, status: 'transferred' });
+    } catch (error) {
+      if (error.message !== null) {
+        if (error.code === 11000) {
+          return response.status(400).send({
+            message: 'Número de prontuário já cadastrado',
+          });
+        }
+      }
+      return response.status(400).send({
+        message: 'Não foi possível transferir o usuário',
+      });
     }
   }
 }
