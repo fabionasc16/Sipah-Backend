@@ -350,33 +350,35 @@ class PacienteController {
 
       // 2 - duplico registro do paciente, no entanto, em outra unidade de sáude
       const dt = await moment().format('YYYY-MM-DD HH:mm:ss');
-      console.log(dt);
+      // console.log(dt);
       origin.dataEntrada = dt.substring(0, 10);
-      console.log(origin.dataEntrada);
+      // console.log(origin.dataEntrada);
       origin.horaEntrada = dt.substring(11);
-      console.log(origin.horaEntrada);
+      // console.log(origin.horaEntrada);
 
       const aux = origin.unidade;
 
+      console.log(paciente.unidadeSaudeDestino);
       origin.unidade = paciente.unidadeSaudeDestino;
       origin.unidadeSaudeOrigem = aux;
       origin.unidadeSaudeDestino = null;
-      origin.numProntuario = '011';
+      origin.numProntuario = '012';
 
       const oringinJSON = JSON.stringify(origin);
+      const dados = JSON.parse(oringinJSON);
 
       // return response.status(201).send(console.log(oringinJSON));
       // 3 - Criar novo registro do paciente em outra unidade
-      const cadastroPacienteNovaUnidade = await service.create(oringinJSON);
+      const created = await service.create(dados);
 
-      console.log(cadastroPacienteNovaUnidade);
+      // console.log(created);
       // 4 - Atualizo o status e unidade de destino do registro da unidade de origem
       const up = await service.update(
         id,
-        JSON.stringify({
+        {
           statusRegistro: 'Finalizado',
           unidadeSaudeDestino: paciente.unidadeSaudeDestino,
-        }),
+        },
       );
 
       return response

@@ -11,9 +11,8 @@ import { IPacienteRepository } from './IPacienteRepository';
 class PacienteRepository implements IPacienteRepository {
   // async create(data: ICreatePacienteDTO): Promise<any> {
   async create(data: any): Promise<any> {
-    // data.dataEntrada = await moment(data.dataEntrada).format('YYYY-MM-DD');
-    // data.horaEntrada = await moment(data.horaEntrada).format('HH:mm:ss');
-    data.cpfSemFormatacao = data.cpf.replaceAll('.', '').replaceAll('-', '');
+    const cpfAux = data.cpf.replaceAll('.', '').replaceAll('-', '');
+    data.cpfSemFormatacao = cpfAux;
     const cadastroPaciente = await Paciente.create(data);
 
     return cadastroPaciente;
@@ -923,7 +922,7 @@ class PacienteRepository implements IPacienteRepository {
   async listByIdTransfer(id: string): Promise<any> {
     const paciente = await Paciente.find(
       { _id: new mongoose.Types.ObjectId(id) },
-      '-_id',
+      '-_id -externalId',
     );
     if (paciente.length > 0) {
       return paciente[0];
