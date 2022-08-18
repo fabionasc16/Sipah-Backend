@@ -136,4 +136,6 @@ pacientesRoutes.get('/loadtermoid/:id', pacienteController.loadTermoById);
 // delete termo de paciente
 pacientesRoutes.delete('/deletetermo/:id', pacienteController.deleteTermo);
 
+pacientesRoutes.put('/transfer/:id', pacienteController.pacientTransfer);
+
 export { pacientesRoutes };
