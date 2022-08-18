@@ -3,16 +3,15 @@ import { termoPaciente } from 'model/TermosPaciente.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
-import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
-import { IUpdatePacienteDTO } from '../dto/IUpdatePacienteDTO';
 import { imagensPaciente } from '../model/ImagensPaciente.model';
 import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
-  // async create(data: ICreatePacienteDTO): Promise<any> {
   async create(data: any): Promise<any> {
-    // data.dataEntrada = await moment(data.dataEntrada).format('YYYY-MM-DD');
-    // data.horaEntrada = await moment(data.horaEntrada).format('HH:mm:ss');
+    if (data.cpf) {
+      const cpfAux = data.cpf.replaceAll('.', '').replaceAll('-', '');
+      data.cpfSemFormatacao = cpfAux;
+    }
     const cadastroPaciente = await Paciente.create(data);
 
     return cadastroPaciente;
@@ -753,7 +752,7 @@ class PacienteRepository implements IPacienteRepository {
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
     const pageSize = params.query.perPage != null ? params.query.perPage : '10';
     const search = params.query.search != null ? params.query.search : '';
-    let term = {};
+    const term = {};
 
     const $and = [];
 
@@ -917,6 +916,17 @@ class PacienteRepository implements IPacienteRepository {
 
   async update(id: string, data: any): Promise<void> {
     return await Paciente.findByIdAndUpdate(id, data);
+  }
+
+  async listByIdTransfer(id: string): Promise<any> {
+    const paciente = await Paciente.find(
+      { _id: new mongoose.Types.ObjectId(id) },
+      '-_id -externalId',
+    );
+    if (paciente.length > 0) {
+      return paciente[0];
+    }
+    return null;
   }
 }
 

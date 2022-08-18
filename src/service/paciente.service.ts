@@ -231,6 +231,19 @@ class PacienteService {
 
     await this.pacienteRepository.deleteTermo(id);
   }
+
+  async listByIdTransfer(id: string): Promise<any> {
+    if (!id) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: ID do Paciente`);
+    }
+
+    const patient = await this.pacienteRepository.listByIdTransfer(id);
+    if (!patient) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    return patient;
+  }
 }
 
 export { PacienteService };

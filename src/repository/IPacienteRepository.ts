@@ -20,6 +20,7 @@ interface IPacienteRepository {
   loadTermoById(id: string): Promise<any>;
   deleteTermo(id: string): Promise<void>;
   update(id: string, data: any): Promise<void>;
+  listByIdTransfer(id: string): Promise<any>;
 }
 
 export { IPacienteRepository };
