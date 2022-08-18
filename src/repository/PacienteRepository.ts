@@ -736,7 +736,8 @@ class PacienteRepository implements IPacienteRepository {
       .populate({
         path: 'imgPrincipal',
         select: 'imagens',
-      });
+      })
+      .sort('statusRegistro dataEntrada');
 
     const result = {
       currentPage: page,
@@ -753,7 +754,7 @@ class PacienteRepository implements IPacienteRepository {
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
     const pageSize = params.query.perPage != null ? params.query.perPage : '10';
     const search = params.query.search != null ? params.query.search : '';
-    let term = {};
+    const term = {};
 
     const $and = [];
 
