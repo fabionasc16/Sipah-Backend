@@ -90,14 +90,14 @@ class PacienteController {
           const img = await importFile.uploadImage(id, files[i]);
           if (i === 0) {
             const pacienteConsulta = await importFile.listById(
-              img.paciente + '',
+              `${img.paciente}`,
             );
             if (
               // pacienteConsulta.autorizaConsulta === 'Sim' &&
               !pacienteConsulta.imgPrincipal
             ) {
               try {
-                const texto = '{"imgPrincipal":"' + img._id + '' + '"}';
+                const texto = `{"imgPrincipal":"${img._id}` + `"}`;
                 const paciente = JSON.parse(texto);
                 const result = await importFile.update(id, paciente);
               } catch (error) {
@@ -189,7 +189,7 @@ class PacienteController {
           // Atualizar a imgPrincipal do Paciente se a Imagem for a primeira (a próxima mais antiga)
           // 1 - Verificar se há outra imagem para atualizar em imgPrincipal
           // 2 - Atualizar imgPrincipal
-          const idPaciente = imagem.paciente + '';
+          const idPaciente = `${imagem.paciente}`;
           const existImg = await useCase.loadImage(idPaciente);
 
           if (existImg.length > 0) {
@@ -341,7 +341,7 @@ class PacienteController {
 
     try {
       // 1 - verificar se paciente a ser transferido exist
-      let origin = await service.listByIdTransfer(id);
+      const origin = await service.listByIdTransfer(id);
       if (!origin) {
         return response.status(400).send({
           message: 'Usuário a ser transferido não existe',
@@ -373,13 +373,12 @@ class PacienteController {
 
       // console.log(created);
       // 4 - Atualizo o status e unidade de destino do registro da unidade de origem
-      const up = await service.update(
-        id,
-        {
-          statusRegistro: 'Finalizado',
-          unidadeSaudeDestino: paciente.unidadeSaudeDestino,
-        },
-      );
+      const up = await service.update(id, {
+        statusRegistro: 'Finalizado',
+        unidadeSaudeDestino: paciente.unidadeSaudeDestino,
+        dataSaida: dados.dataEntrada,
+        horaSaida: dados.horaEntrada,
+      });
 
       return response
         .status(201)

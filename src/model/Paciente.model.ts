@@ -19,7 +19,7 @@ function getData(data) {
 function setDataEntrada(dataString) {
   if (dataString !== null && this.horaEntrada !== null) {
     if (dataString !== '' && this.horaEntrada !== '') {
-      const dthr = dataString + ' ' + this.horaEntrada;
+      const dthr = `${dataString} ${this.horaEntrada}`;
       const dt = new Date(moment(dthr).format('YYYY-MM-DD HH:mm:ss'));
       return dt;
     }
@@ -31,7 +31,7 @@ function setDataEntrada(dataString) {
 function setDataSaida(dataString) {
   if (dataString !== null && this.horaSaida !== null) {
     if (dataString !== '' && this.horaSaida !== '') {
-      const dthr = dataString + ' ' + this.horaSaida;
+      const dthr = `${dataString} ${this.horaSaida}`;
       const dt = new Date(moment(dthr).format('YYYY-MM-DD HH:mm:ss'));
       return dt;
     }
@@ -72,7 +72,7 @@ function getHora(hora) {
 function setHoraEntrada(hrIN) {
   if (hrIN !== null && this.dataEntrada !== null) {
     if (hrIN !== '' && this.dataEntrada !== '') {
-      const dthr = this.dataEntrada + ' ' + hrIN;
+      const dthr = `${this.dataEntrada} ${hrIN}`;
       const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
       return data;
     }
@@ -96,9 +96,9 @@ function setHoraEntrada(hrIN) {
 }
 
 function setHoraSaida(hrOut) {
-  if (hrOut !== null  && this.dataSaida !== null) {
+  if (hrOut !== null && this.dataSaida !== null) {
     if (hrOut !== '' && this.dataSaida !== '') {
-      const dthr = this.dataSaida + ' ' + hrOut;
+      const dthr = `${this.dataSaida} ${hrOut}`;
       const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
       return data;
     }
@@ -227,7 +227,7 @@ const pacienteSchema = new Schema(
     numProntuario: {
       type: mongoose.Schema.Types.String,
       required: [true, 'Informe o número de prontuário'],
-      unique: [true, 'Número de Prontuário já cadastrado'],
+      // unique: [true, 'Número de Prontuário já cadastrado'],
     },
     entradaAtraves: {
       type: mongoose.Schema.Types.String,

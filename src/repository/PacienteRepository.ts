@@ -3,16 +3,15 @@ import { termoPaciente } from 'model/TermosPaciente.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
-import { ICreatePacienteDTO } from '../dto/ICreatePacienteDTO';
-import { IUpdatePacienteDTO } from '../dto/IUpdatePacienteDTO';
 import { imagensPaciente } from '../model/ImagensPaciente.model';
 import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
-  // async create(data: ICreatePacienteDTO): Promise<any> {
   async create(data: any): Promise<any> {
-    const cpfAux = data.cpf.replaceAll('.', '').replaceAll('-', '');
-    data.cpfSemFormatacao = cpfAux;
+    if (data.cpf) {
+      const cpfAux = data.cpf.replaceAll('.', '').replaceAll('-', '');
+      data.cpfSemFormatacao = cpfAux;
+    }
     const cadastroPaciente = await Paciente.create(data);
 
     return cadastroPaciente;
@@ -753,7 +752,7 @@ class PacienteRepository implements IPacienteRepository {
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
     const pageSize = params.query.perPage != null ? params.query.perPage : '10';
     const search = params.query.search != null ? params.query.search : '';
-    let term = {};
+    const term = {};
 
     const $and = [];
 
