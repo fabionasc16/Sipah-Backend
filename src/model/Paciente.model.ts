@@ -29,9 +29,17 @@ function setDataEntrada(dataString) {
 }
 
 function setDataSaida(dataString) {
-  if (dataString !== null && this.horaSaida !== null) {
-    if (dataString !== '' && this.horaSaida !== '') {
-      const dthr = `${dataString} ${this.horaSaida}`;
+  // if (dataString !== null && this.horaSaida !== null) {
+  if (dataString !== null) {
+    // if (dataString !== '' && this.horaSaida !== '') {
+    if (dataString !== '') {
+      let dthr;
+      if (!this.horaSaida) {
+        dthr = `${dataString}`;
+      } else {
+        dthr = `${dataString} ${this.horaSaida}`;
+      }
+
       const dt = new Date(moment(dthr).format('YYYY-MM-DD HH:mm:ss'));
       return dt;
     }
@@ -96,9 +104,17 @@ function setHoraEntrada(hrIN) {
 }
 
 function setHoraSaida(hrOut) {
-  if (hrOut !== null && this.dataSaida !== null) {
-    if (hrOut !== '' && this.dataSaida !== '') {
-      const dthr = `${this.dataSaida} ${hrOut}`;
+  // if (hrOut !== null && this.dataSaida !== null) {
+  if (hrOut !== null) {
+    // if (hrOut !== '' && this.dataSaida !== '') {
+    if (hrOut !== '') {
+      let dthr;
+      if (!this.dataSaida) {
+        dthr = `${hrOut}`;
+      } else {
+        dthr = `${hrOut} ${this.dataSaida}`;
+      }
+      // const dthr = `${this.dataSaida} ${hrOut}`;
       const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
       return data;
     }
@@ -226,7 +242,8 @@ const pacienteSchema = new Schema(
     },
     numProntuario: {
       type: mongoose.Schema.Types.String,
-      required: [true, 'Informe o número de prontuário'],
+      default: '',
+      // required: [true, 'Informe o número de prontuário'],
       // unique: [true, 'Número de Prontuário já cadastrado'],
     },
     entradaAtraves: {
@@ -453,6 +470,10 @@ const pacienteSchema = new Schema(
       type: mongoose.Schema.Types.String,
       default: setExternalId,
       unique: [true, 'External ID in Use'],
+    },
+    numProntuarioOrigem: {
+      type: mongoose.Schema.Types.String,
+      default: '',
     },
   },
   { versionKey: false, toJSON: { getters: true }, id: false },

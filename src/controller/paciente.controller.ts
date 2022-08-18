@@ -358,26 +358,27 @@ class PacienteController {
 
       const aux = origin.unidade;
 
-      console.log(paciente.unidadeSaudeDestino);
       origin.unidade = paciente.unidadeSaudeDestino;
       origin.unidadeSaudeOrigem = aux;
       origin.unidadeSaudeDestino = null;
-      origin.numProntuario = '012';
+      origin.numProntuarioOrigem = origin.numProntuario;
+      origin.numProntuario = '';
 
       const oringinJSON = JSON.stringify(origin);
       const dados = JSON.parse(oringinJSON);
 
+      console.log(dados);
       // return response.status(201).send(console.log(oringinJSON));
       // 3 - Criar novo registro do paciente em outra unidade
-      const created = await service.create(dados);
+      // const created = await service.create(dados);
 
       // console.log(created);
       // 4 - Atualizo o status e unidade de destino do registro da unidade de origem
       const up = await service.update(id, {
         statusRegistro: 'Finalizado',
         unidadeSaudeDestino: paciente.unidadeSaudeDestino,
-        dataSaida: dados.dataEntrada,
-        horaSaida: dados.horaEntrada,
+        dataSaida: `${dados.dataEntrada} ${dados.horaEntrada}`,
+        horaSaida: `${dados.dataEntrada} ${dados.horaEntrada}`,
       });
 
       return response
