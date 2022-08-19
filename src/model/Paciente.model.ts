@@ -5,21 +5,30 @@ const { Schema } = mongoose;
 
 function getData(data) {
   if (data !== null) {
-    const datac = moment(data).format('YYYY-MM-DD');
-    const year = datac.substring(0, 4);
-    const mounth = datac.substring(5, 7);
-    const day = datac.substring(8, 10);
+    // const datac = moment(data).format('YYYY-MM-DD');
+    // const year = datac.substring(0, 4);
+    // const mounth = datac.substring(5, 7);
+    // const day = datac.substring(8, 10);
 
-    const dt = new Date(+year, +mounth - 1, +day, 0, 0, 0, 0);
-    return moment(dt).format('YYYY-MM-DD');
+    // const dt = new Date(+year, +mounth - 1, +day, 0, 0, 0, 0);
+    // return moment(dt).format('YYYY-MM-DD');
+    return moment(data).format('YYYY-MM-DD');
   }
   return null;
 }
 
 function setDataEntrada(dataString) {
-  if (dataString !== null && this.horaEntrada !== null) {
-    if (dataString !== '' && this.horaEntrada !== '') {
-      const dthr = `${dataString} ${this.horaEntrada}`;
+  // if (dataString !== null && this.horaEntrada !== null) {
+  if (dataString !== null) {
+    // if (dataString !== '' && this.horaEntrada !== '') {
+    if (dataString !== '') {
+      let dthr;
+      if (this.horaEntrada) {
+        dthr = `${dataString} ${this.horaEntrada}`;
+        const dt = new Date(moment(dthr).format('YYYY-MM-DD HH:mm:ss'));
+        return dt;
+      }
+      dthr = `${dataString}`;
       const dt = new Date(moment(dthr).format('YYYY-MM-DD HH:mm:ss'));
       return dt;
     }
@@ -51,7 +60,7 @@ function setDataSaida(dataString) {
 function setdataNascimento(dataString) {
   if (dataString !== null) {
     if (dataString !== '') {
-      const dt = new Date(moment(dataString).format('YYYY-MM-DD'));
+      const dt = new Date(moment(dataString).format('YYYY-MM-DD HH:mm:ss'));
       return dt;
     }
     return null;
@@ -62,7 +71,7 @@ function setdataNascimento(dataString) {
 function setdataIdentificacao(dataString) {
   if (dataString !== null) {
     if (dataString !== '') {
-      const dt = new Date(moment(dataString).format('YYYY-MM-DD'));
+      const dt = new Date(moment(dataString).format('YYYY-MM-DD HH:mm:ss'));
       return dt;
     }
     return null;
@@ -78,64 +87,33 @@ function getHora(hora) {
 }
 
 function setHoraEntrada(hrIN) {
-  if (hrIN !== null && this.dataEntrada !== null) {
-    if (hrIN !== '' && this.dataEntrada !== '') {
-      const dthr = `${this.dataEntrada} ${hrIN}`;
-      const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
-      return data;
+  if (hrIN !== null) {
+    if (hrIN !== '') {
+      if (this.dataEntrada) {
+        const dthr = `${this.dataEntrada} ${hrIN}`;
+        const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
+        return data;
+      }
+      return null;
     }
     return null;
   }
   return null;
-  // const year = data.substring(0, 4);
-  // const mounth = data.substring(5, 7);
-  // const day = data.substring(8, 10);
-
-  /*
-  const hour = hrIN.substring(0, 2);
-  const min = hrIN.substring(3, 5);
-  const sec = hrIN.substring(6, 8);
-  */
-  // const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
-  /*
-  const hr = new Date(0, 0, 0, +hour, +min, +sec, 0);
-  return hr;
-  */
 }
 
 function setHoraSaida(hrOut) {
-  // if (hrOut !== null && this.dataSaida !== null) {
   if (hrOut !== null) {
-    // if (hrOut !== '' && this.dataSaida !== '') {
     if (hrOut !== '') {
-      let dthr;
-      if (!this.dataSaida) {
-        dthr = `${hrOut}`;
-      } else {
-        dthr = `${hrOut} ${this.dataSaida}`;
+      if (this.dataSaida) {
+        const dthr = `${this.dataSaida} ${hrOut}`;
+        const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
+        return data;
       }
-      // const dthr = `${this.dataSaida} ${hrOut}`;
-      const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
-      return data;
+      return null;
     }
     return null;
   }
   return null;
-  // const year = data.substring(0, 4);
-  // const mounth = data.substring(5, 7);
-  // const day = data.substring(8, 10);
-
-  /*
-  const hour = hrOut.substring(0, 2);
-  const min = hrOut.substring(3, 5);
-  const sec = hrOut.substring(6, 8);
-  */
-
-  // const hr = new Date(+year, +mounth - 1, +day - 1, +hour, +min, +sec, 0);
-  /*
-  const hr = new Date(0, 0, 0, +hour, +min, +sec, 0);
-  return hr;
-  */
 }
 
 function getNum(num) {
