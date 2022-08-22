@@ -3,7 +3,7 @@ interface IUsuarioRepository {
 
   listById(id: string): Promise<any>;
   listByCPF(cpf: string): Promise<any>;
-  listAllUsuario(params:any): any;
+  listAllUsuario(paramsIn: any): any;
   delete(id: string): Promise<void>;
   update(id: string, data: any): Promise<void>;
 }
