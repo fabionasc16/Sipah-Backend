@@ -5,22 +5,13 @@ const { Schema } = mongoose;
 
 function getData(data) {
   if (data !== null) {
-    // const datac = moment(data).format('YYYY-MM-DD');
-    // const year = datac.substring(0, 4);
-    // const mounth = datac.substring(5, 7);
-    // const day = datac.substring(8, 10);
-
-    // const dt = new Date(+year, +mounth - 1, +day, 0, 0, 0, 0);
-    // return moment(dt).format('YYYY-MM-DD');
     return moment(data).format('YYYY-MM-DD');
   }
   return null;
 }
 
 function setDataEntrada(dataString) {
-  // if (dataString !== null && this.horaEntrada !== null) {
   if (dataString !== null) {
-    // if (dataString !== '' && this.horaEntrada !== '') {
     if (dataString !== '') {
       let dthr;
       if (this.horaEntrada) {
@@ -38,9 +29,7 @@ function setDataEntrada(dataString) {
 }
 
 function setDataSaida(dataString) {
-  // if (dataString !== null && this.horaSaida !== null) {
   if (dataString !== null) {
-    // if (dataString !== '' && this.horaSaida !== '') {
     if (dataString !== '') {
       let dthr;
       if (!this.horaSaida) {
@@ -89,12 +78,17 @@ function getHora(hora) {
 function setHoraEntrada(hrIN) {
   if (hrIN !== null) {
     if (hrIN !== '') {
-      if (this.dataEntrada) {
-        const dthr = `${this.dataEntrada} ${hrIN}`;
-        const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
+      try {
+        if (this.dataEntrada) {
+          const dthr = `${this.dataEntrada} ${hrIN}`;
+          const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
+          return data;
+        }
+        const data = moment(hrIN).format('YYYY-MM-DD HH:mm:ss');
         return data;
+      } catch (error) {
+        return null;
       }
-      return null;
     }
     return null;
   }
@@ -104,12 +98,17 @@ function setHoraEntrada(hrIN) {
 function setHoraSaida(hrOut) {
   if (hrOut !== null) {
     if (hrOut !== '') {
-      if (this.dataSaida) {
-        const dthr = `${this.dataSaida} ${hrOut}`;
-        const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
+      try {
+        if (this.dataSaida) {
+          const dthr = `${this.dataSaida} ${hrOut}`;
+          const data = moment(dthr).format('YYYY-MM-DD HH:mm:ss');
+          return data;
+        }
+        const data = moment(hrOut).format('YYYY-MM-DD HH:mm:ss');
         return data;
+      } catch (error) {
+        return null;
       }
-      return null;
     }
     return null;
   }
