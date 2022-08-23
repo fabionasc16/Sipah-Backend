@@ -2,6 +2,9 @@ import { AppError } from 'AppError';
 import { PacienteController } from 'controller/paciente.controller';
 import { Router } from 'express';
 import multer from 'multer';
+import { AuthService } from 'service/auth.service';
+import { checkJWT } from '../middleware/checkJWT';
+import { checkRole } from '../middleware/checkRole';
 
 import { upload } from '../config/upload';
 
@@ -10,16 +13,13 @@ const pacientesRoutes = Router();
 const pacienteController = new PacienteController();
 
 // * Rotas para Cadastro de Pacientes
-pacientesRoutes.post('/', pacienteController.create);
-pacientesRoutes.post('/list/', pacienteController.listsearch);
-pacientesRoutes.get('/listid/:id', pacienteController.listById);
-pacientesRoutes.delete('/delete/:id', pacienteController.delete);
-pacientesRoutes.put('/update/:id', pacienteController.update);
-pacientesRoutes.post('/searchout/', pacienteController.listSearchOut);
-pacientesRoutes.get(
-  '/listexternalid/:externalId',
-  pacienteController.listByExternalId,
-);
+pacientesRoutes.post('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.create);
+pacientesRoutes.post('/list/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE,AuthService.ROLES.ATENDIMENTO,]), pacienteController.listsearch);
+pacientesRoutes.get('/listid/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.listById);
+pacientesRoutes.delete('/delete/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.delete);
+pacientesRoutes.put('/update/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.update);
+pacientesRoutes.post('/searchout/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.listSearchOut);
+pacientesRoutes.get('/listexternalid/:externalId', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.listByExternalId);
 
 // upload termo de paciente
 const up = multer(upload.getConfig).fields([
