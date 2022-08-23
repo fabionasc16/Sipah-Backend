@@ -155,6 +155,7 @@ function getStatusRegistro(status) {
       break;
 
     default:
+      return '';
       break;
   }
 }

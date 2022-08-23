@@ -29,52 +29,28 @@ class UsuarioRepository implements IUsuarioRepository {
     return result.data;
   }
 
-  async listAllUsuario(paramsIn: any): Promise<any> {
+  async listAllUsuario(paramsIn: any, idunidade: any): Promise<any> {
     const page = paramsIn.currentPage != null ? `${paramsIn.currentPage}` : '1';
     const pageSize = paramsIn.perPage != null ? paramsIn.perPage : '10';
 
-    const params = {
+    let params;
+    params = {
       perPage: pageSize,
       currentPage: page,
     };
 
-    const result = await axios.get(this.urlUsuario, { params });
+    if (idunidade !== '') {
+      params = {
+        perPage: pageSize,
+        currentPage: page,
+        unit_id: idunidade,
+      };
+    }
+
+    const result = await axios.get(this.urlUsuario, {
+      params,
+    });
     return result.data;
-    // const page = params.currentPage != null ? `${params.currentPage}` : '1';
-    // const pageSize = params.perPage != null ? params.perPage : '10';
-    // const search = params.search != null ? params.search : '';
-    // const filters = { $and: [] };
-    // filters?.$and.push({ excluido: false });
-    // // Caso a uma palavra para busca seja enviada
-    // if (search) {
-    //   filters?.$and.push({
-    //     $or: [
-    //       { cpf: search },
-    //       { cpfSemFormatacao: search },
-    //       { setorUsuario: search },
-    //       { nome: { $regex: new RegExp(search, 'i') } },
-    //     ],
-    //   });
-    // }
-    // const total = await Usuario.countDocuments(filters);
-    // const pageNumber = (await parseInt(page)) - 1;
-    // const pageSizeNumber = await parseInt(pageSize);
-    // const data = await Usuario.find(
-    //   filters,
-    //   ' nome cpf perfilUsuario setorUsuario status',
-    //   {
-    //     skip: pageNumber * pageSizeNumber,
-    //     limit: pageSizeNumber,
-    //     sort: { status: -1, nome: 1 },
-    //   },
-    // );
-    // const result = await {
-    //   currentPage: page,
-    //   perPage: pageSize,
-    //   total,
-    //   data,
-    // };
-    // return result;
   }
 
   async delete(id: string): Promise<void> {
