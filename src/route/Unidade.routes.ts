@@ -8,6 +8,7 @@ const unidadeController = new UnidadeController();
 unidadeRoutes.post('/create', unidadeController.create);
 unidadeRoutes.get('/list', unidadeController.list);
 unidadeRoutes.get('/listid/:id', unidadeController.listById);
+unidadeRoutes.get('/listcnpj/:id', unidadeController.listByCNPJ);
 unidadeRoutes.put('/update/:id', unidadeController.update);
 unidadeRoutes.delete('/delete/:id', unidadeController.delete);
 

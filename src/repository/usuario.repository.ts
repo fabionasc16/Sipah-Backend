@@ -20,39 +20,18 @@ class UsuarioRepository implements IUsuarioRepository {
   }
 
   async listByCPF(cpf: string): Promise<any[]> {
-    const params = {
-      user_cpf: cpf,
-    };
-
-    const result = await axios.get(this.urlUsuario, { params });
+    const result = await axios.get(`${this.urlUsuario}cpf/${cpf}`);
     return result.data;
-    // const data = await Usuario.findOne({
-    //   cpf,
-    // }).populate('unidadeUsuario');
-    // return data;
   }
 
   async listById(id: string): Promise<any> {
-    const params = {
-      _id: new mongoose.Schema.Types.ObjectId(id),
-    };
-
-    const result = await axios.get(this.urlUsuario, { params });
+    const result = await axios.get(`${this.urlUsuario}id/${id}`);
     return result.data;
-    // const data = await Usuario.findById({
-    //   _id: new mongoose.Types.ObjectId(id),
-    // }).populate('unidadeUsuario');
-
-    // return data;
   }
 
-  async listAllUsuario(paramsIn: any) {
-    const page =
-      paramsIn.query.currentPage != null
-        ? `${paramsIn.query.currentPage}`
-        : '1';
-    const pageSize =
-      paramsIn.query.perPage != null ? paramsIn.query.perPage : '10';
+  async listAllUsuario(paramsIn: any): Promise<any> {
+    const page = paramsIn.currentPage != null ? `${paramsIn.currentPage}` : '1';
+    const pageSize = paramsIn.perPage != null ? paramsIn.perPage : '10';
 
     const params = {
       perPage: pageSize,
@@ -99,20 +78,15 @@ class UsuarioRepository implements IUsuarioRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const result = await axios.put(this.urlUsuario + id, {
-      status: 'true',
-    });
-    // return await Usuario.findByIdAndUpdate({ _id: id }, { excluido: true });
+    const result = await axios.delete(`${this.urlUsuario}${id}`);
   }
 
   async update(id: string, data: any): Promise<void> {
-    await axios.put(this.urlUsuario + id, data);
-    // data.updated_at = new Date();
-    // await Usuario.findByIdAndUpdate({ _id: id }, data);
+    await axios.put(`${this.urlUsuario}${id}`, data);
   }
 
   async mudarStatus(id: string): Promise<void> {
-    const result = await axios.put(this.urlUsuario + id, {
+    const result = await axios.put(`${this.urlUsuario}${id}`, {
       status: 'true',
     });
     // const usuarioEncontrado = await Usuario.findById({ _id: id });
