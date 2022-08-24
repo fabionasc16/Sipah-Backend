@@ -1,6 +1,6 @@
 import { UnidadeController } from 'controller/unidade.controller';
 import { Router } from 'express';
-import { checkJWT } from 'middleware/checkJwt';
+import { checkJWT } from 'middleware/checkJWT';
 import { checkRole } from 'middleware/checkRole';
 import { AuthService } from 'service/auth.service';
 

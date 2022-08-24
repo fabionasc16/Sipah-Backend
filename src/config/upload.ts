@@ -28,13 +28,15 @@ class Upload {
         this.tipo = tipoReq;
         if (Object.keys(request.files).length !== 0) {
           if (this.tipo === 'uploadtermo') {
-            this.qtdImgReq = request.files.termo.length;
+            const files:any =  request.files;
+            this.qtdImgReq = files.termo.length;
             this.maxTipo = 1;
             this.qtdSalvo = await termoPaciente.find({
               paciente: new mongoose.Types.ObjectId(this.userid.toString()),
             });
           } else {
-            this.qtdImgReq = request.files.arquivos.length;
+            const files:any =  request.files;
+            this.qtdImgReq = files.arquivos.length;
             this.maxTipo = 5;
             this.qtdSalvo = await imagensPaciente.find({
               paciente: new mongoose.Types.ObjectId(this.userid.toString()),
@@ -51,12 +53,12 @@ class Upload {
         }
         if (this.tipo === 'uploadtermo') {
           if (this.max > 1) {
-            return callback(new AppError('Apenas 1 (um) termo por paciente'));
+            const appError:any =  new AppError('Apenas 1 (um) termo por paciente')
+            return callback(appError, '');
           }
         } else if (this.max > 5) {
-          return callback(
-            new AppError('Apenas 5 (cinco) Imagens por paciente'),
-          );
+          const appError:any =  new AppError('Apenas 5 (cinco) Imagens por paciente')
+          return callback(appError,'');
         }
         if (!fs.existsSync(this.url)) {
           fs.mkdirSync(this.url);

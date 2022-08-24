@@ -5,8 +5,7 @@ import multer from 'multer';
 import { AuthService } from 'service/auth.service';
 import { checkJWT } from '../middleware/checkJWT';
 import { checkRole } from '../middleware/checkRole';
-
-import { upload } from '../config/upload';
+import { upload } from 'config/upload';
 
 const pacientesRoutes = Router();
 
