@@ -21,16 +21,8 @@ class PacienteController {
         .status(201)
         .json({ acknowledge: true, status: 'created', content: result });
     } catch (error) {
-      if (error.message !== null) {
-        if (error.code === 11000) {
-          return response.status(400).send({
-            message: 'Número de prontuário já cadastrado',
-          });
-        }
-      }
       return response.status(400).send({
         message: 'Não foi possível cadastrar o usuário',
-        // message: error,
       });
     }
   }
@@ -349,30 +341,37 @@ class PacienteController {
       }
 
       // 2 - duplico registro do paciente, no entanto, em outra unidade de sáude
-      const dt = await moment().format('YYYY-MM-DD HH:mm:ss');
-      origin.dataEntrada = dt.substring(0, 10);
-      origin.horaEntrada = dt.substring(11);
+      // const dt = await moment().format('YYYY-MM-DD HH:mm:ss');
+      // origin.dataEntrada = dt.substring(0, 10);
+      // origin.horaEntrada = dt.substring(11);
+      const dtIn = await moment(paciente.dataEntrada).format('YYYY-MM-DD');
+      const hrIn = await moment(paciente.horaEntrada).format('HH:mm:ss');
 
       const aux = origin.unidade;
 
+      origin.dataEntrada = dtIn;
+      origin.horaEntrada = hrIn;
       origin.unidade = paciente.unidadeSaudeDestino;
       origin.unidadeSaudeOrigem = aux;
       origin.unidadeSaudeDestino = '';
       origin.numProntuarioOrigem = origin.numProntuario;
       origin.numProntuario = '';
+      origin.entradaAtraves = 'transferencia';
 
       const oringinJSON = JSON.stringify(origin);
       const dados = JSON.parse(oringinJSON);
 
       // 3 - Criar novo registro do paciente em outra unidade
       const created = await service.create(dados);
+      // const created = await service.create(oringinJSON);
 
       // 4 - Atualizo o status e unidade de destino do registro da unidade de origem
       const up = await service.update(id, {
+        observacao: paciente.observacao,
         statusRegistro: 'Finalizado',
         unidadeSaudeDestino: paciente.unidadeSaudeDestino,
-        dataSaida: `${dados.dataEntrada} ${dados.horaEntrada}`,
-        horaSaida: `${dados.dataEntrada} ${dados.horaEntrada}`,
+        dataSaida: paciente.dataEntrada,
+        horaSaida: paciente.horaEntrada,
       });
 
       return response

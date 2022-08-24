@@ -8,6 +8,8 @@ class UsuarioController {
   }
 
   async listAllUsuario(request: Request, response: Response): Promise<any> {
+    console.log('listAllUsuario - user.roles');
+    console.log(request.user.roles);
     const userRoles = request.users.roles;
     const userUnidadeID = request.users.unit_id;
     if (userRoles.includes('SIPAH_ADMINISTRADOR')) {
