@@ -14,7 +14,7 @@ interessadoRoutes.post('/',checkJWT, checkRole([AuthService.ROLES.ATENDIMENTO, A
 
 interessadoRoutes.get('/',checkJWT, checkRole([AuthService.ROLES.ATENDIMENTO, AuthService.ROLES.ADMIN]), interessadoController.listAllInteressado);
 
-interessadoRoutes.get('/detalhes/:id',checkJWT, checkRole([AuthService.ROLES.ADMIN]), interessadoController.listInteressadoById);
+interessadoRoutes.get('/detalhes/:id',checkJWT, checkRole([AuthService.ROLES.ATENDIMENTO, AuthService.ROLES.ADMIN]), interessadoController.listInteressadoById);
 
 interessadoRoutes.get('/cpf/:cpf',checkJWT, checkRole([AuthService.ROLES.ATENDIMENTO, AuthService.ROLES.ADMIN]), interessadoController.listInteressadoByCPF);
 
