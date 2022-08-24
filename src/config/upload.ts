@@ -64,8 +64,14 @@ class Upload {
         callback(null, this.url);
       },
       filename: (request, file, callback) => {
-        // callback(null, `${this.userid}-${Date.now()}-${file.originalname}`);
-        callback(null, `${this.userid}-${Date.now()}-${file.originalname}.jpg`);
+        if (this.tipo === 'uploadtermo') {
+          callback(null, `${this.userid}-${Date.now()}-${file.originalname}`);
+        } else {
+          callback(
+            null,
+            `${this.userid}-${Date.now()}-${file.originalname}.jpg`,
+          );
+        }
       },
     });
   }
