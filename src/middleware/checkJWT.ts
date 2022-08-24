@@ -8,12 +8,10 @@ export const checkJWT = (req: Request, res: Response, next: NextFunction) => {
     //Try to validate the token and get data
     try {
         const user = AuthService.verify(token);
-        console.log('User: ', user);
-
         if (user) {
             req.user = user;
         } else {
-            res.status(401).send();
+            res.status(401).json({ "message": "Acesso negado!" });
             return;
         }
         next();

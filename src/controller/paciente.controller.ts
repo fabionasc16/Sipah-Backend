@@ -6,6 +6,7 @@ import { Messages } from 'messages/Messages';
 import { Paciente } from 'model/Paciente.model';
 import moment from 'moment';
 import path from 'path';
+import { AuthService } from 'service/auth.service';
 import { container } from 'tsyringe';
 
 import { PacienteService } from '../service/paciente.service';
@@ -29,7 +30,14 @@ class PacienteController {
 
   async listsearch(request: Request, response: Response): Promise<any> {
     const list = container.resolve(PacienteService);
-    const data = await list.listsearch(request);
+    let data = {};
+
+    if ( AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) || AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)) {
+      data = await list.listsearch(request);
+    }else if( AuthService.checkRoles(AuthService.ROLES.ATENDIMENTO, request.user.roles)){
+       //TODO: Implementar metodo para listagem para recepcao
+       data = await list.listsearch(request);
+    }
 
     return response.status(200).json(data);
   }
