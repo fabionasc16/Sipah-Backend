@@ -18,7 +18,7 @@ interessadoRoutes.get('/detalhes/:id',checkJWT, checkRole([AuthService.ROLES.ATE
 
 interessadoRoutes.get('/cpf/:cpf',checkJWT, checkRole([AuthService.ROLES.ATENDIMENTO, AuthService.ROLES.ADMIN]), interessadoController.listInteressadoByCPF);
 
-interessadoRoutes.delete('/:id',checkJWT, checkRole([ AuthService.ROLES.ADMIN]), interessadoController.deleteInteressado);
+interessadoRoutes.delete('/:id',checkJWT, checkRole([ AuthService.ROLES.ADMIN, AuthService.ROLES.ATENDIMENTO]), interessadoController.deleteInteressado);
 
 interessadoRoutes.put('/:id', checkJWT, checkRole([AuthService.ROLES.ATENDIMENTO, AuthService.ROLES.ADMIN]), interessadoController.updateInteressado);
 

@@ -10,7 +10,7 @@ const tipoCaracteristicaController =  new TipoCaracteristicaController();
 
 tipoCaracteristicaRoutes.post('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.create);
 
-tipoCaracteristicaRoutes.delete('/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN]), tipoCaracteristicaController.delete);
+tipoCaracteristicaRoutes.delete('/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.delete);
 
 tipoCaracteristicaRoutes.get('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.list);
 

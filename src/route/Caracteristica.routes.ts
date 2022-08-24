@@ -14,7 +14,7 @@ caracteristicaRoutes.get('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, Auth
 
 caracteristicaRoutes.get('/:name', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), caracteristicaController.listByCaracteristica);
 
-caracteristicaRoutes.delete('/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN]), caracteristicaController.delete);
+caracteristicaRoutes.delete('/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), caracteristicaController.delete);
 
 caracteristicaRoutes.get('/id/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), caracteristicaController.listById);
 
