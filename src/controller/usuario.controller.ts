@@ -9,19 +9,15 @@ class UsuarioController {
   }
 
   async listAllUsuario(request: Request, response: Response): Promise<any> {
-    console.log('listAllUsuario - user');
-    console.log(request.user);
     const userUnidadeID = request.user.unit_id;
     if (AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)) {
       const data = await UsuarioController.service.listAllUsuario(
         request.query,
-        '',
       );
       return response.status(200).json(data);
     }
 
-    const data = await UsuarioController.service.listAllUsuario(
-      request.query,
+    const data = await UsuarioController.service.listAllUsuarioByUnit(
       userUnidadeID,
     );
     return response.status(200).json(data);

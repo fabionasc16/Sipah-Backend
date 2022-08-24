@@ -5,6 +5,7 @@ interface IUsuarioRepository {
   listByCPF(cpf: string): Promise<any>;
   // listAllUsuario(paramsIn: any): Promise<any>;
   listAllUsuario(paramsIn: any, idunidade: any): Promise<any>;
+  listAllUsuarioByUnit(idunidade: any): Promise<any>;
   delete(id: string): Promise<void>;
   update(id: string, data: any): Promise<void>;
 }
