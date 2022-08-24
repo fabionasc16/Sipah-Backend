@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { AuthService } from 'service/auth.service';
 import { UsuarioService } from 'service/usuario.service';
 
 class UsuarioController {
@@ -8,11 +9,10 @@ class UsuarioController {
   }
 
   async listAllUsuario(request: Request, response: Response): Promise<any> {
-    console.log('listAllUsuario - user.roles');
-    console.log(request.user.roles);
-    const userRoles = request.users.roles;
-    const userUnidadeID = request.users.unit_id;
-    if (userRoles.includes('SIPAH_ADMINISTRADOR')) {
+    console.log('listAllUsuario - user');
+    console.log(request.user);
+    const userUnidadeID = request.user.unit_id;
+    if (AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)) {
       const data = await UsuarioController.service.listAllUsuario(
         request.query,
         '',
