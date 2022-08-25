@@ -9,14 +9,7 @@ class UsuarioRepository implements IUsuarioRepository {
 
   async create(usuarioCadastro: any): Promise<any> {
     const created = await axios.post(this.urlUsuario, usuarioCadastro);
-    return created;
-    // usuarioCadastro.data_cadastro = await moment().format('YYYY-MM-DD');
-    // usuarioCadastro.hora_cadastro = await moment().format('HH:mm:ss');
-    // usuarioCadastro.cpfSemFormatacao = usuarioCadastro.cpf
-    //   .replaceAll('.', '')
-    //   .replaceAll('-', '');
-    // const cadastroUsuario = await Usuario.create(usuarioCadastro);
-    // return cadastroUsuario;
+    return created.data;
   }
 
   async listByCPF(cpf: string): Promise<any[]> {
@@ -29,27 +22,24 @@ class UsuarioRepository implements IUsuarioRepository {
     return result.data;
   }
 
-  async listAllUsuario(paramsIn: any, idunidade: any): Promise<any> {
+  async listAllUsuario(paramsIn: any): Promise<any> {
     const page = paramsIn.currentPage != null ? `${paramsIn.currentPage}` : '1';
     const pageSize = paramsIn.perPage != null ? paramsIn.perPage : '10';
 
-    let params;
-    params = {
+    const params = {
       perPage: pageSize,
       currentPage: page,
     };
 
-    if (idunidade !== '') {
-      params = {
-        perPage: pageSize,
-        currentPage: page,
-        unit_id: idunidade,
-      };
-    }
-
-    const result = await axios.get(this.urlUsuario, {
+    const result = await axios.get(`${this.urlUsuario}`, {
       params,
     });
+
+    return result.data;
+  }
+
+  async listAllUsuarioByUnit(idunidade: any): Promise<any> {
+    const result = await axios.get(`${this.urlUsuario}unity/${idunidade}`);
     return result.data;
   }
 
@@ -65,10 +55,6 @@ class UsuarioRepository implements IUsuarioRepository {
     const result = await axios.put(`${this.urlUsuario}${id}`, {
       status: 'true',
     });
-    // const usuarioEncontrado = await Usuario.findById({ _id: id });
-    // const status = !usuarioEncontrado.status;
-    // await Usuario.findByIdAndUpdate({ _id: id }, { status });
-    // return await Usuario.findById({ _id: id });
   }
 }
 

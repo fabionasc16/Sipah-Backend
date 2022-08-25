@@ -23,19 +23,15 @@ export class UsuarioService {
     return this.usuarioRepository.listByCPF(cpf);
   }
   async create(data: any) {
-    const existCPF = await this.usuarioRepository.listByCPF(data.cpf);
-    if (existCPF) {
-      throw new AppError(Messages.USUARIO_ALREADY_EXISTS, 400);
-    }
-    data.dataNascimento = new Date(data.dataNascimento)
-      .toISOString()
-      .substring(0, 10);
-
     return await this.usuarioRepository.create(data);
   }
 
-  async listAllUsuario(params: any, idunidade: any) {
-    return await this.usuarioRepository.listAllUsuario(params, idunidade);
+  async listAllUsuario(params: any) {
+    return await this.usuarioRepository.listAllUsuario(params);
+  }
+
+  async listAllUsuarioByUnit(idunidade: any) {
+    return await this.usuarioRepository.listAllUsuarioByUnit(idunidade);
   }
 
   async mudarStatus(id: string) {
