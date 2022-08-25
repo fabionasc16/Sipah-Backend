@@ -23,6 +23,7 @@ const buscaSchema = new Schema({
       ref: 'interessado',
     },
   ]
+  
 });
 
 const Busca = mongoose.model('busca', buscaSchema);
