@@ -394,6 +394,7 @@ class PacienteController {
       origin.numProntuarioOrigem = origin.numProntuario;
       origin.numProntuario = '';
       origin.entradaAtraves = 'transferencia';
+      origin.statusRegistro = 'Cadastrado';
 
       let imgPrincipalNew = null;
       if (origin.imgPrincipal !== null) {
