@@ -14,11 +14,11 @@ const pacienteController = new PacienteController();
 
 // * Rotas para Cadastro de Pacientes
 pacientesRoutes.post('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.create);
-pacientesRoutes.post('/list/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE,AuthService.ROLES.ATENDIMENTO,]), pacienteController.listsearch);
+pacientesRoutes.post('/list/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE,AuthService.ROLES.PACIENTE_RECEPCAO]), pacienteController.listsearch);
 pacientesRoutes.get('/listid/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.listById);
 pacientesRoutes.delete('/delete/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.delete);
-pacientesRoutes.put('/update/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.update);
-pacientesRoutes.post('/searchout/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.listSearchOut);
+pacientesRoutes.put('/update/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE_EDITAR_ENTRADA, AuthService.ROLES.PACIENTE_EDITAR_FICHA_SOCIAL]), pacienteController.update);
+pacientesRoutes.post('/searchout/', pacienteController.listSearchOut);
 pacientesRoutes.get('/listexternalid/:externalId', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.PACIENTE]), pacienteController.listByExternalId);
 
 // upload termo de paciente

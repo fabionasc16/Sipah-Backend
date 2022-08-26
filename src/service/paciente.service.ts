@@ -1,6 +1,9 @@
 import { AppError } from 'AppError';
+import { Request } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 import { Messages } from 'messages/Messages';
 import { Paciente } from 'model/Paciente.model';
+import { ParsedQs } from 'qs';
 import { inject, injectable } from 'tsyringe';
 
 import { IPacienteRepository } from '../repository/IPacienteRepository';
@@ -58,6 +61,7 @@ interface IRequest {
 
 @injectable()
 class PacienteService {
+
   constructor(
     @inject('PacienteRepository')
     private pacienteRepository: IPacienteRepository,
@@ -243,6 +247,23 @@ class PacienteService {
     }
 
     return patient;
+  }
+
+  async listsearchByUS(request: any, unit_id: string) {
+    const data = await this.pacienteRepository.listsearchByUS(request, unit_id);
+    if (data.length === 0) {
+      throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
+    }
+
+    return data;
+  }  
+  async listsearchByUSStatusCadastrado(request: any, unit_id: string) {
+    const data = await this.pacienteRepository.listsearchByUSStatusCadastrado(request, unit_id);
+    if (data.length === 0) {
+      throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
+    }
+
+    return data;
   }
 }
 

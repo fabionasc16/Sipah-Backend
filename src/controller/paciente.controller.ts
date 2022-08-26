@@ -40,11 +40,12 @@ class PacienteController {
     const list = container.resolve(PacienteService);
     let data = {};
 
-    if ( AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) || AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)) {
+    if (await AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) || await AuthService.checkRoles(AuthService.ROLES.PACIENTE_SERVICO_SOCIAL, request.user.roles)) {
       data = await list.listsearch(request);
-    }else if( AuthService.checkRoles(AuthService.ROLES.ATENDIMENTO, request.user.roles)){
-       //TODO: Implementar metodo para listagem para recepcao
-       data = await list.listsearch(request);
+    } else if (await AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)) {
+      data = await list.listsearchByUS(request, request.user.unit_id);
+    } else if (await AuthService.checkRoles(AuthService.ROLES.PACIENTE_RECEPCAO, request.user.roles)) {
+      data = await list.listsearchByUSStatusCadastrado(request, request.user.unit_id);
     }
 
     return response.status(200).json(data);
