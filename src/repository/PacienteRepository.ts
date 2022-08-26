@@ -396,7 +396,12 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.dataEntrada) {
       if (params.body.dataEntrada !== '') {
-        $and.push({ dataEntrada: params.body.dataEntrada });
+        // $and.push({ dataEntrada: params.body.dataEntrada });
+        $and.push({
+          dataEntrada: {
+            $gte: new Date(params.body.dataEntrada),
+          },
+        });
       }
     }
 
@@ -920,14 +925,32 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async listByIdTransfer(id: string): Promise<any> {
-    const paciente = await Paciente.find(
-      { _id: new mongoose.Types.ObjectId(id) },
-      '-_id -externalId',
-    );
-    if (paciente.length > 0) {
-      return paciente[0];
-    }
-    return null;
+    // const paciente = await Paciente.find(
+    //   { _id: new mongoose.Types.ObjectId(id) },
+    //   '-_id -externalId -imgPrincipalStr',
+    // );
+    // if (paciente.length > 0) {
+    //   return paciente[0];
+    // }
+
+    const paciente = await Paciente.findById({
+      _id: new mongoose.Types.ObjectId(id),
+    });
+    //   .exec((err, doc) => {
+    //   doc._id = new mongoose.Types.ObjectId();
+    //   doc.isNew = true;
+
+    //   // external ID
+    //   const firstPart = (Math.random() * 46656) | 0;
+    //   const secondPart = (Math.random() * 46656) | 0;
+    //   const first = `000${firstPart.toString(36)}`.slice(-3);
+    //   const second = `000${secondPart.toString(36)}`.slice(-3);
+    //   doc.externalId = first + second;
+    //   doc.save();
+    //   return doc;
+    // });
+    // console.log(doc);
+    return paciente;
   }
 }
 
