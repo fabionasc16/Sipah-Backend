@@ -1,4 +1,4 @@
-import { InteressadoController } from 'controller/Interessados.Controller';
+import { InteressadoController } from '../controller/Interessados.Controller';
 import { Router } from 'express';
 
 const interessadoRoutes = Router();

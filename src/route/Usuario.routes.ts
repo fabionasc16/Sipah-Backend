@@ -1,7 +1,7 @@
-import { UsuarioController } from 'controller/usuario.controller';
+import { UsuarioController } from '../controller/usuario.controller';
 import { Router } from 'express';
-import { AuthService } from 'service/auth.service';
-import { checkJWT } from '../middleware/checkJwt';
+import { AuthService } from '../service/auth.service';
+import { checkJWT } from '../middleware/checkJWT';
 import { checkRole } from '../middleware/checkRole';
 const usuarioRoutes = Router();
 

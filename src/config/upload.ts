@@ -1,10 +1,7 @@
-import { AppError } from 'AppError';
-import { timeStamp } from 'console';
-// import { Request } from 'express-serve-static-core';
+import { AppError } from '../AppError';
 import fs from 'fs';
-// import mime from 'mime-types';
-import { imagensPaciente } from 'model/ImagensPaciente.model';
-import { termoPaciente } from 'model/TermosPaciente.model';
+import { imagensPaciente } from '../model/ImagensPaciente.model';
+import { termoPaciente } from '../model/TermosPaciente.model';
 import mongoose from 'mongoose';
 import multer from 'multer';
 
@@ -51,12 +48,12 @@ class Upload {
         }
         if (this.tipo === 'uploadtermo') {
           if (this.max > 1) {
-            return callback(new AppError('Apenas 1 (um) termo por paciente'));
+            const mensagem:any = new AppError('Apenas 1 (um) termo por paciente')
+            return callback(mensagem,'');
           }
         } else if (this.max > 5) {
-          return callback(
-            new AppError('Apenas 5 (cinco) Imagens por paciente'),
-          );
+          const mensagem:any =  new AppError('Apenas 5 (cinco) Imagens por paciente')
+          return callback(mensagem,'');
         }
         if (!fs.existsSync(this.url)) {
           fs.mkdirSync(this.url);

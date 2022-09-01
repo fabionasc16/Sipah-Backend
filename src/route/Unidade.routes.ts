@@ -1,4 +1,4 @@
-import { UnidadeController } from 'controller/unidade.controller';
+import { UnidadeController } from '../controller/unidade.controller';
 import { Router } from 'express';
 
 const unidadeRoutes = Router();

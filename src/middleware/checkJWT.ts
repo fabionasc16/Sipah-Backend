@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthService } from "service/auth.service";
+import { AuthService } from "../service/auth.service";
 
 export const checkJWT = (req: Request, res: Response, next: NextFunction) => {
    // console.log('checkJwt')

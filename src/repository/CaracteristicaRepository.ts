@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 import { Caracteristica } from '../model/Caracteristica.model';
 import { ICaracteristicaRepository } from './ICaracteristicaRepository';
 

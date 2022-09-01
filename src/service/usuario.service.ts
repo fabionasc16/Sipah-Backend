@@ -1,7 +1,6 @@
-import { ParsedQs } from "qs";
-import { UsuarioRepository } from "repository/usuario.repository";
-import { AppError } from 'AppError';
-import { Messages } from "messages/Messages";
+import { UsuarioRepository } from "../repository/usuario.repository";
+import { AppError } from '../AppError';
+import { Messages } from "../messages/Messages";
 
 export class UsuarioService {
  

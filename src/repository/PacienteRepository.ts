@@ -1,5 +1,5 @@
-import { Paciente } from 'model/Paciente.model';
-import { termoPaciente } from 'model/TermosPaciente.model';
+import { Paciente } from '../model/Paciente.model';
+import { termoPaciente } from '../model/TermosPaciente.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 

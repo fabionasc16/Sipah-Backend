@@ -1,8 +1,4 @@
-import { ParsedQs } from "qs";
 import { BuscaRepository } from "../repository/BuscaRepository";
-import { AppError } from 'AppError';
-import { Messages } from "messages/Messages";
-
 export class BuscaService {
  
     private buscaRepository: BuscaRepository;

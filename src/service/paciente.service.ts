@@ -1,11 +1,6 @@
-import { AppError } from 'AppError';
-import { Request } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { Messages } from 'messages/Messages';
-import { Paciente } from 'model/Paciente.model';
-import { ParsedQs } from 'qs';
+import { AppError } from '../AppError';
+import { Messages } from '../messages/Messages';
 import { inject, injectable } from 'tsyringe';
-
 import { IPacienteRepository } from '../repository/IPacienteRepository';
 
 interface IRequest {
@@ -129,7 +124,7 @@ class PacienteService {
     await this.pacienteRepository.delete(id);
   }
 
-  async uploadImage(id: string, arquivo: string): Promise<void> {
+  async uploadImage(id: string, arquivo: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
     }
@@ -141,7 +136,7 @@ class PacienteService {
     return this.pacienteRepository.uploadImage(id, arquivo);
   }
 
-  async loadImage(id: string): Promise<void> {
+  async loadImage(id: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
     }

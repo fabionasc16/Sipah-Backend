@@ -1,7 +1,7 @@
-import { Usuario } from 'model/Usuario.model';
+import { Usuario } from '../model/Usuario.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
-import { IUsuarioRepository } from 'repository/IUsuarioRepository';
+import { IUsuarioRepository } from '../repository/IUsuarioRepository';
 
 class UsuarioRepository implements IUsuarioRepository {
   // private usuario = usuario;
@@ -17,7 +17,7 @@ class UsuarioRepository implements IUsuarioRepository {
     return cadastroUsuario;
   }
 
-  async listByCPF(cpf: string): Promise<any[]> {
+  async listByCPF(cpf: string): Promise<any> {
     const data = await Usuario.findOne({
       cpf,
     }).populate('unidadeUsuario');

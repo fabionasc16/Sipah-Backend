@@ -1,6 +1,5 @@
-import { Unidade } from 'model/Unidade.model';
+import { Unidade } from '../model/Unidade.model';
 import mongoose from 'mongoose';
-
 import { IUnidadeRepository } from './IUnidadeRepository';
 
 class UnidadeRepository implements IUnidadeRepository {

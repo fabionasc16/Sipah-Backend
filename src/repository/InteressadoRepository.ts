@@ -1,8 +1,5 @@
-import { IInteressadoRepository } from 'repository/IInteressadoRepository';
-import { Interessado } from 'model/Interassado.model';
-import { Messages } from 'messages/Messages';
-import { AppError } from 'AppError';
-import moment from 'moment';
+import { IInteressadoRepository } from '../repository/IInteressadoRepository';
+import { Interessado } from '../model/Interassado.model';
 import mongoose from 'mongoose';
 
 class InteressadoRepository implements IInteressadoRepository {
@@ -16,7 +13,7 @@ class InteressadoRepository implements IInteressadoRepository {
     return cadastroInteressado;
   }
 
-  async listByCPF(cpf: string): Promise<any[]> {
+  async listByCPF(cpf: string): Promise<any> {
     const data = await Interessado.findOne({
       cpf
     });

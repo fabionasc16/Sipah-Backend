@@ -1,7 +1,6 @@
-import { ParsedQs } from "qs";
-import { InteressadoRepository } from "repository/InteressadoRepository";
-import { AppError } from 'AppError';
-import { Messages } from "messages/Messages";
+import { InteressadoRepository } from "../repository/InteressadoRepository";
+import { AppError } from '../AppError';
+import { Messages } from "../messages/Messages";
 
 export class InteressadoService {
  

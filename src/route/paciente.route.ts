@@ -1,8 +1,7 @@
-import { AppError } from 'AppError';
-import { PacienteController } from 'controller/paciente.controller';
+import { PacienteController } from '../controller/paciente.controller';
 import { Router } from 'express';
 import multer from 'multer';
-import { AuthService } from 'service/auth.service';
+import { AuthService } from '../service/auth.service';
 import { checkJWT } from '../middleware/checkJWT';
 import { checkRole } from '../middleware/checkRole';
 

@@ -1,4 +1,4 @@
-import { BuscaController } from 'controller/Busca.Controller';
+import { BuscaController } from '../controller/Busca.Controller';
 import { Router } from 'express';
 
 const buscaRoutes = Router();

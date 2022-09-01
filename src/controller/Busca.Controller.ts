@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
-import { BuscaService } from 'service/Busca.Service';
-
-
-
+import { BuscaService } from '../service/Busca.Service';
 class BuscaController {   
   static service: BuscaService;
   public constructor() {
