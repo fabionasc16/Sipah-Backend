@@ -6,6 +6,7 @@ interface IPacienteRepository {
   listsearch(params: any): any;
   listSearchOut(params: any): Promise<any>;
   listById(id: string): Promise<any>;
+  listBytransf(numProntuario: string, unidade: string): Promise<any>;
   listByExternalId(externalId: string): Promise<any>;
   delete(id: string): Promise<void>;
 
