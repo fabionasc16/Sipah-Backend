@@ -254,14 +254,3 @@ class PacienteService {
 }
 
 export { PacienteService };
-
-/*const existCPF = await this.interessadoRepository.listByCPF(data.cpf);
-        if (existCPF) {
-            throw new AppError(Messages.USUARIO_ALREADY_EXISTS, 400);
-        }
-        data.dataNascimento = new Date(data.dataNascimento)
-            .toISOString()
-            .substring(0, 10);
-            
-        return await this.interessadoRepository.create(data);*/
-    
