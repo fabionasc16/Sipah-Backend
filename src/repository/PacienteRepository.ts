@@ -952,6 +952,15 @@ class PacienteRepository implements IPacienteRepository {
     // console.log(doc);
     return paciente;
   }
+
+  async listBytransf(numProntuario: string, unidade: string): Promise<any[]> {
+    const data = await Paciente.findOne({
+      numProntuario,
+      unidade
+    });
+    return data;
+  }
+
 }
 
 export { PacienteRepository };
