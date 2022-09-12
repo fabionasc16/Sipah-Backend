@@ -7,6 +7,7 @@ import 'express-async-errors';
 import { Messages } from './messages/Messages';
 import morgan from 'morgan';
 import { appRoutes } from './route';
+import { authRoutes } from './route/Auth.routes';
 import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./swagger.json"
 
@@ -35,6 +36,8 @@ app.use(express.json());
 app.use('/images', express.static('images'));
 app.use(morgan('combined'));
 app.use('/api', appRoutes);
+app.use('/auth', authRoutes);
+
 app.use(
   (error: Error, request: Request, response: Response, next: NextFunction) => {
     if (error instanceof AppError) {

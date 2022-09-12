@@ -13,7 +13,7 @@
   "scripts": {
     "run:dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "prod": "tsc && node ./dist/server.js",
-    "tsc": "tsc",
+    "build": "tsc",
     "run:lint": "eslint . --ext .ts,.js,.json",
     "run:lint-fix": "eslint . --ext .ts,.js,.json --fix"
   },
@@ -21,7 +21,7 @@
     "@eslint/create-config": "^0.1.2",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
-   
+    "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/mime-types": "^2.1.1",
     "@types/morgan": "^1.9.3",
@@ -60,8 +60,7 @@
     "swagger-ui-express": "^4.5.0",
     "tsyringe": "^4.6.0",
     "uuid": "^8.3.2",
-    "axios": "^0.27.2",
-    "@types/express": "^4.17.13"
+    "axios": "^0.27.2"
   },
   "engines": {
     "node": ">=16.0.0",
