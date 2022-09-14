@@ -1,14 +1,16 @@
-import { UnidadeController } from '../controller/unidade.controller';
 import { Router } from 'express';
+
+import { AuthService } from '../service/auth.service';
 
 const unidadeRoutes = Router();
 
-const unidadeController = new UnidadeController();
+const authService = new AuthService();
 
-unidadeRoutes.post('/create', unidadeController.create);
-unidadeRoutes.get('/list', unidadeController.list);
-unidadeRoutes.get('/listid/:id', unidadeController.listById);
-unidadeRoutes.put('/update/:id', unidadeController.update);
-unidadeRoutes.delete('/delete/:id', unidadeController.delete);
+unidadeRoutes.post('/create', authService.createUnities);
+unidadeRoutes.get('/list', authService.listUnities);
+unidadeRoutes.get('/listid/:id', authService.listByIdUnities);
+unidadeRoutes.put('/update/:id', authService.updateUnities);
+unidadeRoutes.delete('/delete/:id', authService.deleteUnities);
+unidadeRoutes.get('/listcnpj/:id', authService.listByCNPJUnities);
 
 export { unidadeRoutes };
