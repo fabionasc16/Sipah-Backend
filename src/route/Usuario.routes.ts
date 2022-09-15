@@ -17,7 +17,12 @@ usuarioRoutes.post(
   authService.createUsuario,
 );
 
-usuarioRoutes.get('/', authService.listAllUsuario);
+usuarioRoutes.get(
+  '/',
+  checkJWT,
+  checkRole([AuthService.ROLES.USUARIO, AuthService.ROLES.ADMIN]),
+  authService.listAllUsuario,
+);
 
 usuarioRoutes.get('/detalhes/:id', authService.listUsuarioById);
 
@@ -26,7 +31,7 @@ usuarioRoutes.get('/cpf/:cpf', authService.listUsuarioByCPF);
 usuarioRoutes.delete(
   '/:id',
   checkJWT,
-  checkRole([AuthService.ROLES.USUARIO_EXCLUIR]),
+  checkRole([AuthService.ROLES.USUARIO_EXCLUIR, AuthService.ROLES.ADMIN]),
   authService.deleteUsuario,
 );
 

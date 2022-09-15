@@ -25,6 +25,9 @@ export class AuthService {
     }
   }
 
+  /** testar */
+
+  // OK-testado
   async createUnities(request: Request, response: Response): Promise<Response> {
     const url = process.env.SSO_URL;
     try {
@@ -38,6 +41,7 @@ export class AuthService {
     }
   }
 
+  // OK-testado
   async listUnities(request: Request, response: Response): Promise<Response> {
     const url = process.env.SSO_URL;
 
@@ -61,6 +65,7 @@ export class AuthService {
     }
   }
 
+  // OK-testado
   async listByIdUnities(
     request: Request,
     response: Response,
@@ -79,12 +84,17 @@ export class AuthService {
     return await axios.put(`${url}/unities/${request.params.id}`, request.body);
   }
 
+  // OK-testado
   async deleteUnities(request: Request, response: Response): Promise<Response> {
     const url = process.env.SSO_URL;
 
-    return await axios.delete(`${url}/unities/${request.params.id}`);
+    const { status, statusText } = await axios.delete(
+      `${url}/unities/${request.params.id}`,
+    );
+    return await response.status(status).json(statusText);
   }
 
+  // OK-testado
   async listByCNPJUnities(
     request: Request,
     response: Response,
@@ -98,14 +108,14 @@ export class AuthService {
     return await response.status(status).json(data);
   }
 
-  /** testar */
-
+  // OK-testado
   async createUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
-    const { status, data } = await axios.post(url, request.body);
+    const { status, data } = await axios.post(`${url}/users/`, request.body);
     return await response.status(status).json(data);
   }
 
+  // OK-testado
   async listUsuarioByCPF(request: Request, response: Response): Promise<any[]> {
     const url = process.env.SSO_URL;
     const { status, data } = await axios.get(
@@ -114,6 +124,7 @@ export class AuthService {
     return await response.status(status).json(data);
   }
 
+  // OK-testado
   async listUsuarioById(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
     const { status, data } = await axios.get(
@@ -122,61 +133,76 @@ export class AuthService {
     return await response.status(status).json(data);
   }
 
+  // OK-testado
   async listAllUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
+    const userUnidadeID = request.user.unit_id;
     const page =
-      request.params.currentPage != null
-        ? `${request.params.currentPage}`
-        : '1';
+      request.query.currentPage != null ? `${request.query.currentPage}` : '1';
     const pageSize =
-      request.params.perPage != null ? request.params.perPage : '10';
+      request.query.perPage != null ? request.query.perPage : '10';
 
     const params = {
       perPage: pageSize,
       currentPage: page,
     };
 
-    const { status, data } = await axios.get(`${url}/users/`, {
-      params,
-    });
+    if (AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)) {
+      const { status, data } = await axios.get(`${url}/users/`, {
+        params,
+      });
 
-    return await response.status(status).json(data);
-  }
+      return await response.status(status).json(data);
+    }
 
-  async listAllUsuarioByUnit(
-    request: Request,
-    response: Response,
-  ): Promise<any> {
-    const url = process.env.SSO_URL;
     const { status, data } = await axios.get(
-      `${url}/users/unity/${request.params.id}`,
+      `${url}/users/unity/${userUnidadeID}`,
     );
     return await response.status(status).json(data);
   }
 
+  // OK-testado
   async deleteUsuario(request: Request, response: Response): Promise<void> {
     const url = process.env.SSO_URL;
-    const { status } = await axios.delete(`${url}${request.params.id}`);
-    return await response.status(status);
+    const { status, statusText } = await axios.delete(
+      `${url}/users/${request.params.id}`,
+    );
+    return await response.status(status).json(statusText);
   }
 
+  // NOT OK-reprovado
   async updateUsuario(request: Request, response: Response): Promise<void> {
     const url = process.env.SSO_URL;
-    const { status, data } = await axios.put(
-      `${url}${request.params.id}`,
+    // const { status, data } = await axios.put(
+    console.log('update Usuario - Antes axios');
+    console.log(request.params.id);
+    console.log('request - URL');
+    console.log(`${url}users/${request.params.id}`);
+    console.log('request body');
+    console.log(request.body);
+
+    const result = await axios.put(
+      `${url}users/${request.params.id}`,
       request.body,
     );
-    return await response.status(status).json(data);
+    console.log('update Usuario - Pos axios');
+    console.log(result);
+    // return await response.status(status).json(data);
+    return await response.status(result.status).json(result.data);
   }
 
+  // NOT OK-reprovado
   async mudarStatusUsuario(
     request: Request,
     response: Response,
   ): Promise<void> {
     const url = process.env.SSO_URL;
-    const { status, data } = await axios.put(`${url}${request.params.id}`, {
-      status: 'true',
-    });
+    const { status, data } = await axios.put(
+      `${url}/users/${request.params.id}`,
+      {
+        status: 'true',
+      },
+    );
     return await response.status(status).json(data);
   }
 
@@ -232,6 +258,7 @@ export class AuthService {
       unit_id: '62fcea7f97531b81063b8a70', // CNPJ
       unit_name: 'HOSPITAL E PRONTO SOCORRO 28 DE AGOSTO',
       roles: [
+        'SIPAH_USUARIO_EXCLUIR',
         // 'SIPAH_USUARIO',
         // 'SIPAH_PACIENTE',
         // 'SIPAH_PACIENTE_EDITAR_FICHA_SOCIAL',
@@ -241,8 +268,8 @@ export class AuthService {
         // 'SIPAH_PACIENTE_IDENTIFICAR_INTERNADO',
         // 'SIPAH_PACIENTE_REGISTRAR_SAIDA',
         // 'SIPAH_ATENDIMENTO',
-        'SIPAH_PACIENTE_RECEPCAO',
-        // 'SIPAH_ADMINISTRADOR'
+        // 'SIPAH_PACIENTE_RECEPCAO',
+        'SIPAH_ADMINISTRADOR',
       ],
     };
   }
