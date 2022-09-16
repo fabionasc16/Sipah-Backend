@@ -78,10 +78,15 @@ export class AuthService {
     return await response.status(status).json(data);
   }
 
+  // OK-testado - Somente quando envia todos os campos
   async updateUnities(request: Request, response: Response): Promise<Response> {
     const url = process.env.SSO_URL;
 
-    return await axios.put(`${url}/unities/${request.params.id}`, request.body);
+    const { status, data } = await axios.put(
+      `${url}/unities/${request.params.id}`,
+      request.body,
+    );
+    return await response.status(status).json(data);
   }
 
   // OK-testado
@@ -170,41 +175,31 @@ export class AuthService {
     return await response.status(status).json(statusText);
   }
 
-  // NOT OK-reprovado
+  // OK-testado - Somente quando envia todos os campos
   async updateUsuario(request: Request, response: Response): Promise<void> {
     const url = process.env.SSO_URL;
-    // const { status, data } = await axios.put(
-    console.log('update Usuario - Antes axios');
-    console.log(request.params.id);
-    console.log('request - URL');
-    console.log(`${url}users/${request.params.id}`);
-    console.log('request body');
-    console.log(request.body);
 
-    const result = await axios.put(
+    const { status, data } = await axios.put(
       `${url}users/${request.params.id}`,
       request.body,
     );
-    console.log('update Usuario - Pos axios');
-    console.log(result);
-    // return await response.status(status).json(data);
-    return await response.status(result.status).json(result.data);
-  }
-
-  // NOT OK-reprovado
-  async mudarStatusUsuario(
-    request: Request,
-    response: Response,
-  ): Promise<void> {
-    const url = process.env.SSO_URL;
-    const { status, data } = await axios.put(
-      `${url}/users/${request.params.id}`,
-      {
-        status: 'true',
-      },
-    );
     return await response.status(status).json(data);
   }
+
+  // NOT OK-reprovado - basta usar o método update
+  // async mudarStatusUsuario(
+  //   request: Request,
+  //   response: Response,
+  // ): Promise<void> {
+  //   const url = process.env.SSO_URL;
+  //   const { status, data } = await axios.put(
+  //     `${url}/users/${request.params.id}`,
+  //     {
+  //       status: 'true',
+  //     },
+  //   );
+  //   return await response.status(status).json(data);
+  // }
 
   /** fim testar */
 

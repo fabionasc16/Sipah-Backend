@@ -37,6 +37,7 @@ usuarioRoutes.delete(
 
 usuarioRoutes.put('/:id', authService.updateUsuario);
 
-usuarioRoutes.put('/mudar/status/:id', authService.mudarStatusUsuario);
+// Pode-se usar o método update para mudar o status do usuário
+// usuarioRoutes.put('/mudar/status/:id', authService.mudarStatusUsuario);
 
 export { usuarioRoutes };
