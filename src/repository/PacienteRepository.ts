@@ -396,7 +396,12 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.dataEntrada) {
       if (params.body.dataEntrada !== '') {
-        $and.push({ dataEntrada: params.body.dataEntrada });
+        // $and.push({ dataEntrada: params.body.dataEntrada });
+        $and.push({
+          dataEntrada: {
+            $gte: new Date(params.body.dataEntrada),
+          },
+        });
       }
     }
 
@@ -718,7 +723,7 @@ class PacienteRepository implements IPacienteRepository {
 
     const data = await Paciente.find(
       term,
-      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino imgPrincipalStr externalId',
+      'dataEntrada horaEntrada dataSaida horaSaida formaSaida modoSaida numProntuario entradaAtraves statusRegistro statusPaciente nomePaciente nomeMae dataNascimento rg cpf cns nacionalidade pais estaturaAproximada pesoAproximado idadeAproximada condicoesEncontrada localEncontrado sinaisParticulares acessoriosUtilizados vestimentas barba bigode bairroEncontrado deficiencia naoInformaContato nomeContato grauParentescoSelected telefoneContato cpfContato genero generoOutro unidade nomeSocialPaciente apelidoPaciente vitimaAbandono querEncontro autorizaConsulta numRegistroExterno unidadeSaudeOrigem conscienciaPaciente transtornosPaciente tratamentoPsicologico descricaoEstadoPaciente tipoCaracteristicas dataIdentificacao meioIdentificacao observacao unidadeSaudeDestino imgPrincipalStr numProntuarioOrigem externalId',
       {
         skip: pageNumber * pageSizeNumber,
         limit: pageSizeNumber,
@@ -747,7 +752,7 @@ class PacienteRepository implements IPacienteRepository {
 
     return result;
   }
- async listsearchByUS(params: any, id_us:string): Promise<any> {
+  async listsearchByUS(params: any, id_us:string): Promise<any> {
     const page =
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
     const pageSize = params.query.perPage != null ? params.query.perPage : '10';
@@ -1680,15 +1685,42 @@ class PacienteRepository implements IPacienteRepository {
   }
 
   async listByIdTransfer(id: string): Promise<any> {
-    const paciente = await Paciente.find(
-      { _id: new mongoose.Types.ObjectId(id) },
-      '-_id -externalId',
-    );
-    if (paciente.length > 0) {
-      return paciente[0];
-    }
-    return null;
+    // const paciente = await Paciente.find(
+    //   { _id: new mongoose.Types.ObjectId(id) },
+    //   '-_id -externalId -imgPrincipalStr',
+    // );
+    // if (paciente.length > 0) {
+    //   return paciente[0];
+    // }
+
+    const paciente = await Paciente.findById({
+      _id: new mongoose.Types.ObjectId(id),
+    });
+    //   .exec((err, doc) => {
+    //   doc._id = new mongoose.Types.ObjectId();
+    //   doc.isNew = true;
+
+    //   // external ID
+    //   const firstPart = (Math.random() * 46656) | 0;
+    //   const secondPart = (Math.random() * 46656) | 0;
+    //   const first = `000${firstPart.toString(36)}`.slice(-3);
+    //   const second = `000${secondPart.toString(36)}`.slice(-3);
+    //   doc.externalId = first + second;
+    //   doc.save();
+    //   return doc;
+    // });
+    // console.log(doc);
+    return paciente;
   }
+
+  async listBytransf(numProntuario: string, unidade: string): Promise<any> {
+    const data = await Paciente.findOne({
+      numProntuario,
+      unidade
+    });
+    return data;
+  }
+
 }
 
 export { PacienteRepository };

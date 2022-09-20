@@ -1,18 +1,21 @@
 import { TipoCaracteristicaController } from "../controller/TipoCaracteristica.Controller";
 import { Router } from 'express';
+import { AuthService } from '../service/auth.service';
+import { checkJWT } from '../middleware/checkJWT';
+import { checkRole } from '../middleware/checkRole';
 
 const tipoCaracteristicaRoutes = Router();
 
 const tipoCaracteristicaController =  new TipoCaracteristicaController();
 
-tipoCaracteristicaRoutes.post('/', tipoCaracteristicaController.create);
+tipoCaracteristicaRoutes.post('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.create);
 
-tipoCaracteristicaRoutes.delete('/:id', tipoCaracteristicaController.delete);
+tipoCaracteristicaRoutes.delete('/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.delete);
 
-tipoCaracteristicaRoutes.get('/', tipoCaracteristicaController.list);
+tipoCaracteristicaRoutes.get('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.list);
 
-tipoCaracteristicaRoutes.get('/:id', tipoCaracteristicaController.listById);
+tipoCaracteristicaRoutes.get('/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.listById);
 
-tipoCaracteristicaRoutes.put('/:id', tipoCaracteristicaController.update);
+tipoCaracteristicaRoutes.put('/:id', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), tipoCaracteristicaController.update);
 
 export { tipoCaracteristicaRoutes };

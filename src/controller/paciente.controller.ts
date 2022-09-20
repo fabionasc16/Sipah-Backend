@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import { Messages } from '../messages/Messages';
 import moment from 'moment';
+import mongoose from 'mongoose';
 import path from 'path';
 import { AuthService } from '../service/auth.service';
 import { container } from 'tsyringe';
@@ -21,16 +22,8 @@ class PacienteController {
         .status(201)
         .json({ acknowledge: true, status: 'created', content: result });
     } catch (error) {
-      if (error.message !== null) {
-        if (error.code === 11000) {
-          return response.status(400).send({
-            message: 'Número de prontuário já cadastrado',
-          });
-        }
-      }
       return response.status(400).send({
         message: 'Não foi possível cadastrar o usuário',
-        // message: error,
       });
     }
   }
@@ -39,12 +32,16 @@ class PacienteController {
     const list = container.resolve(PacienteService);
     let data = {};
 
-    if (await AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) || await AuthService.checkRoles(AuthService.ROLES.PACIENTE_SERVICO_SOCIAL, request.user.roles)) {
+    if (
+      AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) ||
+      AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)
+    ) {
       data = await list.listsearch(request);
-    } else if (await AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)) {
-      data = await list.listsearchByUS(request, request.user.unit_id);
-    } else if (await AuthService.checkRoles(AuthService.ROLES.PACIENTE_RECEPCAO, request.user.roles)) {
-      data = await list.listsearchByUSStatusCadastrado(request, request.user.unit_id);
+    } else if (
+      AuthService.checkRoles(AuthService.ROLES.ATENDIMENTO, request.user.roles)
+    ) {
+      // TODO: Implementar metodo para listagem para recepcao
+      data = await list.listsearch(request);
     }
 
     return response.status(200).json(data);
@@ -349,38 +346,108 @@ class PacienteController {
 
     try {
       // 1 - verificar se paciente a ser transferido existe
-      const origin = await service.listByIdTransfer(id);
+      let origin;
+      // eslint-disable-next-line prefer-const
+      origin = await service.listByIdTransfer(id);
       if (!origin) {
         return response.status(400).send({
           message: 'Usuário a ser transferido não existe',
         });
       }
+      // console.log('Paciente Duplicado');
+      // console.log(origin);
+      // console.log('ID de Origem');
+      // console.log(origin._id.toString());
+      const idUsuarioUnidadeOrigem = origin._id.toString();
+      origin._id = new mongoose.Types.ObjectId();
+      origin.isNew = true; // digo que será uma novo registro ao mongo
+      // external ID
+      const firstPart = (Math.random() * 46656) | 0;
+      const secondPart = (Math.random() * 46656) | 0;
+      const first = `000${firstPart.toString(36)}`.slice(-3);
+      const second = `000${secondPart.toString(36)}`.slice(-3);
+      origin.externalId = first + second;
+      console.log('Novo ID Externo');
+      console.log(origin.externalId);
+      // console.log('ID de Destino');
+      // console.log(origin._id.toString());
+      // const duplicado = await origin.save();
 
       // 2 - duplico registro do paciente, no entanto, em outra unidade de sáude
-      const dt = await moment().format('YYYY-MM-DD HH:mm:ss');
-      origin.dataEntrada = dt.substring(0, 10);
-      origin.horaEntrada = dt.substring(11);
+      // const dt = await moment().format('YYYY-MM-DD HH:mm:ss');
+      // origin.dataEntrada = dt.substring(0, 10);
+      // origin.horaEntrada = dt.substring(11);
+      const dtIn = await moment(paciente.dataEntrada).format('YYYY-MM-DD');
+      const hrIn = await moment(paciente.horaEntrada).format('HH:mm:ss');
 
       const aux = origin.unidade;
 
+      origin.dataEntrada = dtIn;
+      origin.horaEntrada = hrIn;
+      origin.dataSaida = null;
+      origin.horaSaida = null;
       origin.unidade = paciente.unidadeSaudeDestino;
       origin.unidadeSaudeOrigem = aux;
       origin.unidadeSaudeDestino = '';
       origin.numProntuarioOrigem = origin.numProntuario;
       origin.numProntuario = '';
+      origin.entradaAtraves = 'transferencia';
+      origin.statusRegistro = 'Cadastrado';
 
-      const oringinJSON = JSON.stringify(origin);
-      const dados = JSON.parse(oringinJSON);
+      let imgPrincipalNew = null;
+      if (origin.imgPrincipal !== null) {
+        imgPrincipalNew = origin.imgPrincipal.toString();
+        // origin.imgPrincipal = null;
+      }
 
+      // const oringinJSON = JSON.stringify(origin);
+      // const dados = JSON.parse(oringinJSON);
+      // dados.imgPrincipal = imgPrincipalNew;
+      // console.log('dados JSON');
+      // console.log(oringinJSON);
+      // console.log('dados apos conversao');
+      // console.log(dados);
       // 3 - Criar novo registro do paciente em outra unidade
-      const created = await service.create(dados);
+      // const created = await service.create(dados);
+      const duplicado = await origin.save();
+      console.log('Duplicado');
+      console.log(duplicado);
+      // const created = await service.create(origin);
+      // // duplico o a referencia a imagem do paciente.
+      // // Embora sendo o mesmo paciente, quando transferido é gerado um novo ID para o novo registro.
+      // // do paciente na unidade que está sendo traferido.
+      if (imgPrincipalNew !== null) {
+        // Pelo ID da Imagem encontrar o ID do Paciente e duplicar para o novo registro da nova unidade
+        // const imgPrincipalPaciente = await service.loadImageById(
+        //   imgPrincipalNew,
+        // );
+        // ID do paciente na unidade de origem
+        // const idPacienteUnidadeSaida = imgPrincipalPaciente.paciente.toString();
+        // const imgsPaciente = await service.loadImage(idPacienteUnidadeSaida);
+        const imgsPaciente = await service.loadImage(idUsuarioUnidadeOrigem);
+        for (let index = 0; index < imgsPaciente.length; index += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          const imgsPacienteUnidadeDestino = await service.uploadImage(
+            duplicado._id.toString(),
+            imgsPaciente[index].imagens,
+          );
+          if (index === 0) {
+            // Atualizo o campo "imgPrincipal" do novo registro que acabou de ser cadastrado
+            // eslint-disable-next-line no-await-in-loop
+            const up = await service.update(duplicado._id.toString(), {
+              imgPrincipal: imgsPacienteUnidadeDestino._id.toString(),
+            });
+          }
+        }
+      }
 
       // 4 - Atualizo o status e unidade de destino do registro da unidade de origem
       const up = await service.update(id, {
+        observacao: paciente.observacao,
         statusRegistro: 'Finalizado',
         unidadeSaudeDestino: paciente.unidadeSaudeDestino,
-        dataSaida: `${dados.dataEntrada} ${dados.horaEntrada}`,
-        horaSaida: `${dados.dataEntrada} ${dados.horaEntrada}`,
+        dataSaida: paciente.dataEntrada,
+        horaSaida: paciente.horaEntrada,
       });
 
       return response

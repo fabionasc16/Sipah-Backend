@@ -155,6 +155,7 @@ function getStatusRegistro(status) {
       break;
 
     default:
+      return '';
       break;
   }
 }
@@ -220,8 +221,6 @@ const pacienteSchema = new Schema(
     numProntuario: {
       type: mongoose.Schema.Types.String,
       default: '',
-      // required: [true, 'Informe o número de prontuário'],
-      // unique: [true, 'Número de Prontuário já cadastrado'],
     },
     entradaAtraves: {
       type: mongoose.Schema.Types.String,

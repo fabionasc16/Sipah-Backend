@@ -63,6 +63,13 @@ class PacienteService {
   ) {}
 
   async create(data: any): Promise<any> {
+    const tranfExist = await this.pacienteRepository.listBytransf(data.numProntuario, data.unidade);
+    if (data.numProntuario.length === 0 ) {
+      const cadastroPaciente = await this.pacienteRepository.create(data);
+      return cadastroPaciente;  
+    }else if (tranfExist) {
+            throw new AppError(Messages.USUARIO_ALREADY_EXISTS, 400);
+        }
     const cadastroPaciente = await this.pacienteRepository.create(data);
     return cadastroPaciente;
   }

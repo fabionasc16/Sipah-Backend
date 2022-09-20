@@ -37,6 +37,19 @@ class UnidadeService {
     return result;
   }
 
+  async listByCNPJ(cnpj: string): Promise<any> {
+    if (!cnpj) {
+      throw new AppError(`${Messages.MISSING_PARAMETERS}: CNPJ da Unidade`);
+    }
+
+    const result = await this.unidadeRepository.listByCNPJ(cnpj);
+    if (!result) {
+      throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
+    }
+
+    return result;
+  }
+
   async delete(id: string): Promise<void> {
     if (!id) {
       throw new AppError(

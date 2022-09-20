@@ -21,6 +21,12 @@ class UnidadeController {
     return response.status(200).json(data);
   }
 
+  async listByCNPJ(request: Request, response: Response): Promise<any> {
+    const service = container.resolve(UnidadeService);
+    const data = await service.listByCNPJ(request.params.id);
+    return response.status(200).json(data);
+  }
+
   async update(request: Request, response: Response): Promise<Response> {
     const service = container.resolve(UnidadeService);
     const { id } = request.params;

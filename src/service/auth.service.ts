@@ -116,17 +116,55 @@ export class AuthService {
   // OK-testado
   async createUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
-    const { status, data } = await axios.post(`${url}/users/`, request.body);
-    return await response.status(status).json(data);
+
+    try {
+      // Verifica se o CPF já é cadastrado
+      if (request.body.cpf) {
+        try {
+          const strCPF = request.body.cpf
+            .replaceAll('.', '')
+            .replaceAll('-', '');
+          const existUser:any = await axios.get(`${url}/users/cpf/${strCPF}`);
+          // Caso o usuário já seja cadatrado, realiza-se o update, adicionando-se o perfil e a unidade
+          try {
+            const edit = await axios.put(
+              `${url}users/${existUser._id}`,
+              request.body,
+            );
+            return await response.status(edit.status).json(edit.data);
+          } catch (error) {
+            return response.status(400).send({
+              message: 'Não foi possível Atualizar dados de usuário',
+            });
+          }
+        } catch (error) {
+          // Senão, realiza-se o cadastro do paciente normalmente.
+          const { status, data } = await axios.post(
+            `${url}/users/`,
+            request.body,
+          );
+          return await response.status(status).json(data);
+        }
+      }
+    } catch (error) {
+      return response.status(400).send({
+        message: 'Não foi possível cadastrar de usuário',
+      });
+    }
   }
 
   // OK-testado
-  async listUsuarioByCPF(request: Request, response: Response): Promise<any[]> {
+  async listUsuarioByCPF(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
-    const { status, data } = await axios.get(
-      `${url}/users/cpf/${request.params.cpf}`,
-    );
-    return await response.status(status).json(data);
+    try {
+      const result = await axios.get(`${url}/users/cpf/${request.params.cpf}`);
+      return await response.status(result.status).json(result.data);
+    } catch (error) {
+      return response
+        .status(error.response.status)
+        .json(error.response.data);
+    }
+    // return await response.status(status).json(data);
   }
 
   // OK-testado
@@ -167,7 +205,7 @@ export class AuthService {
   }
 
   // OK-testado
-  async deleteUsuario(request: Request, response: Response): Promise<void> {
+  async deleteUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
     const { status, statusText } = await axios.delete(
       `${url}/users/${request.params.id}`,
@@ -176,7 +214,7 @@ export class AuthService {
   }
 
   // OK-testado - Somente quando envia todos os campos
-  async updateUsuario(request: Request, response: Response): Promise<void> {
+  async updateUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
 
     const { status, data } = await axios.put(
@@ -254,16 +292,16 @@ export class AuthService {
       unit_name: 'HOSPITAL E PRONTO SOCORRO 28 DE AGOSTO',
       roles: [
         'SIPAH_USUARIO_EXCLUIR',
-        // 'SIPAH_USUARIO',
-        // 'SIPAH_PACIENTE',
-        // 'SIPAH_PACIENTE_EDITAR_FICHA_SOCIAL',
-        // 'SIPAH_PACIENTE_VISUALIZAR_FICHA_SOCIAL',
-        // 'SIPAH_PACIENTE_CAPTURAR_FOTO',
-        // 'SIPAH_PACIENTE_VISUALIZAR_FOTO',
-        // 'SIPAH_PACIENTE_IDENTIFICAR_INTERNADO',
-        // 'SIPAH_PACIENTE_REGISTRAR_SAIDA',
-        // 'SIPAH_ATENDIMENTO',
-        // 'SIPAH_PACIENTE_RECEPCAO',
+        'SIPAH_USUARIO',
+        'SIPAH_PACIENTE',
+        'SIPAH_PACIENTE_EDITAR_FICHA_SOCIAL',
+        'SIPAH_PACIENTE_VISUALIZAR_FICHA_SOCIAL',
+        'SIPAH_PACIENTE_CAPTURAR_FOTO',
+        'SIPAH_PACIENTE_VISUALIZAR_FOTO',
+        'SIPAH_PACIENTE_IDENTIFICAR_INTERNADO',
+        'SIPAH_PACIENTE_REGISTRAR_SAIDA',
+        'SIPAH_ATENDIMENTO',
+        'SIPAH_PACIENTE_RECEPCAO',
         'SIPAH_ADMINISTRADOR',
       ],
     };
