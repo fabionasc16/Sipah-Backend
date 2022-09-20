@@ -8,58 +8,36 @@ import { checkRole } from '../middleware/checkRole';
 const usuarioRoutes = Router();
 
 const usuarioController = new UsuarioController();
+const authService = new AuthService();
 
 usuarioRoutes.post(
   '/',
   checkJWT,
-  checkRole([
-    AuthService.ROLES.ADMIN,
-    AuthService.ROLES.ATENDIMENTO,
-    AuthService.ROLES.USUARIO,
-  ]),
-  usuarioController.createUsuario,
+  checkRole([AuthService.ROLES.USUARIO]),
+  authService.createUsuario,
 );
 
 usuarioRoutes.get(
   '/',
   checkJWT,
-  checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.USUARIO]),
-  usuarioController.listAllUsuario,
+  checkRole([AuthService.ROLES.USUARIO, AuthService.ROLES.ADMIN]),
+  authService.listAllUsuario,
 );
 
-usuarioRoutes.get(
-  '/detalhes/:id',
-  checkJWT,
-  checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.USUARIO]),
-  usuarioController.listUsuarioById,
-);
+usuarioRoutes.get('/detalhes/:id', authService.listUsuarioById);
 
-usuarioRoutes.get(
-  '/cpf/:cpf',
-  checkJWT,
-  checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.USUARIO]),
-  usuarioController.listUsuarioByCPF,
-);
+usuarioRoutes.get('/cpf/:cpf', authService.listUsuarioByCPF);
 
 usuarioRoutes.delete(
   '/:id',
   checkJWT,
-  checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.USUARIO_EXCLUIR]),
-  usuarioController.deleteUsuario,
+  checkRole([AuthService.ROLES.USUARIO_EXCLUIR, AuthService.ROLES.ADMIN]),
+  authService.deleteUsuario,
 );
 
-usuarioRoutes.put(
-  '/:id',
-  checkJWT,
-  checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.USUARIO]),
-  usuarioController.updateUsuario,
-);
+usuarioRoutes.put('/:id', authService.updateUsuario);
 
-usuarioRoutes.put(
-  '/mudar/status/:id',
-  checkJWT,
-  checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.USUARIO]),
-  usuarioController.mudarStatus,
-);
+// Pode-se usar o método update para mudar o status do usuário
+// usuarioRoutes.put('/mudar/status/:id', authService.mudarStatusUsuario);
 
 export { usuarioRoutes };
