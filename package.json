@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "private": true,
+
   "author": {
     "name": "André Lucas Freitas",
     "email": "andre.batista@saude.am.gov.br",
