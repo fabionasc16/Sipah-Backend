@@ -47,6 +47,8 @@ services:
       - MONGO_USER=root
       - MONGO_PASS=e[&W*UcGSVBruETSTW
       - MONGO_URL=mongodb://10.200.7.27:27018
+      - SSO_URL=https://sistemas.saude.am.gov.br/ses-sso/api/v1
+      - SSO_TOKEN=
     ports:
       - "3301:3300"    
     depends_on:
