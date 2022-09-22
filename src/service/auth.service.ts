@@ -6,13 +6,47 @@ import { Response, Request } from 'express';
 export class AuthService {
   private url = process.env.SSO_URL;
 
+  async profiles(request: Request, response: Response): Promise<Response> {
+
+    const url = process.env.SSO_URL;
+    let perfis = [];
+
+    try {
+      const { data, status } = await axios.get(
+        `${url}/profiles/`,
+        {
+          headers: {
+            Accept: 'application/json',
+          },
+        },
+      );
+
+      if (data.data) {
+        data.data.forEach(item => {
+          const perfil: any = {};
+          perfil.id = item._id;
+          perfil.profile_name = item.profile_name;
+          perfil.profile_description = item.profile_description;
+
+          perfis.push(perfil);
+        });
+      }
+
+
+      return await response.status(status).json(perfis);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+
+    }
+  }
+
   async unities(request: Request, response: Response): Promise<Response> {
-    const teste = request.params;
+    const queryParams = request.url.substring(request.url.indexOf('?'));
     const url = process.env.SSO_URL;
 
     try {
       const { data, status } = await axios.get(
-        `${url}/unities/?${request.query}`,
+        `${url}/unities/${queryParams}`,
         {
           headers: {
             Accept: 'application/json',
@@ -21,7 +55,8 @@ export class AuthService {
       );
       return await response.status(status).json(data);
     } catch (error) {
-      return await response.status(500);
+      return await AuthService.checkError(error, response);
+
     }
   }
 
@@ -124,11 +159,11 @@ export class AuthService {
           const strCPF = request.body.cpf
             .replaceAll('.', '')
             .replaceAll('-', '');
-          const existUser:any = await axios.get(`${url}/users/cpf/${strCPF}`);
+          const existUser: any = await axios.get(`${url}/users/cpf/${strCPF}`);
           // Caso o usuário já seja cadatrado, realiza-se o update, adicionando-se o perfil e a unidade
           try {
             const edit = await axios.put(
-              `${url}users/${existUser._id}`,
+              `${url}/users/${existUser._id}`,
               request.body,
             );
             return await response.status(edit.status).json(edit.data);
@@ -138,11 +173,13 @@ export class AuthService {
             });
           }
         } catch (error) {
+          request.body.perfilUsuario = [request.body.perfilUsuario];
           // Senão, realiza-se o cadastro do paciente normalmente.
           const { status, data } = await axios.post(
             `${url}/users/`,
             request.body,
           );
+
           return await response.status(status).json(data);
         }
       }
@@ -179,29 +216,29 @@ export class AuthService {
   // OK-testado
   async listAllUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
+    const queryParams = request.url.substring(request.url.indexOf('?'));
     const userUnidadeID = request.user.unit_id;
-    const page =
-      request.query.currentPage != null ? `${request.query.currentPage}` : '1';
-    const pageSize =
-      request.query.perPage != null ? request.query.perPage : '10';
+  
+    try {
+      if (AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)) {
+        const { status, data } = await axios.get(`${url}/users${queryParams}`);
+  
+        return await response.status(status).json(data);
+      }
+  
+      const { status, data } = await axios.get(
+        `${url}/users/unity/${userUnidadeID}`,
+      );
 
-    const params = {
-      perPage: pageSize,
-      currentPage: page,
-    };
-
-    if (AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)) {
-      const { status, data } = await axios.get(`${url}/users/`, {
-        params,
-      });
-
-      return await response.status(status).json(data);
+      return response.status(status).json(data);
+    } catch (error) {
+      if( error.response.status && error.response.status == 404 ){
+        return response.status(200).json([]);
+      }
+      return  response.status(500).send();
     }
-
-    const { status, data } = await axios.get(
-      `${url}/users/unity/${userUnidadeID}`,
-    );
-    return await response.status(status).json(data);
+ 
+   
   }
 
   // OK-testado
@@ -246,8 +283,9 @@ export class AuthService {
     const url = process.env.SSO_URL;
     const user: UserSSO = dataFrontend;
 
+
     const { data, status } = await axios.post(
-      'https://reqres.in/api/users',
+      `${url}/auth`,
       user,
       {
         headers: {
@@ -276,7 +314,7 @@ export class AuthService {
     ATENDIMENTO: 'SIPAH_ATENDIMENTO',
     ADMIN: 'SIPAH_ADMINISTRADOR',
   };
-  constructor() {}
+  constructor() { }
 
   login(user: string, pass: string) {
     // TODO: implementar requisicao para o SSO
@@ -317,5 +355,15 @@ export class AuthService {
       return false;
     }
     return false;
+  }
+
+  static checkError(error: any, response: Response) {
+    if (error && error.response) {
+      return response.status(error.response.status).send();
+    } else if (error.code == 'ECONNREFUSED') {
+      return response.status(404).send();
+    } else {
+      return response.status(500).send();
+    }
   }
 }

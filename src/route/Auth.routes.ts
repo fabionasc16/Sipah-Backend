@@ -7,8 +7,8 @@ const authService = new AuthService();
 
 authRoutes.post('/auth', authService.authenticate);
 authRoutes.get('/unities', authService.unities)
-/*authRoutes.post('/forgotpassword', authService.forgotPass);
-authRoutes.post('/resetpassword', authService.resetPassword);
+authRoutes.get('/profiles', authService.profiles);
+/*authRoutes.post('/resetpassword', authService.resetPassword);
 authRoutes.post('/cancelrequest', authService.cancelRequest);
 authRoutes.post('/verify', authService.verifyRole);
 authRoutes.post('/verify-token', authService.verifyJWT);
