@@ -1,14 +1,12 @@
 // import { Request, Response } from 'express';
-import { AppError } from 'AppError';
+import { AppError } from '../AppError';
 import { Request, Response } from 'express';
 import fs from 'fs';
-import { Messages } from 'messages/Messages';
-import { imagensPaciente } from 'model/ImagensPaciente.model';
-import { Paciente } from 'model/Paciente.model';
+import { Messages } from '../messages/Messages';
 import moment from 'moment';
 import mongoose from 'mongoose';
 import path from 'path';
-import { AuthService } from 'service/auth.service';
+import { AuthService } from '../service/auth.service';
 import { container } from 'tsyringe';
 
 import { PacienteService } from '../service/paciente.service';

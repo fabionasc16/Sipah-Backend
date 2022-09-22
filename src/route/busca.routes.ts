@@ -1,6 +1,6 @@
-import { BuscaController } from 'controller/Busca.Controller';
+import { BuscaController } from '../controller/Busca.Controller';
 import { Router } from 'express';
-import { AuthService } from 'service/auth.service';
+import { AuthService } from '../service/auth.service';
 import { checkJWT } from '../middleware/checkJWT';
 import { checkRole } from '../middleware/checkRole';
 

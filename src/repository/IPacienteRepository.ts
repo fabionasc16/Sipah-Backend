@@ -8,6 +8,8 @@ interface IPacienteRepository {
   listById(id: string): Promise<any>;
   listBytransf(numProntuario: string, unidade: string): Promise<any>;
   listByExternalId(externalId: string): Promise<any>;
+  listsearchByUS(params: any, unit_id: string);
+  listsearchByUSStatusCadastrado(params: any, unit_id: string);
   delete(id: string): Promise<void>;
 
   uploadImage(id: string, filename: string): Promise<any>;

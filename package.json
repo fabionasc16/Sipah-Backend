@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "private": true,
+
   "author": {
     "name": "André Lucas Freitas",
     "email": "andre.batista@saude.am.gov.br",
@@ -12,8 +13,8 @@
   "license": "MIT",
   "scripts": {
     "run:dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "run:prod": "tsc && cd dist && node server.js",
-    "run:tsc": "tsc",
+    "prod": "tsc && node ./dist/server.js",
+    "build": "tsc",
     "run:lint": "eslint . --ext .ts,.js,.json",
     "run:lint-fix": "eslint . --ext .ts,.js,.json --fix"
   },
@@ -40,11 +41,11 @@
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
     "ts-node-dev": "^1.1.8",
-    "tsconfig-paths": "^3.14.1",
-    "typescript": "^4.6.3"
+    "tsconfig-paths": "^3.14.1"
+    
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "typescript": "^4.6.3",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",

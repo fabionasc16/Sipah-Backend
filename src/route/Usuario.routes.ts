@@ -1,13 +1,11 @@
-import { UsuarioController } from 'controller/usuario.controller';
 import { Router } from 'express';
-import { AuthService } from 'service/auth.service';
+import { AuthService } from '../service/auth.service';
 
 import { checkJWT } from '../middleware/checkJWT';
 import { checkRole } from '../middleware/checkRole';
 
 const usuarioRoutes = Router();
 
-const usuarioController = new UsuarioController();
 const authService = new AuthService();
 
 usuarioRoutes.post(
@@ -24,9 +22,11 @@ usuarioRoutes.get(
   authService.listAllUsuario,
 );
 
-usuarioRoutes.get('/detalhes/:id', authService.listUsuarioById);
+usuarioRoutes.get('/detalhes/:id', checkJWT,
+  checkRole([AuthService.ROLES.USUARIO, AuthService.ROLES.ADMIN]), authService.listUsuarioById);
 
-usuarioRoutes.get('/cpf/:cpf', authService.listUsuarioByCPF);
+usuarioRoutes.get('/cpf/:cpf', checkJWT,
+  checkRole([AuthService.ROLES.USUARIO, AuthService.ROLES.ADMIN]), authService.listUsuarioByCPF);
 
 usuarioRoutes.delete(
   '/:id',
@@ -35,7 +35,8 @@ usuarioRoutes.delete(
   authService.deleteUsuario,
 );
 
-usuarioRoutes.put('/:id', authService.updateUsuario);
+usuarioRoutes.put('/:id', checkJWT,
+  checkRole([AuthService.ROLES.USUARIO, AuthService.ROLES.ADMIN]), authService.updateUsuario);
 
 // Pode-se usar o método update para mudar o status do usuário
 // usuarioRoutes.put('/mudar/status/:id', authService.mudarStatusUsuario);

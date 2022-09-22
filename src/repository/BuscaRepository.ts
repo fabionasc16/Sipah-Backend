@@ -1,10 +1,6 @@
 import { IBuscaRepository} from './IBuscaRepository';
 import { Busca } from '../model/Busca.model'
-import { Messages } from 'messages/Messages';
-import { AppError } from 'AppError';
-import moment from 'moment';
 import mongoose from 'mongoose';
-
 class BuscaRepository implements IBuscaRepository {
 
   async create(BuscaCadastro: any): Promise<any> {

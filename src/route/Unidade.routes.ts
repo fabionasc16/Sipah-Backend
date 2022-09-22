@@ -1,48 +1,47 @@
-import { UnidadeController } from 'controller/unidade.controller';
 import { Router } from 'express';
-import { checkJWT } from 'middleware/checkJWT';
-import { checkRole } from 'middleware/checkRole';
-import { AuthService } from 'service/auth.service';
+import { checkJWT } from '../middleware/checkJWT';
+import { checkRole } from '../middleware/checkRole';
+import { AuthService } from '../service/auth.service';
 
 const unidadeRoutes = Router();
 
-const unidadeController = new UnidadeController();
+const authService = new AuthService();
 
 unidadeRoutes.post(
   '/create',
   checkJWT,
   checkRole([AuthService.ROLES.ADMIN]),
-  unidadeController.create,
+  authService.createUnities,
 );
 unidadeRoutes.get(
   '/list',
   checkJWT,
   checkRole([AuthService.ROLES.ADMIN]),
-  unidadeController.list,
+  authService.listUnities,
 );
 unidadeRoutes.get(
   '/listid/:id',
   checkJWT,
   checkRole([AuthService.ROLES.ADMIN]),
-  unidadeController.listById,
+  authService.listByIdUnities,
 );
 unidadeRoutes.get(
   '/listcnpj/:id',
   checkJWT,
   checkRole([AuthService.ROLES.ADMIN]),
-  unidadeController.listByCNPJ,
+  authService.listByCNPJUnities,
 );
 unidadeRoutes.put(
   '/update/:id',
   checkJWT,
   checkRole([AuthService.ROLES.ADMIN]),
-  unidadeController.update,
+  authService.updateUnities,
 );
 unidadeRoutes.delete(
   '/delete/:id',
   checkJWT,
   checkRole([AuthService.ROLES.ADMIN]),
-  unidadeController.delete,
+  authService.deleteUnities,
 );
 
 export { unidadeRoutes };

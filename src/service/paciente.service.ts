@@ -1,8 +1,6 @@
-import { AppError } from 'AppError';
-import { Messages } from 'messages/Messages';
-import { Paciente } from 'model/Paciente.model';
+import { AppError } from '../AppError';
+import { Messages } from '../messages/Messages';
 import { inject, injectable } from 'tsyringe';
-
 import { IPacienteRepository } from '../repository/IPacienteRepository';
 
 interface IRequest {
@@ -58,6 +56,7 @@ interface IRequest {
 
 @injectable()
 class PacienteService {
+
   constructor(
     @inject('PacienteRepository')
     private pacienteRepository: IPacienteRepository,
@@ -132,7 +131,7 @@ class PacienteService {
     await this.pacienteRepository.delete(id);
   }
 
-  async uploadImage(id: string, arquivo: string): Promise<void> {
+  async uploadImage(id: string, arquivo: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
     }
@@ -144,7 +143,7 @@ class PacienteService {
     return this.pacienteRepository.uploadImage(id, arquivo);
   }
 
-  async loadImage(id: string): Promise<void> {
+  async loadImage(id: string): Promise<any> {
     if (!id) {
       throw new AppError(`${Messages.MISSING_PARAMETERS}: ID de Paciente`);
     }
@@ -250,6 +249,23 @@ class PacienteService {
     }
 
     return patient;
+  }
+
+  async listsearchByUS(request: any, unit_id: string) {
+    const data = await this.pacienteRepository.listsearchByUS(request, unit_id);
+    if (data.length === 0) {
+      throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
+    }
+
+    return data;
+  }  
+  async listsearchByUSStatusCadastrado(request: any, unit_id: string) {
+    const data = await this.pacienteRepository.listsearchByUSStatusCadastrado(request, unit_id);
+    if (data.length === 0) {
+      throw new AppError(Messages.NO_PACIENTES_REGISTERED, 404);
+    }
+
+    return data;
   }
 }
 

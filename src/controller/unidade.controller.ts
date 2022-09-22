@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UnidadeService } from 'service/unidade.service';
+import { UnidadeService } from '../service/unidade.service';
 import { container } from 'tsyringe';
 
 class UnidadeController {

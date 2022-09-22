@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
-import { InteressadoService } from 'service/Interessado.Service';
-
-
-
+import { InteressadoService } from '../service/Interessado.Service';
 class InteressadoController {   
   static service: InteressadoService;
   public constructor() {

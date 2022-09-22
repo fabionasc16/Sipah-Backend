@@ -1,8 +1,5 @@
 import axios from 'axios';
-import { Usuario } from 'model/Usuario.model';
-import moment from 'moment';
-import mongoose from 'mongoose';
-import { IUsuarioRepository } from 'repository/IUsuarioRepository';
+import { IUsuarioRepository } from '../repository/IUsuarioRepository';
 
 class UsuarioRepository implements IUsuarioRepository {
   private urlUsuario = 'http://192.168.107.62:3333/api/v1/users/';

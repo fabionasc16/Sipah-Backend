@@ -1,6 +1,6 @@
-import { AppError } from 'AppError';
-import { Messages } from 'messages/Messages';
-import { TipoCaracteristica } from 'model/TipoCaracteristica.model';
+import { AppError } from '../AppError';
+import { Messages } from '../messages/Messages';
+import { TipoCaracteristica } from '../model/TipoCaracteristica.model';
 import { inject, injectable } from 'tsyringe';
 
 import { ICaracteristicaRepository } from '../repository/ICaracteristicaRepository';

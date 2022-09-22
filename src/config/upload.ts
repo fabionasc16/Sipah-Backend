@@ -1,10 +1,7 @@
-import { AppError } from 'AppError';
-import { timeStamp } from 'console';
-// import { Request } from 'express-serve-static-core';
+import { AppError } from '../AppError';
 import fs from 'fs';
-// import mime from 'mime-types';
-import { imagensPaciente } from 'model/ImagensPaciente.model';
-import { termoPaciente } from 'model/TermosPaciente.model';
+import { imagensPaciente } from '../model/ImagensPaciente.model';
+import { termoPaciente } from '../model/TermosPaciente.model';
 import mongoose from 'mongoose';
 import multer from 'multer';
 

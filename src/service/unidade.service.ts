@@ -1,6 +1,6 @@
-import { AppError } from 'AppError';
-import { Messages } from 'messages/Messages';
-import { IUnidadeRepository } from 'repository/IUnidadeRepository';
+import { AppError } from '../AppError';
+import { Messages } from '../messages/Messages';
+import { IUnidadeRepository } from '../repository/IUnidadeRepository';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
