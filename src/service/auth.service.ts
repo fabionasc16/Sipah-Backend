@@ -210,6 +210,17 @@ export class AuthService {
     const { status, data } = await axios.get(
       `${url}/users/id/${request.params.id}`,
     );
+
+    if (data.perfis &&  data.perfis.length >= 1 ) {
+      
+        const element = data.perfis[0];
+        data.perfis[0].id = element._id
+        data.perfis[0].profile_description = element.profile_name
+        //console.log(data.perfis[index])
+     
+      data.perfilUsuario = data.perfis[0];
+    }
+
     return await response.status(status).json(data);
   }
 
@@ -218,27 +229,27 @@ export class AuthService {
     const url = process.env.SSO_URL;
     const queryParams = request.url.substring(request.url.indexOf('?'));
     const userUnidadeID = request.user.unit_id;
-  
+
     try {
       if (AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)) {
         const { status, data } = await axios.get(`${url}/users${queryParams}`);
-  
+
         return await response.status(status).json(data);
       }
-  
+
       const { status, data } = await axios.get(
         `${url}/users/unity/${userUnidadeID}`,
       );
 
       return response.status(status).json(data);
     } catch (error) {
-      if( error.response.status && error.response.status == 404 ){
+      if (error.response.status && error.response.status == 404) {
         return response.status(200).json([]);
       }
-      return  response.status(500).send();
+      return response.status(500).send();
     }
- 
-   
+
+
   }
 
   // OK-testado
@@ -262,19 +273,19 @@ export class AuthService {
   }
 
   // NOT OK-reprovado - basta usar o método update
-  // async mudarStatusUsuario(
-  //   request: Request,
-  //   response: Response,
-  // ): Promise<void> {
-  //   const url = process.env.SSO_URL;
-  //   const { status, data } = await axios.put(
-  //     `${url}/users/${request.params.id}`,
-  //     {
-  //       status: 'true',
-  //     },
-  //   );
-  //   return await response.status(status).json(data);
-  // }
+   async mudarStatusUsuario(
+     request: Request,
+     response: Response,
+   ): Promise<any> {
+     const url = process.env.SSO_URL;
+     const { status, data } = await axios.put(
+       `${url}/users/${request.params.id}`,
+       {
+         status: 0,
+       },
+     );
+     return await response.status(status).json(data);
+   }
 
   /** fim testar */
 
