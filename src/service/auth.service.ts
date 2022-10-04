@@ -24,7 +24,7 @@ export class AuthService {
     ATENDIMENTO: 'SIPAH_ATENDIMENTO',
     ADMIN: 'SIPAH_ADMINISTRADOR',
   };
-  
+
   constructor() {}
 
   async profiles(request: Request, response: Response): Promise<Response> {
@@ -196,6 +196,27 @@ export class AuthService {
   }
 
   // OK-testado
+  async findUsuarioByCpf(request: Request, response: Response): Promise<any> {
+    const url = process.env.SSO_URL;
+
+      // Verifica se o CPF já é cadastrado
+      if (request.params.cpf) {
+        try {
+          const strCPF = request.params.cpf.replace('.', '').replace('.', '')
+            .replace('-', '');
+          const result: any = await axios.get(`${url}/users/cpf/${strCPF}`);         
+           
+            return await response.status(200).json({'id': result.data._id});
+          } catch (error) {
+            return response.status(404).send({
+              message: 'Usuário não existe na base de dados.',
+            });
+          }
+          
+      }
+      return await response.status(200).send();
+          
+  }
   async createUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
 
