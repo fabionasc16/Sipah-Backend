@@ -6,6 +6,27 @@ import { Response, Request } from 'express';
 export class AuthService {
   private url = process.env.SSO_URL;
 
+  static ROLES = {
+    USUARIO: 'SIPAH_USUARIO',
+    USUARIO_EXCLUIR: 'SIPAH_USUARIO_EXCLUIR',
+    CARACTERISTICA: 'SIPAH_CARACTERISTICA',
+    LOG: 'SIPAH_LOG',
+    PACIENTE: 'SIPAH_PACIENTE',
+    PACIENTE_EDITAR_ENTRADA: 'SIPAH_PACIENTE_EDITAR_ENTRADA',
+    PACIENTE_EDITAR_FICHA_SOCIAL: 'SIPAH_PACIENTE_EDITAR_FICHA_SOCIAL',
+    PACIENTE_CAPTURAR_FOTO: 'SIPAH_PACIENTE_CAPTURAR_FOTO',
+    PACIENTE_VISUALIZAR_FOTO: 'SIPAH_PACIENTE_VISUALIZAR_FOTO',
+    PACIENTE_IDENTIFICAR_INTERNADO: 'SIPAH_PACIENTE_IDENTIFICAR_INTERNADO',
+    PACIENTE_REGISTRAR_SAIDA: 'SIPAH_PACIENTE_REGISTRAR_SAIDA',
+    PACIENTE_VISUALIZAR_FICHA_SOCIAL: 'SIPAH_PACIENTE_VISUALIZAR_FICHA_SOCIAL',
+    PACIENTE_RECEPCAO: 'SIPAH_PACIENTE_RECEPCAO',
+    PACIENTE_SERVICO_SOCIAL: 'SIPAH_SERVICO_SOCIAL',
+    ATENDIMENTO: 'SIPAH_ATENDIMENTO',
+    ADMIN: 'SIPAH_ADMINISTRADOR',
+  };
+  
+  constructor() {}
+
   async profiles(request: Request, response: Response): Promise<Response> {
     const url = process.env.SSO_URL;
     const perfis = [];
@@ -65,7 +86,7 @@ export class AuthService {
       );
       return await response.status(status).json(data);
     } catch (error) {
-      return await response.status(500);
+      return await AuthService.checkError(error, response);
     }
   }
 
@@ -98,7 +119,7 @@ export class AuthService {
 
       return await response.status(status).json(data);
     } catch (error) {
-      return await response.status(500);
+      return await AuthService.checkError(error, response);
     }
   }
 
@@ -107,48 +128,71 @@ export class AuthService {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const url = process.env.SSO_URL;
+    try{
+      const url = process.env.SSO_URL;
 
-    const { status, data } = await axios.get(
-      `${url}/unities/id/${request.params.id}`,
-    );
+      const { status, data } = await axios.get(
+        `${url}/unities/id/${request.params.id}`,
+      );
+  
+      return await response.status(status).json(data);
+    }catch(error){
+      return await AuthService.checkError(error, response);
+    }
 
-    return await response.status(status).json(data);
   }
 
   // OK-testado - Somente quando envia todos os campos
   async updateUnities(request: Request, response: Response): Promise<Response> {
-    const url = process.env.SSO_URL;
+    try {
+      const url = process.env.SSO_URL;
 
-    const { status, data } = await axios.put(
-      `${url}/unities/${request.params.id}`,
-      request.body,
-    );
-    return await response.status(status).json(data);
+      const { status, data } = await axios.put(
+        `${url}/unities/${request.params.id}`,
+        request.body,
+      );
+      return await response.status(status).json(data);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
+
   }
 
   // OK-testado
   async deleteUnities(request: Request, response: Response): Promise<Response> {
-    const url = process.env.SSO_URL;
+    try {
+      const url = process.env.SSO_URL;
 
-    const { status, statusText } = await axios.delete(
-      `${url}/unities/${request.params.id}`,
-    );
-    return await response.status(status).json(statusText);
+      const { status, statusText } = await axios.delete(
+        `${url}/unities/${request.params.id}`,
+      );
+      return await response.status(status).json(statusText);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
+    
+    
+    
   }
-
+  
   // OK-testado
   async listByCNPJUnities(
     request: Request,
     response: Response,
-  ): Promise<Response> {
-    const url = process.env.SSO_URL;
-
-    const { status, data } = await axios.get(
-      `${url}/unities/cnpj/${request.params.id}`,
-    );
-
-    return await response.status(status).json(data);
+    ): Promise<Response> {
+      try {
+        
+        const url = process.env.SSO_URL;
+        
+        const { status, data } = await axios.get(
+          `${url}/unities/cnpj/${request.params.id}`,
+          );
+          
+          return await response.status(status).json(data);
+        } catch (error) {
+          return await AuthService.checkError(error, response);
+          
+      }
   }
 
   // OK-testado
@@ -166,7 +210,7 @@ export class AuthService {
           // Caso o usuário já seja cadatrado, realiza-se o update, adicionando-se o perfil e a unidade
           try {
             const edit = await axios.put(
-              `${url}/users/${existUser._id}`,
+              `${url}/users/${existUser.data._id}`,
               request.body,
             );
             return await response.status(edit.status).json(edit.data);
@@ -187,9 +231,7 @@ export class AuthService {
         }
       }
     } catch (error) {
-      return response.status(400).send({
-        message: 'Não foi possível cadastrar de usuário',
-      });
+      return await AuthService.checkError(error, response);
     }
   }
 
@@ -200,28 +242,34 @@ export class AuthService {
       const result = await axios.get(`${url}/users/cpf/${request.params.cpf}`);
       return await response.status(result.status).json(result.data);
     } catch (error) {
-      return response.status(error.response.status).json(error.response.data);
+      return await AuthService.checkError(error, response);     
     }
     // return await response.status(status).json(data);
   }
 
   // OK-testado
   async listUsuarioById(request: Request, response: Response): Promise<any> {
-    const url = process.env.SSO_URL;
-    const { status, data } = await axios.get(
-      `${url}/users/id/${request.params.id}`,
-    );
+    try {
+      
+      const url = process.env.SSO_URL;
+      const { status, data } = await axios.get(
+        `${url}/users/id/${request.params.id}`,
+        );
+        
+        if (data.perfis && data.perfis.length >= 1) {
+          // const element = data.perfis[0];
+          // data.perfis[0].id = element._id;
+          // data.perfis[0].profile_description = element.profile_name;
+          // console.log(data.perfis[index])
+          
+          data.perfilUsuario = data.perfis[0]._id;
+        }
+        
+        return await response.status(status).json(data);
+      } catch (error) {        
+        return await AuthService.checkError(error, response);
+      }
 
-    if (data.perfis && data.perfis.length >= 1) {
-      // const element = data.perfis[0];
-      // data.perfis[0].id = element._id;
-      // data.perfis[0].profile_description = element.profile_name;
-      // console.log(data.perfis[index])
-
-      data.perfilUsuario = data.perfis[0]._id;
-    }
-
-    return await response.status(status).json(data);
   }
 
   // OK-testado
@@ -243,93 +291,88 @@ export class AuthService {
 
       return response.status(status).json(data);
     } catch (error) {
-      if (error.response.status && error.response.status == 404) {
-        return response.status(200).json([]);
-      }
-      return response.status(500).send();
+      return await AuthService.checkError(error, response);
     }
   }
 
   // OK-testado
   async deleteUsuario(request: Request, response: Response): Promise<any> {
-    const url = process.env.SSO_URL;
-    const { status, statusText } = await axios.delete(
-      `${url}/users/${request.params.id}`,
-    );
-    return await response.status(status).json(statusText);
+    try {
+      
+      const url = process.env.SSO_URL;
+      const { status, statusText } = await axios.delete(
+        `${url}/users/${request.params.id}`,
+        );
+        return await response.status(status).json(statusText);
+      } catch (error) {
+        return await AuthService.checkError(error, response);
+      }
   }
 
   // OK-testado - Somente quando envia todos os campos
   async updateUsuario(request: Request, response: Response): Promise<any> {
-    const url = process.env.SSO_URL;
-
-    const { status, data } = await axios.put(
-      `${url}/users/${request.params.id}`,
-      request.body,
-    );
-    return await response.status(status).json(data);
+    try {
+      
+      const url = process.env.SSO_URL;
+      
+      const { status, data } = await axios.put(
+        `${url}/users/${request.params.id}`,
+        request.body,
+        );
+        return await response.status(status).json(data);
+      } catch (error) {
+        return await AuthService.checkError(error, response);
+      }
   }
 
   // NOT OK-reprovado - basta usar o método update
   async mudarStatusUsuario(request: Request, response: Response): Promise<any> {
-    const url = process.env.SSO_URL;
-
-    const result = await axios.get(`${url}/users/id/${request.params.id}`);
-
-    let status_atual = result.data.status;
-    if (status_atual === 1) {
-      status_atual = 0;
-    } else {
-      status_atual = 1;
-    }
-
-    const { status, data } = await axios.put(
-      `${url}/users/${request.params.id}`,
-      {
-        status: status_atual,
-      },
-    );
-    return await response.status(status).json(data);
-  }
+    try {
+      
+      const url = process.env.SSO_URL;
+      
+      const result = await axios.get(`${url}/users/id/${request.params.id}`);
+      
+      let status_atual = result.data.status;
+      if (status_atual === 1) {
+        status_atual = 0;
+      } else {
+        status_atual = 1;
+      }
+      
+      const { status, data } = await axios.put(
+        `${url}/users/${request.params.id}`,
+        {
+          status: status_atual,
+        },
+        );
+        return await response.status(status).json(data);
+      } catch (error) {
+        return await AuthService.checkError(error, response);
+      }
+      }
 
   /** fim testar */
 
   async authenticate(request: Request, response: Response): Promise<Response> {
-    const dataFrontend: any = request.body;
-    const url = process.env.SSO_URL;
-    const user: UserSSO = dataFrontend;
-
-    const { data, status } = await axios.post(`${url}/auth`, user, {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
-    return response.status(status).json(data);
-  }
-  static ROLES = {
-    USUARIO: 'SIPAH_USUARIO',
-    USUARIO_EXCLUIR: 'SIPAH_USUARIO_EXCLUIR',
-    CARACTERISTICA: 'SIPAH_CARACTERISTICA',
-    LOG: 'SIPAH_LOG',
-    PACIENTE: 'SIPAH_PACIENTE',
-    PACIENTE_EDITAR_ENTRADA: 'SIPAH_PACIENTE_EDITAR_ENTRADA',
-    PACIENTE_EDITAR_FICHA_SOCIAL: 'SIPAH_PACIENTE_EDITAR_FICHA_SOCIAL',
-    PACIENTE_CAPTURAR_FOTO: 'SIPAH_PACIENTE_CAPTURAR_FOTO',
-    PACIENTE_VISUALIZAR_FOTO: 'SIPAH_PACIENTE_VISUALIZAR_FOTO',
-    PACIENTE_IDENTIFICAR_INTERNADO: 'SIPAH_PACIENTE_IDENTIFICAR_INTERNADO',
-    PACIENTE_REGISTRAR_SAIDA: 'SIPAH_PACIENTE_REGISTRAR_SAIDA',
-    PACIENTE_VISUALIZAR_FICHA_SOCIAL: 'SIPAH_PACIENTE_VISUALIZAR_FICHA_SOCIAL',
-    PACIENTE_RECEPCAO: 'SIPAH_PACIENTE_RECEPCAO',
-    PACIENTE_SERVICO_SOCIAL: 'SIPAH_SERVICO_SOCIAL',
-    ATENDIMENTO: 'SIPAH_ATENDIMENTO',
-    ADMIN: 'SIPAH_ADMINISTRADOR',
-  };
-  constructor() {}
-
-  login(user: string, pass: string) {
-    // TODO: implementar requisicao para o SSO
-  }
+    try {
+      
+      const dataFrontend: any = request.body;
+      const url = process.env.SSO_URL;
+      const user: UserSSO = dataFrontend;
+      
+      const { data, status } = await axios.post(`${url}/auth`, user, {
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      
+      return response.status(status).json(data);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
+    }
+ 
 
   static verify(token: string) {
     // TODO: Implementar integração com o sso
