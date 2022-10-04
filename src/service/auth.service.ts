@@ -7,19 +7,15 @@ export class AuthService {
   private url = process.env.SSO_URL;
 
   async profiles(request: Request, response: Response): Promise<Response> {
-
     const url = process.env.SSO_URL;
-    let perfis = [];
+    const perfis = [];
 
     try {
-      const { data, status } = await axios.get(
-        `${url}/profiles/`,
-        {
-          headers: {
-            Accept: 'application/json',
-          },
+      const { data, status } = await axios.get(`${url}/profiles/`, {
+        headers: {
+          Accept: 'application/json',
         },
-      );
+      });
 
       if (data.data) {
         data.data.forEach(item => {
@@ -32,11 +28,9 @@ export class AuthService {
         });
       }
 
-
       return await response.status(status).json(perfis);
     } catch (error) {
       return await AuthService.checkError(error, response);
-
     }
   }
 
@@ -56,7 +50,6 @@ export class AuthService {
       return await response.status(status).json(data);
     } catch (error) {
       return await AuthService.checkError(error, response);
-
     }
   }
 
@@ -94,6 +87,15 @@ export class AuthService {
       };
 
       const { status, data } = await axios.get(`${url}/unities/`, { params });
+
+      const units = [];
+      for (let index = 0; index < data.data.length; index++) {
+        const element = AuthService.convertSSOToUnit(data.data[index]);
+
+        units.push(element);
+      }
+      data.data = units;
+
       return await response.status(status).json(data);
     } catch (error) {
       return await response.status(500);
@@ -110,6 +112,7 @@ export class AuthService {
     const { status, data } = await axios.get(
       `${url}/unities/id/${request.params.id}`,
     );
+
     return await response.status(status).json(data);
   }
 
@@ -197,9 +200,7 @@ export class AuthService {
       const result = await axios.get(`${url}/users/cpf/${request.params.cpf}`);
       return await response.status(result.status).json(result.data);
     } catch (error) {
-      return response
-        .status(error.response.status)
-        .json(error.response.data);
+      return response.status(error.response.status).json(error.response.data);
     }
     // return await response.status(status).json(data);
   }
@@ -210,6 +211,16 @@ export class AuthService {
     const { status, data } = await axios.get(
       `${url}/users/id/${request.params.id}`,
     );
+
+    if (data.perfis && data.perfis.length >= 1) {
+      // const element = data.perfis[0];
+      // data.perfis[0].id = element._id;
+      // data.perfis[0].profile_description = element.profile_name;
+      // console.log(data.perfis[index])
+
+      data.perfilUsuario = data.perfis[0]._id;
+    }
+
     return await response.status(status).json(data);
   }
 
@@ -218,27 +229,25 @@ export class AuthService {
     const url = process.env.SSO_URL;
     const queryParams = request.url.substring(request.url.indexOf('?'));
     const userUnidadeID = request.user.unit_id;
-  
+
     try {
       if (AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)) {
         const { status, data } = await axios.get(`${url}/users${queryParams}`);
-  
+
         return await response.status(status).json(data);
       }
-  
+
       const { status, data } = await axios.get(
         `${url}/users/unity/${userUnidadeID}`,
       );
 
       return response.status(status).json(data);
     } catch (error) {
-      if( error.response.status && error.response.status == 404 ){
+      if (error.response.status && error.response.status == 404) {
         return response.status(200).json([]);
       }
-      return  response.status(500).send();
+      return response.status(500).send();
     }
- 
-   
   }
 
   // OK-testado
@@ -255,26 +264,33 @@ export class AuthService {
     const url = process.env.SSO_URL;
 
     const { status, data } = await axios.put(
-      `${url}users/${request.params.id}`,
+      `${url}/users/${request.params.id}`,
       request.body,
     );
     return await response.status(status).json(data);
   }
 
   // NOT OK-reprovado - basta usar o método update
-  // async mudarStatusUsuario(
-  //   request: Request,
-  //   response: Response,
-  // ): Promise<void> {
-  //   const url = process.env.SSO_URL;
-  //   const { status, data } = await axios.put(
-  //     `${url}/users/${request.params.id}`,
-  //     {
-  //       status: 'true',
-  //     },
-  //   );
-  //   return await response.status(status).json(data);
-  // }
+  async mudarStatusUsuario(request: Request, response: Response): Promise<any> {
+    const url = process.env.SSO_URL;
+
+    const result = await axios.get(`${url}/users/id/${request.params.id}`);
+
+    let status_atual = result.data.status;
+    if (status_atual === 1) {
+      status_atual = 0;
+    } else {
+      status_atual = 1;
+    }
+
+    const { status, data } = await axios.put(
+      `${url}/users/${request.params.id}`,
+      {
+        status: status_atual,
+      },
+    );
+    return await response.status(status).json(data);
+  }
 
   /** fim testar */
 
@@ -283,16 +299,11 @@ export class AuthService {
     const url = process.env.SSO_URL;
     const user: UserSSO = dataFrontend;
 
-
-    const { data, status } = await axios.post(
-      `${url}/auth`,
-      user,
-      {
-        headers: {
-          Accept: 'application/json',
-        },
+    const { data, status } = await axios.post(`${url}/auth`, user, {
+      headers: {
+        Accept: 'application/json',
       },
-    );
+    });
 
     return response.status(status).json(data);
   }
@@ -314,7 +325,7 @@ export class AuthService {
     ATENDIMENTO: 'SIPAH_ATENDIMENTO',
     ADMIN: 'SIPAH_ADMINISTRADOR',
   };
-  constructor() { }
+  constructor() {}
 
   login(user: string, pass: string) {
     // TODO: implementar requisicao para o SSO
@@ -360,10 +371,24 @@ export class AuthService {
   static checkError(error: any, response: Response) {
     if (error && error.response) {
       return response.status(error.response.status).send();
-    } else if (error.code == 'ECONNREFUSED') {
-      return response.status(404).send();
-    } else {
-      return response.status(500).send();
     }
+    if (error.code == 'ECONNREFUSED') {
+      return response.status(404).send();
+    }
+    return response.status(500).send();
+  }
+
+  static convertSSOToUnit(modelSSO: any) {
+    return {
+      _id: modelSSO._id,
+      nome: modelSSO.unit_name,
+      status: modelSSO.status,
+      systems: modelSSO.systems,
+      excluido: modelSSO.excluido,
+      cnpj: modelSSO.unit_cnpj,
+      diretor: modelSSO.unit_director,
+      created_at: modelSSO.created_at,
+      updated_at: modelSSO.updated_at,
+    };
   }
 }

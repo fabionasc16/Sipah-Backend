@@ -39,6 +39,6 @@ usuarioRoutes.put('/:id', checkJWT,
   checkRole([AuthService.ROLES.USUARIO, AuthService.ROLES.ADMIN]), authService.updateUsuario);
 
 // Pode-se usar o método update para mudar o status do usuário
-// usuarioRoutes.put('/mudar/status/:id', authService.mudarStatusUsuario);
+ usuarioRoutes.put('/mudar/status/:id', authService.mudarStatusUsuario);
 
 export { usuarioRoutes };
