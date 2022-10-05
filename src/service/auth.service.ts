@@ -68,6 +68,22 @@ export class AuthService {
           },
         },
       );
+
+      const system = 'SIPAH';
+      const units = [];
+      for (let index = 0; index < data.data.length; index += 1) {
+        console.log(data.data[index].systems);
+        if (
+          data.data[index].systems &&
+          data.data[index].systems.length > 0 &&
+          data.data[index].systems[0].system_name === system
+        ) {
+          const element = data.data[index];
+          units.push(element);
+        }
+      }
+      data.data = units;
+
       return await response.status(status).json(data);
     } catch (error) {
       return await AuthService.checkError(error, response);
@@ -128,18 +144,17 @@ export class AuthService {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    try{
+    try {
       const url = process.env.SSO_URL;
 
       const { status, data } = await axios.get(
         `${url}/unities/id/${request.params.id}`,
       );
-  
+
       return await response.status(status).json(data);
-    }catch(error){
+    } catch (error) {
       return await AuthService.checkError(error, response);
     }
-
   }
 
   // OK-testado - Somente quando envia todos os campos
@@ -155,7 +170,6 @@ export class AuthService {
     } catch (error) {
       return await AuthService.checkError(error, response);
     }
-
   }
 
   // OK-testado
@@ -170,52 +184,47 @@ export class AuthService {
     } catch (error) {
       return await AuthService.checkError(error, response);
     }
-    
-    
-    
   }
-  
+
   // OK-testado
   async listByCNPJUnities(
     request: Request,
     response: Response,
-    ): Promise<Response> {
-      try {
-        
-        const url = process.env.SSO_URL;
-        
-        const { status, data } = await axios.get(
-          `${url}/unities/cnpj/${request.params.id}`,
-          );
-          
-          return await response.status(status).json(data);
-        } catch (error) {
-          return await AuthService.checkError(error, response);
-          
-      }
+  ): Promise<Response> {
+    try {
+      const url = process.env.SSO_URL;
+
+      const { status, data } = await axios.get(
+        `${url}/unities/cnpj/${request.params.id}`,
+      );
+
+      return await response.status(status).json(data);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
   }
 
   // OK-testado
   async findUsuarioByCpf(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
 
-      // Verifica se o CPF já é cadastrado
-      if (request.params.cpf) {
-        try {
-          const strCPF = request.params.cpf.replace('.', '').replace('.', '')
-            .replace('-', '');
-          const result: any = await axios.get(`${url}/users/cpf/${strCPF}`);         
-           
-            return await response.status(200).json({'id': result.data._id});
-          } catch (error) {
-            return response.status(404).send({
-              message: 'Usuário não existe na base de dados.',
-            });
-          }
-          
+    // Verifica se o CPF já é cadastrado
+    if (request.params.cpf) {
+      try {
+        const strCPF = request.params.cpf
+          .replace('.', '')
+          .replace('.', '')
+          .replace('-', '');
+        const result: any = await axios.get(`${url}/users/cpf/${strCPF}`);
+
+        return await response.status(200).json({ id: result.data._id });
+      } catch (error) {
+        return response.status(404).send({
+          message: 'Usuário não existe na base de dados.',
+        });
       }
-      return await response.status(200).send();
-          
+    }
+    return await response.status(200).send();
   }
   async createUsuario(request: Request, response: Response): Promise<any> {
     const url = process.env.SSO_URL;
@@ -263,7 +272,7 @@ export class AuthService {
       const result = await axios.get(`${url}/users/cpf/${request.params.cpf}`);
       return await response.status(result.status).json(result.data);
     } catch (error) {
-      return await AuthService.checkError(error, response);     
+      return await AuthService.checkError(error, response);
     }
     // return await response.status(status).json(data);
   }
@@ -271,26 +280,24 @@ export class AuthService {
   // OK-testado
   async listUsuarioById(request: Request, response: Response): Promise<any> {
     try {
-      
       const url = process.env.SSO_URL;
       const { status, data } = await axios.get(
         `${url}/users/id/${request.params.id}`,
-        );
-        
-        if (data.perfis && data.perfis.length >= 1) {
-          // const element = data.perfis[0];
-          // data.perfis[0].id = element._id;
-          // data.perfis[0].profile_description = element.profile_name;
-          // console.log(data.perfis[index])
-          
-          data.perfilUsuario = data.perfis[0]._id;
-        }
-        
-        return await response.status(status).json(data);
-      } catch (error) {        
-        return await AuthService.checkError(error, response);
+      );
+
+      if (data.perfis && data.perfis.length >= 1) {
+        // const element = data.perfis[0];
+        // data.perfis[0].id = element._id;
+        // data.perfis[0].profile_description = element.profile_name;
+        // console.log(data.perfis[index])
+
+        data.perfilUsuario = data.perfis[0]._id;
       }
 
+      return await response.status(status).json(data);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
   }
 
   // OK-testado
@@ -319,81 +326,76 @@ export class AuthService {
   // OK-testado
   async deleteUsuario(request: Request, response: Response): Promise<any> {
     try {
-      
       const url = process.env.SSO_URL;
       const { status, statusText } = await axios.delete(
         `${url}/users/${request.params.id}`,
-        );
-        return await response.status(status).json(statusText);
-      } catch (error) {
-        return await AuthService.checkError(error, response);
-      }
+      );
+      return await response.status(status).json(statusText);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
   }
 
   // OK-testado - Somente quando envia todos os campos
   async updateUsuario(request: Request, response: Response): Promise<any> {
     try {
-      
       const url = process.env.SSO_URL;
-      
+
       const { status, data } = await axios.put(
         `${url}/users/${request.params.id}`,
         request.body,
-        );
-        return await response.status(status).json(data);
-      } catch (error) {
-        return await AuthService.checkError(error, response);
-      }
+      );
+      return await response.status(status).json(data);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
   }
 
   // NOT OK-reprovado - basta usar o método update
   async mudarStatusUsuario(request: Request, response: Response): Promise<any> {
     try {
-      
       const url = process.env.SSO_URL;
-      
+
       const result = await axios.get(`${url}/users/id/${request.params.id}`);
-      
+
       let status_atual = result.data.status;
       if (status_atual === 1) {
         status_atual = 0;
       } else {
         status_atual = 1;
       }
-      
+
       const { status, data } = await axios.put(
         `${url}/users/${request.params.id}`,
         {
           status: status_atual,
         },
-        );
-        return await response.status(status).json(data);
-      } catch (error) {
-        return await AuthService.checkError(error, response);
-      }
-      }
+      );
+      return await response.status(status).json(data);
+    } catch (error) {
+      return await AuthService.checkError(error, response);
+    }
+  }
 
   /** fim testar */
 
   async authenticate(request: Request, response: Response): Promise<Response> {
     try {
-      
       const dataFrontend: any = request.body;
       const url = process.env.SSO_URL;
       const user: UserSSO = dataFrontend;
-      
+
       const { data, status } = await axios.post(`${url}/auth`, user, {
         headers: {
           Accept: 'application/json',
         },
       });
-      
+
       return response.status(status).json(data);
     } catch (error) {
       return await AuthService.checkError(error, response);
     }
-    }
- 
+  }
 
   static verify(token: string) {
     // TODO: Implementar integração com o sso
