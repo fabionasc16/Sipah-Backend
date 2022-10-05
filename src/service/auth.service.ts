@@ -72,7 +72,6 @@ export class AuthService {
       const system = 'SIPAH';
       const units = [];
       for (let index = 0; index < data.data.length; index += 1) {
-        console.log(data.data[index].systems);
         if (
           data.data[index].systems &&
           data.data[index].systems.length > 0 &&
@@ -125,11 +124,18 @@ export class AuthService {
 
       const { status, data } = await axios.get(`${url}/unities/`, { params });
 
+      const system = 'SIPAH';
       const units = [];
-      for (let index = 0; index < data.data.length; index++) {
-        const element = AuthService.convertSSOToUnit(data.data[index]);
-
-        units.push(element);
+      for (let index = 0; index < data.data.length; index += 1) {
+        if (
+          data.data[index].systems &&
+          data.data[index].systems.length > 0 &&
+          data.data[index].systems[0].system_name === system
+        ) {
+          // const element = data.data[index];
+          const element = AuthService.convertSSOToUnit(data.data[index]);
+          units.push(element);
+        }
       }
       data.data = units;
 
