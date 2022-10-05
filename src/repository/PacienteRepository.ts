@@ -1,9 +1,9 @@
-import { Paciente } from '../model/Paciente.model';
-import { termoPaciente } from '../model/TermosPaciente.model';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
 import { imagensPaciente } from '../model/ImagensPaciente.model';
+import { Paciente } from '../model/Paciente.model';
+import { termoPaciente } from '../model/TermosPaciente.model';
 import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
@@ -752,7 +752,7 @@ class PacienteRepository implements IPacienteRepository {
 
     return result;
   }
-  async listsearchByUS(params: any, id_us:string): Promise<any> {
+  async listsearchByUS(params: any, id_us: string): Promise<any> {
     const page =
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
     const pageSize = params.query.perPage != null ? params.query.perPage : '10';
@@ -1085,11 +1085,11 @@ class PacienteRepository implements IPacienteRepository {
         });
       }
     }
-    // Adiciona o filtro pela unidade do usuario  
+    // Adiciona o filtro pela unidade do usuario
     $and.push({
       unidade: new mongoose.Types.ObjectId(id_us),
     });
-     
+
     if ($and.length) {
       Object.assign(term, { $and });
     }
@@ -1130,7 +1130,10 @@ class PacienteRepository implements IPacienteRepository {
     return result;
   }
 
-  async listsearchByUSStatusCadastrado(params: any, id_us:string): Promise<any> {
+  async listsearchByUSStatusCadastrado(
+    params: any,
+    id_us: string,
+  ): Promise<any> {
     const page =
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
     const pageSize = params.query.perPage != null ? params.query.perPage : '10';
@@ -1463,16 +1466,16 @@ class PacienteRepository implements IPacienteRepository {
         });
       }
     }
-    // Adiciona o filtro pela unidade do usuario  
+    // Adiciona o filtro pela unidade do usuario
     $and.push({
       unidade: new mongoose.Types.ObjectId(id_us),
-    }); 
-    
+    });
+
     // Adiciona o filtro pelo status cadastrado
     $and.push({
       statusRegistro: 1,
     });
-     
+
     if ($and.length) {
       Object.assign(term, { $and });
     }
@@ -1524,6 +1527,7 @@ class PacienteRepository implements IPacienteRepository {
 
     $and.push({
       autorizaConsulta: 'Sim',
+      imgPrincipal: { $ne: null },
     });
 
     if (params.body.idadeAproximada) {
@@ -1716,11 +1720,10 @@ class PacienteRepository implements IPacienteRepository {
   async listBytransf(numProntuario: string, unidade: string): Promise<any> {
     const data = await Paciente.findOne({
       numProntuario,
-      unidade
+      unidade,
     });
     return data;
   }
-
 }
 
 export { PacienteRepository };
