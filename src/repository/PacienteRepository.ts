@@ -1,3 +1,5 @@
+import { AppError } from 'AppError';
+import axios from 'axios';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
@@ -7,6 +9,7 @@ import { termoPaciente } from '../model/TermosPaciente.model';
 import { IPacienteRepository } from './IPacienteRepository';
 
 class PacienteRepository implements IPacienteRepository {
+  private url = process.env.SSO_URL;
   async create(data: any): Promise<any> {
     if (data.cpf) {
       const cpfAux = data.cpf.replaceAll('.', '').replaceAll('-', '');
@@ -750,8 +753,25 @@ class PacienteRepository implements IPacienteRepository {
       data,
     };
 
+    const url = process.env.SSO_URL;
+    try {
+      for (let index = 0; index < result.data.length; index += 1) {
+        if (result.data[index].unidade && result.data[index].unidade !== '') {
+          const element = result.data[index].unidade;
+          // eslint-disable-next-line no-await-in-loop
+          const { status, data } = await axios.get(
+            `${url}/unities/id/${result.data[index].unidade}`,
+          );
+          result.data[index].unidade = data.unit_name;
+        }
+      }
+    } catch (error) {
+      return new AppError('Não foi possível listar unidades', 404);
+    }
+
     return result;
   }
+
   async listsearchByUS(params: any, id_us: string): Promise<any> {
     const page =
       params.query.currentPage != null ? `${params.query.currentPage}` : '1';
