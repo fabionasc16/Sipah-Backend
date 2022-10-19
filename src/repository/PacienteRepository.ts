@@ -402,7 +402,7 @@ class PacienteRepository implements IPacienteRepository {
         // $and.push({ dataEntrada: params.body.dataEntrada });
         $and.push({
           dataEntrada: {
-            $gte: new Date(params.body.dataEntrada),
+            $eq: moment(new Date(params.body.dataEntrada)).add(4, 'hours'),
           },
         });
       }

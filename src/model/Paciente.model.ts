@@ -15,8 +15,9 @@ function setDataEntrada(dataString) {
     if (dataString !== '') {
       let dthr;
       if (this.horaEntrada) {
-        dthr = `${dataString} ${this.horaEntrada}`;
-        const dt = new Date(moment(dthr).format('YYYY-MM-DD HH:mm:ss'));
+        // dthr = `${dataString} ${this.horaEntrada}`;
+        // const dt = new Date(moment(dthr).format('YYYY-MM-DD HH:mm:ss'));
+        const dt = new Date(moment(dataString).format('YYYY-MM-DD HH:mm:ss'));
         return dt;
       }
       dthr = `${dataString}`;
@@ -454,6 +455,8 @@ const pacienteSchema = new Schema(
   },
   { versionKey: false, toJSON: { getters: true }, id: false },
 );
+
+pacienteSchema.index({ numProntuario: 1, unidade: 1 }, { unique: true });
 
 const Paciente = mongoose.model('paciente', pacienteSchema);
 
