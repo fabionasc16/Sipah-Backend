@@ -442,7 +442,8 @@ export class AuthService {
 
   static checkError(error: any, response: Response) {
     if (error && error.response) {
-      return response.status(error.response.status).send();
+      
+      return response.status(error.response.status).json(error.response.data).send();
     }
     if (error.code == 'ECONNREFUSED') {
       return response.status(404).send();
