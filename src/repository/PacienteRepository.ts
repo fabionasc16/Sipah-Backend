@@ -396,16 +396,13 @@ class PacienteRepository implements IPacienteRepository {
     }
 
     const $and = [];
-
-    if (params.body.dataEntrada) {
-      if (params.body.dataEntrada !== '') {
-        // $and.push({ dataEntrada: params.body.dataEntrada });
-        $and.push({
-          dataEntrada: {
-            $eq: moment(new Date(params.body.dataEntrada)),
-          },
-        });
-      }
+    const dateSearch = moment(params.body.dataEntrada, 'YYYY-MM-DD', true);
+    if (dateSearch.isValid()) {
+      $and.push({
+        dataEntrada: {
+          $eq: moment(new Date(params.body.dataEntrada)),
+        },
+      });
     }
 
     if (params.body.horaEntrada) {
