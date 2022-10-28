@@ -398,11 +398,15 @@ class PacienteRepository implements IPacienteRepository {
     const $and = [];
     const dateSearch = moment(params.body.dataEntrada, 'YYYY-MM-DD', true);
     if (dateSearch.isValid()) {
-      $and.push({
-        dataEntrada: {
-          $eq: moment(new Date(params.body.dataEntrada)),
-        },
-      });
+      const start = dateSearch;
+      const end = moment(dateSearch).add(1, 'days');
+      $and.push(
+        { dataEntrada: {
+          $gt: start ,
+          $lt: end          
+        }}
+      
+      );
     }
 
     if (params.body.horaEntrada) {
@@ -711,6 +715,12 @@ class PacienteRepository implements IPacienteRepository {
           });
         });
       }
+    }
+
+    if (params.body.idExternoPaciente !== '') {          
+          $and.push({
+            externalId: params.body.idExternoPaciente
+          });       
     }
 
     if ($and.length) {
