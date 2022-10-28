@@ -391,6 +391,8 @@ class PacienteController {
       origin.unidadeSaudeDestino = '';
       origin.numProntuarioOrigem = origin.numProntuario;
       origin.numProntuario = '';
+      origin.autorizaConsulta = 'Não';
+      origin.querEncontro = 'Não';
       origin.entradaAtraves = 'transferencia';
       origin.statusRegistro = 'Cadastrado';
 
@@ -446,6 +448,8 @@ class PacienteController {
         observacao: paciente.observacao,
         statusRegistro: 'Finalizado',
         unidadeSaudeDestino: paciente.unidadeSaudeDestino,
+        autorizaConsulta: 'Não',
+        querEncontro: 'Não',
         dataSaida: paciente.dataEntrada,
         horaSaida: paciente.horaEntrada,
       });

@@ -1544,6 +1544,7 @@ class PacienteRepository implements IPacienteRepository {
 
     $and.push({
       autorizaConsulta: 'Sim',
+      querEncontro: 'Sim',
       imgPrincipal: { $ne: null },
       statusPaciente: 'Não identificado'
     });
