@@ -1,14 +1,14 @@
 // import { Request, Response } from 'express';
-import { AppError } from '../AppError';
 import { Request, Response } from 'express';
 import fs from 'fs';
-import { Messages } from '../messages/Messages';
-import moment from 'moment';
+import moment, { now } from 'moment';
 import mongoose from 'mongoose';
 import path from 'path';
-import { AuthService } from '../service/auth.service';
 import { container } from 'tsyringe';
 
+import { AppError } from '../AppError';
+import { Messages } from '../messages/Messages';
+import { AuthService } from '../service/auth.service';
 import { PacienteService } from '../service/paciente.service';
 
 class PacienteController {
@@ -17,6 +17,24 @@ class PacienteController {
     const paciente = request.body;
 
     try {
+      // Validar data de entrada
+      if (request.body.dataEntrada !== '--') {
+        const dateSearch = moment(
+          request.body.dataEntrada,
+          'YYYY-MM-DD',
+          true,
+        ).utc();
+        const today = moment().utc().format('YYYY-MM-DD');
+        if (
+          dateSearch.isValid() === false ||
+          moment(request.body.dataEntrada).isAfter(today)
+        ) {
+          return response.status(404).send({
+            message: 'Data Inválida!',
+          });
+        }
+      }
+
       const result = await service.create(paciente);
       return response
         .status(201)
@@ -32,19 +50,47 @@ class PacienteController {
     const list = container.resolve(PacienteService);
     let data = {};
 
-    if (
-      AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) ||
-      AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)
-    ) {
-      data = await list.listsearch(request);
-    } else if (
-      AuthService.checkRoles(AuthService.ROLES.ATENDIMENTO, request.user.roles)
-    ) {
-      // TODO: Implementar metodo para listagem para recepcao
-      data = await list.listsearch(request);
-    }
+    try {
+      if (Object.keys(request.body).length !== 0) {
+        if (request.body.dataEntrada !== '--') {
+          const dateSearch = moment(
+            request.body.dataEntrada,
+            'YYYY-MM-DD',
+            true,
+          ).utc();
+          const today = moment().utc().format('YYYY-MM-DD');
+          if (
+            dateSearch.isValid() === false ||
+            moment(request.body.dataEntrada).isAfter(today)
+          ) {
+            return response.status(404).send({
+              message: 'Data Inválida!',
+            });
+          }
+        }
+      }
 
-    return response.status(200).json(data);
+      if (
+        AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) ||
+        AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)
+      ) {
+        data = await list.listsearch(request);
+      } else if (
+        AuthService.checkRoles(
+          AuthService.ROLES.ATENDIMENTO,
+          request.user.roles,
+        )
+      ) {
+        // TODO: Implementar metodo para listagem para recepcao
+        data = await list.listsearch(request);
+      }
+
+      return response.status(200).json(data);
+    } catch (error) {
+      return response
+        .status(error.status)
+        .send('Não foi possível listar pacientes!');
+    }
   }
 
   async listSearchOut(request: Request, response: Response): Promise<any> {
