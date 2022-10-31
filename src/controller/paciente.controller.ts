@@ -71,18 +71,18 @@ class PacienteController {
       }
 
       if (
-        AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) ||
-        AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)
+        AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) 
       ) {
         data = await list.listsearch(request);
       } else if (
         AuthService.checkRoles(
           AuthService.ROLES.ATENDIMENTO,
           request.user.roles,
-        )
+        ) ||
+        AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)
       ) {
-        // TODO: Implementar metodo para listagem para recepcao
-        data = await list.listsearch(request);
+       
+        data = await list.listsearchByUS(request,request.user.unit_id);
       }
 
       return response.status(200).json(data);
