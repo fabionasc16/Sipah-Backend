@@ -407,7 +407,7 @@ class PacienteRepository implements IPacienteRepository {
       $and.push({
         dataEntrada: {
           $gte: start,
-          $lte: end,
+          $lt: end,
         },
       });
     }
