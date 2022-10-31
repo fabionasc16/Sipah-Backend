@@ -1,7 +1,13 @@
 // import axios from 'axios'; // urls com https
 import axios from 'axios';
 import { Response, Request } from 'express';
+import { sign, verify } from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
 // import './types/UserSSO';
+
+dotenv.config({
+  path: './.env.dev',
+});
 
 export class AuthService {
   private url = process.env.SSO_URL;
@@ -25,7 +31,7 @@ export class AuthService {
     ADMIN: 'SIPAH_ADMINISTRADOR',
   };
 
-  constructor() {}
+  constructor() { }
 
   async profiles(request: Request, response: Response): Promise<Response> {
     const url = process.env.SSO_URL;
@@ -257,10 +263,10 @@ export class AuthService {
           }
         } catch (error) {
           request.body.perfilUsuario = [request.body.perfilUsuario];
-          if(request.user.unit_id){
+          if (request.user.unit_id) {
             request.body.unidadeUsuario = [request.user.unit_id]
           }
-          
+
           // Senão, realiza-se o cadastro do paciente normalmente.
           const { status, data } = await axios.post(
             `${url}/users/`,
@@ -407,9 +413,50 @@ export class AuthService {
     }
   }
 
-  static verify(token: string) {
+  public static async verify(token: string) {
+
+    try {
+      let dataToken = undefined;
+      dataToken = await verify(token.replace('Bearer ', ''), process.env.JWT_KEY);
+
+
+      if (dataToken && dataToken.userid) {
+       
+
+        const url = process.env.SSO_URL;
+        const { status, data } =  await axios.get(
+          `${url}/users/id/${dataToken.userid}`,
+        );
+        const user = data;
+
+        if ( user.perfis && user.perfis.length >= 1) {
+            user.roles = [];
+          
+            for (let index = 0; index < data.perfis.length; index++) {
+              const element = data.perfis[index];
+              const system = element.systems.system_name;
+              for (let resource = 0; resource < element.resources.length; resource++) {
+                user.roles.push(`${system}_${element.resources[resource].resource_name}`);               
+              }
+              
+            }
+          // data.perfis[0].id = element._id;
+          // data.perfis[0].profile_description = element.profile_name;
+          // console.log(data.perfis[index])
+
+          user.perfilUsuario = await user.perfis[0]._id;
+          user.unit_id = await user.unidadeUsuario[0]._id;
+        }
+        
+        return await  user;
+      }
+      } catch (error) {
+        return undefined;
+      }
+    }
+
     // TODO: Implementar integração com o sso
-    return {
+   /* return {
       id: '62fce3201bc1df4518e69613',
       user_name: 'André Lucas',
       cpf: '99999999999',
@@ -429,8 +476,8 @@ export class AuthService {
         'SIPAH_PACIENTE_RECEPCAO',
         'SIPAH_ADMINISTRADOR',
       ],
-    };
-  }
+    };*/
+  
 
   static checkRoles(role: string, roles: Array<string>) {
     // Verifica se a role esta contida na lista
@@ -446,7 +493,7 @@ export class AuthService {
 
   static checkError(error: any, response: Response) {
     if (error && error.response) {
-      
+
       return response.status(error.response.status).json(error.response.data).send();
     }
     if (error.code == 'ECONNREFUSED') {
