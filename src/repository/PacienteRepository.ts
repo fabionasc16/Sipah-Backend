@@ -402,9 +402,12 @@ class PacienteRepository implements IPacienteRepository {
       true,
     ).utc();
     if (dateSearch.isValid()) {
+      const start = dateSearch;
+      const end = moment(dateSearch).add(1, 'days');
       $and.push({
         dataEntrada: {
-          $eq: moment(new Date(params.body.dataEntrada)).utc(),
+          $gt: start,
+          $lt: end,
         },
       });
     }
@@ -721,6 +724,12 @@ class PacienteRepository implements IPacienteRepository {
           });
         });
       }
+    }
+
+    if (params.body.idExternoPaciente !== '') {
+      $and.push({
+        externalId: params.body.idExternoPaciente,
+      });
     }
 
     if ($and.length) {
@@ -1554,7 +1563,9 @@ class PacienteRepository implements IPacienteRepository {
 
     $and.push({
       autorizaConsulta: 'Sim',
+      querEncontro: 'Sim',
       imgPrincipal: { $ne: null },
+      statusPaciente: 'Não identificado',
     });
 
     if (params.body.idadeAproximada) {

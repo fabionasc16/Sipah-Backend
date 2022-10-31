@@ -257,6 +257,10 @@ export class AuthService {
           }
         } catch (error) {
           request.body.perfilUsuario = [request.body.perfilUsuario];
+          if(request.user.unit_id){
+            request.body.unidadeUsuario = [request.user.unit_id]
+          }
+          
           // Senão, realiza-se o cadastro do paciente normalmente.
           const { status, data } = await axios.post(
             `${url}/users/`,
