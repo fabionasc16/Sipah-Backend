@@ -240,6 +240,8 @@ const pacienteSchema = new Schema(
     nomePaciente: {
       type: mongoose.Schema.Types.String,
       default: '',
+      uppercase: true,
+      trim: true,
     },
     nomeMae: {
       type: mongoose.Schema.Types.String,

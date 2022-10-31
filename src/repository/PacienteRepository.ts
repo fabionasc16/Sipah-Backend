@@ -29,7 +29,7 @@ class PacienteRepository implements IPacienteRepository {
     if (search) {
       term = {
         $or: [
-          { nomePaciente: search },
+          { nomePaciente: { $regex: search.toUpperCase() } },
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
@@ -387,7 +387,7 @@ class PacienteRepository implements IPacienteRepository {
     if (search) {
       term = {
         $or: [
-          { nomePaciente: search },
+          { nomePaciente: { $regex: search.toUpperCase() } },
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
@@ -406,16 +406,10 @@ class PacienteRepository implements IPacienteRepository {
       const end = moment(dateSearch).add(1, 'days');
       $and.push({
         dataEntrada: {
-          $gt: start,
-          $lt: end,
+          $gte: start,
+          $lte: end,
         },
       });
-    }
-
-    if (params.body.externalId) {
-      if (params.body.externalId !== '') {
-        $and.push({ externalId: params.body.externalId });
-      }
     }
 
     if (params.body.horaEntrada) {
@@ -450,7 +444,11 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.nomePaciente) {
       if (params.body.nomePaciente !== '') {
-        $and.push({ nomePaciente: { $regex: params.body.nomePaciente } });
+        $and.push({
+          nomePaciente: {
+            $regex: params.body.nomePaciente.toUpperCase(),
+          },
+        });
       }
     }
 
@@ -726,10 +724,12 @@ class PacienteRepository implements IPacienteRepository {
       }
     }
 
-    if (params.body.idExternoPaciente !== '') {
-      $and.push({
-        externalId: params.body.idExternoPaciente,
-      });
+    if (params.body.idExternoPaciente) {
+      if (params.body.idExternoPaciente !== '') {
+        $and.push({
+          externalId: params.body.idExternoPaciente,
+        });
+      }
     }
 
     if ($and.length) {
@@ -798,7 +798,7 @@ class PacienteRepository implements IPacienteRepository {
     if (search) {
       term = {
         $or: [
-          { nomePaciente: search },
+          { nomePaciente: { $regex: search.toUpperCase() } },
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
@@ -846,7 +846,9 @@ class PacienteRepository implements IPacienteRepository {
 
     if (params.body.nomePaciente) {
       if (params.body.nomePaciente !== '') {
-        $and.push({ nomePaciente: params.body.nomePaciente });
+        $and.push({
+          nomePaciente: { $regex: params.body.nomePaciente.toUpperCase() },
+        });
       }
     }
 
@@ -1179,7 +1181,7 @@ class PacienteRepository implements IPacienteRepository {
     if (search) {
       term = {
         $or: [
-          { nomePaciente: search },
+          { nomePaciente: { $regex: search.toUpperCase() } },
           { cpf: search },
           { entradaAtraves: search },
           { numProntuario: search },
