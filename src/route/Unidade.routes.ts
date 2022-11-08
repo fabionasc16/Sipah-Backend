@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { checkJWT } from '../middleware/checkJWT';
 import { checkRole } from '../middleware/checkRole';
 import { AuthService } from '../service/auth.service';
@@ -16,7 +17,7 @@ unidadeRoutes.post(
 unidadeRoutes.get(
   '/list',
   checkJWT,
-  checkRole([AuthService.ROLES.ADMIN]),
+  checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.USUARIO]),
   authService.listUnities,
 );
 unidadeRoutes.get(

@@ -1,8 +1,8 @@
 // import axios from 'axios'; // urls com https
 import axios from 'axios';
+import * as dotenv from 'dotenv';
 import { Response, Request } from 'express';
 import { sign, verify } from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
 // import './types/UserSSO';
 
 dotenv.config({
@@ -31,7 +31,7 @@ export class AuthService {
     ADMIN: 'SIPAH_ADMINISTRADOR',
   };
 
-  constructor() { }
+  constructor() {}
 
   async profiles(request: Request, response: Response): Promise<Response> {
     const url = process.env.SSO_URL;
@@ -264,7 +264,7 @@ export class AuthService {
         } catch (error) {
           request.body.perfilUsuario = [request.body.perfilUsuario];
           if (request.user.unit_id) {
-            request.body.unidadeUsuario = [request.user.unit_id]
+            request.body.unidadeUsuario = [request.user.unit_id];
           }
 
           // Senão, realiza-se o cadastro do paciente normalmente.
@@ -330,9 +330,22 @@ export class AuthService {
       }
 
       const { status, data } = await axios.get(
-        `${url}/users/unity/${userUnidadeID}`,
+        `${url}/users/unity${queryParams}&search=${userUnidadeID}`,
       );
 
+      const users = [];
+      for (let index = 0; index < data.data.length; index++) {
+        const element = AuthService.convertSSOToUser(data.data[index]);
+        let perfisStr = '';
+        for (let j = 0; j < element.perfis.length; j++) {
+          perfisStr = perfisStr.concat(element.perfis[j].profile_description);
+        }
+
+        element.perfilUsuario = perfisStr;
+
+        users.push(element);
+      }
+      data.data = users;
       return response.status(status).json(data);
     } catch (error) {
       return await AuthService.checkError(error, response);
@@ -414,32 +427,36 @@ export class AuthService {
   }
 
   public static async verify(token: string) {
-
     try {
-      let dataToken = undefined;
-      dataToken = await verify(token.replace('Bearer ', ''), process.env.JWT_KEY);
-
+      let dataToken;
+      dataToken = await verify(
+        token.replace('Bearer ', ''),
+        process.env.JWT_KEY,
+      );
 
       if (dataToken && dataToken.userid) {
-       
-
         const url = process.env.SSO_URL;
-        const { status, data } =  await axios.get(
+        const { status, data } = await axios.get(
           `${url}/users/id/${dataToken.userid}`,
         );
         const user = data;
 
-        if ( user.perfis && user.perfis.length >= 1) {
-            user.roles = [];
-          
-            for (let index = 0; index < data.perfis.length; index++) {
-              const element = data.perfis[index];
-              const system = element.systems.system_name;
-              for (let resource = 0; resource < element.resources.length; resource++) {
-                user.roles.push(`${system}_${element.resources[resource].resource_name}`);               
-              }
-              
+        if (user.perfis && user.perfis.length >= 1) {
+          user.roles = [];
+
+          for (let index = 0; index < data.perfis.length; index++) {
+            const element = data.perfis[index];
+            const system = element.systems.system_name;
+            for (
+              let resource = 0;
+              resource < element.resources.length;
+              resource++
+            ) {
+              user.roles.push(
+                `${system}_${element.resources[resource].resource_name}`,
+              );
             }
+          }
           // data.perfis[0].id = element._id;
           // data.perfis[0].profile_description = element.profile_name;
           // console.log(data.perfis[index])
@@ -447,16 +464,16 @@ export class AuthService {
           user.perfilUsuario = await user.perfis[0]._id;
           user.unit_id = await user.unidadeUsuario[0]._id;
         }
-        
-        return await  user;
-      }
-      } catch (error) {
-        return undefined;
-      }
-    }
 
-    // TODO: Implementar integração com o sso
-   /* return {
+        return await user;
+      }
+    } catch (error) {
+      return undefined;
+    }
+  }
+
+  // TODO: Implementar integração com o sso
+  /* return {
       id: '62fce3201bc1df4518e69613',
       user_name: 'André Lucas',
       cpf: '99999999999',
@@ -476,8 +493,7 @@ export class AuthService {
         'SIPAH_PACIENTE_RECEPCAO',
         'SIPAH_ADMINISTRADOR',
       ],
-    };*/
-  
+    }; */
 
   static checkRoles(role: string, roles: Array<string>) {
     // Verifica se a role esta contida na lista
@@ -493,13 +509,29 @@ export class AuthService {
 
   static checkError(error: any, response: Response) {
     if (error && error.response) {
-
-      return response.status(error.response.status).json(error.response.data).send();
+      return response
+        .status(error.response.status)
+        .json(error.response.data)
+        .send();
     }
     if (error.code == 'ECONNREFUSED') {
       return response.status(404).send();
     }
     return response.status(500).send();
+  }
+
+  static convertUserSSO(modelSSO: any) {
+    return {
+      _id: modelSSO._id,
+      nome: modelSSO.unit_name,
+      status: modelSSO.status,
+      systems: modelSSO.systems,
+      excluido: modelSSO.excluido,
+      cnpj: modelSSO.unit_cnpj,
+      diretor: modelSSO.unit_director,
+      created_at: modelSSO.created_at,
+      updated_at: modelSSO.updated_at,
+    };
   }
 
   static convertSSOToUnit(modelSSO: any) {
@@ -513,6 +545,18 @@ export class AuthService {
       diretor: modelSSO.unit_director,
       created_at: modelSSO.created_at,
       updated_at: modelSSO.updated_at,
+    };
+  }
+
+  static convertSSOToUser(modelSSO: any) {
+    return {
+      _id: modelSSO._id,
+      perfis: modelSSO.profiles,
+      unidadeUsuario: modelSSO.unities,
+      nome: modelSSO.user_name,
+      status: modelSSO.user_status,
+      cpf: modelSSO.user_cpf,
+      perfilUsuario: '',
     };
   }
 }
