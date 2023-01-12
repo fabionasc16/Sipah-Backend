@@ -10,10 +10,15 @@ import { AppError } from '../AppError';
 import { Messages } from '../messages/Messages';
 import { AuthService } from '../service/auth.service';
 import { PacienteService } from '../service/paciente.service';
+import { ElasticsearchService } from '../service/elasticsearch.service';
+
+
 
 class PacienteController {
+
   async create(request: Request, response: Response): Promise<Response> {
     const service = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
     const paciente = request.body;
 
     try {
@@ -36,6 +41,7 @@ class PacienteController {
       }
 
       const result = await service.create(paciente);
+      elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'CADASTRAR', request.user, request.user.unidadeUsuario.unit_name, result._id, paciente);
       return response
         .status(201)
         .json({ acknowledge: true, status: 'created', content: result });
@@ -48,6 +54,7 @@ class PacienteController {
 
   async listsearch(request: Request, response: Response): Promise<any> {
     const list = container.resolve(PacienteService);
+    //const elasticsearch = container.resolve(ElasticsearchService);
     let data = {};
 
     try {
@@ -71,7 +78,7 @@ class PacienteController {
       }
 
       if (
-        AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles) 
+        AuthService.checkRoles(AuthService.ROLES.ADMIN, request.user.roles)
       ) {
         data = await list.listsearch(request);
       } else if (
@@ -81,10 +88,11 @@ class PacienteController {
         ) ||
         AuthService.checkRoles(AuthService.ROLES.PACIENTE, request.user.roles)
       ) {
-       
-        data = await list.listsearchByUS(request,request.user.unit_id);
+
+        data = await list.listsearchByUS(request, request.user.unit_id);
       }
 
+      //elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'LISTAR', request.user,{});
       return response.status(200).json(data);
     } catch (error) {
       return response
@@ -103,8 +111,10 @@ class PacienteController {
   async listById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const pacient = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
     const data = await pacient.listById(id);
 
+    elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'VISUALIZAR', request.user, request.user.unidadeUsuario.unit_name, id, '');
     return response.status(200).json(data);
   }
 
@@ -122,8 +132,10 @@ class PacienteController {
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const useCase = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
 
     await useCase.delete(id);
+    elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'DELETAR', request.user, request.user.unidadeUsuario.unit_name, id, '');
     return response.status(204).send();
   }
 
@@ -133,6 +145,7 @@ class PacienteController {
         const { arquivos } = request.files;
         const { id } = request.params;
         const importFile = container.resolve(PacienteService);
+        const elasticsearch = container.resolve(ElasticsearchService);
         const files: any[] = [];
 
         for (let i = 0; i < arquivos.length; i += 1) {
@@ -151,6 +164,10 @@ class PacienteController {
                 const texto = `{"imgPrincipal":"${img._id}` + `"}`;
                 const paciente = JSON.parse(texto);
                 const result = await importFile.update(id, paciente);
+
+                // elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'UPLOAD_IMAGE', request.user,request.user.unidadeUsuario.unit_name, result);
+                elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'UPLOAD_IMAGE', request.user, request.user.unidadeUsuario.unit_name, id, '');
+
               } catch (error) {
                 return response.status(404).send(error.message);
               }
@@ -175,9 +192,12 @@ class PacienteController {
   async loadImagem(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
 
     const data = await importFile.loadImage(id);
 
+    //elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'LOAD_IMAGE', 'Não Identificado','Não Identificada',{ idPaciente:id });
+    elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'LOAD_IMAGE', 'Não Identificado', 'Não Identificada', id, '');
     return response.status(200).json(data);
   }
 
@@ -187,25 +207,32 @@ class PacienteController {
   ): Promise<Response> {
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
-
+    const elasticsearch = container.resolve(ElasticsearchService);
     const data = await importFile.loadImageById(id);
-
+    //elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'VISUALIZAR', request.user,request.user.unidadeUsuario.unit_name, data);
+    elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'VISUALIZAR', request.user, request.user.unidadeUsuario.unit_name, id, '');
     return response.status(200).json(data);
   }
 
   async loadImageByIdOpen(request: Request, response: Response): Promise<any> {
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
 
     const data = await importFile.loadImageByIdOpen(id);
 
     const raiz = path.join(__dirname, '..', '..');
+    //elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'VISUALIZAR_EXTERNO', request.user,request.user.unidadeUsuario.unit_name, data);
+    elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'VISUALIZAR_EXTERNO', request.user, request.user.unidadeUsuario.unit_name, id, '');
+
     return response.sendFile(raiz + data.imagens);
   }
 
   async deleteImagem(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const useCase = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
+
 
     const imagem = await useCase.loadImageById(id);
     if (!imagem) {
@@ -253,6 +280,8 @@ class PacienteController {
             });
           }
 
+          // elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'DELETE_IMAGE', request.user,request.user.unidadeUsuario.unit_name,{ 'idPaciente':idPaciente});
+          elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'DELETE_IMAGE', request.user, request.user.unidadeUsuario.unit_name, idPaciente, '');
           return response.status(204).send();
         });
       });
@@ -273,6 +302,7 @@ class PacienteController {
         const { termo } = request.files;
         const { id } = request.params;
         const importFile = container.resolve(PacienteService);
+        const elasticsearch = container.resolve(ElasticsearchService);
         const files: any[] = [];
 
         for (let i = 0; i < termo.length; i += 1) {
@@ -281,9 +311,13 @@ class PacienteController {
           await importFile.uploadTermo(id, files[i]);
         }
 
+       // elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'UPLOAD_TERMO', request.user, request.user.unidadeUsuario.unit_name, { 'idPaciente': id });
+        elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'UPLOAD_TERMO', request.user,request.user.unidadeUsuario.unit_name,id ,'');
+
         return response.status(201).send({
           message: 'Successfully uploaded',
         });
+
       }
       return response
         .status(400)
@@ -298,19 +332,23 @@ class PacienteController {
   async loadTermo(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
 
     const data = await importFile.loadTermo(id);
-
+    // elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'VISUALIZAR_TERMO', request.user,request.user.unidadeUsuario.unit_name, data);
     return response.status(200).json(data);
   }
 
   async update(request: Request, response: Response): Promise<Response> {
     const service = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
     const { id } = request.params;
     const paciente = request.body;
 
     try {
-      await service.update(id, paciente);
+      const data = await service.update(id, paciente);
+     // elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'ATUALIZAR_CADASTRO', request.user, request.user.unidadeUsuario.unit_name, data);
+      elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'ATUALIZAR_CADASTRO', request.user, request.user.unidadeUsuario.unit_name,id ,data);
       return response
         .status(200)
         .json({ acknowledge: true, status: 'updated' });
@@ -322,16 +360,17 @@ class PacienteController {
   async loadTermoById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const importFile = container.resolve(PacienteService);
-
+    const elasticsearch = container.resolve(ElasticsearchService);
     const data = await importFile.loadTermoById(id);
 
+    //elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'VISUALIZAR_TERMO', request.user,request.user.unidadeUsuario.unit_name, data);
     return response.status(200).json(data);
   }
 
   async deleteTermo(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const useCase = container.resolve(PacienteService);
-
+    const elasticsearch = container.resolve(ElasticsearchService);
     const termo = await useCase.loadTermoById(id);
     if (!termo) {
       throw new AppError(Messages.PACIENTE_NOT_FOUND, 404);
@@ -360,7 +399,9 @@ class PacienteController {
                 ),
               );
           }
-          await useCase.deleteTermo(id);
+          const data = await useCase.deleteTermo(id);
+          //elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'DELETAR_TERMO', request.user, request.user.unidadeUsuario.unit_name, data);
+          elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'DELETAR_TERMO', request.user, request.user.unidadeUsuario.unit_name,id, data);
           return response.status(204).send();
         });
       });
@@ -387,6 +428,7 @@ class PacienteController {
     response: Response,
   ): Promise<Response> {
     const service = container.resolve(PacienteService);
+    const elasticsearch = container.resolve(ElasticsearchService);
     const paciente = request.body;
     const { id } = request.params;
 
@@ -413,8 +455,8 @@ class PacienteController {
       const first = `000${firstPart.toString(36)}`.slice(-3);
       const second = `000${secondPart.toString(36)}`.slice(-3);
       origin.externalId = first + second;
-      console.log('Novo ID Externo');
-      console.log(origin.externalId);
+      //console.log('Novo ID Externo');
+      //console.log(origin.externalId);
       // console.log('ID de Destino');
       // console.log(origin._id.toString());
       // const duplicado = await origin.save();
@@ -458,8 +500,8 @@ class PacienteController {
       // 3 - Criar novo registro do paciente em outra unidade
       // const created = await service.create(dados);
       const duplicado = await origin.save();
-      console.log('Duplicado');
-      console.log(duplicado);
+      //console.log('Duplicado');
+      //console.log(duplicado);
       // const created = await service.create(origin);
       // // duplico o a referencia a imagem do paciente.
       // // Embora sendo o mesmo paciente, quando transferido é gerado um novo ID para o novo registro.
@@ -499,7 +541,8 @@ class PacienteController {
         dataSaida: paciente.dataEntrada,
         horaSaida: paciente.horaEntrada,
       });
-
+      //elasticsearch.sendLog('SIPAH', 'Lista de Pacientes', 'TRANSFERENCIA_PACIENTE', request.user, request.user.unidadeUsuario.unit_name, up);
+      elasticsearch.sendLogPacient('SIPAH', 'Lista de Pacientes', 'TRANSFERENCIA_PACIENTE', request.user, request.user.unidadeUsuario.unit_name, id,'');
       return response
         .status(201)
         .json({ acknowledge: true, status: 'transferred' });

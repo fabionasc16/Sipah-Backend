@@ -68,7 +68,7 @@ class PacienteService {
       const cadastroPaciente = await this.pacienteRepository.create(data);
       return cadastroPaciente;  
     }else if (tranfExist) {
-            throw new AppError(Messages.USUARIO_ALREADY_EXISTS, 400);
+            throw new AppError(Messages.PATIENT_ALREADY_EXISTS, 400);
         }
     const cadastroPaciente = await this.pacienteRepository.create(data);
     return cadastroPaciente;

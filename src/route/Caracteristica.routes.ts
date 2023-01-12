@@ -10,7 +10,7 @@ const caracteristicaController = new CaracteristicaController();
 
 caracteristicaRoutes.post('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), caracteristicaController.create);
 
-caracteristicaRoutes.get('/', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), caracteristicaController.list);
+caracteristicaRoutes.get('/', checkJWT, caracteristicaController.list);
 
 caracteristicaRoutes.get('/:name', checkJWT, checkRole([AuthService.ROLES.ADMIN, AuthService.ROLES.CARACTERISTICA]), caracteristicaController.listByCaracteristica);
 

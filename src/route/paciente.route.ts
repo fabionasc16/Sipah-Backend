@@ -128,12 +128,12 @@ pacientesRoutes.post('/uploadtermo/:id', [
 ]);
 
 // load termo de paciente
-pacientesRoutes.get('/loadtermo/:id', pacienteController.loadTermo);
+pacientesRoutes.get('/loadtermo/:id', checkJWT, pacienteController.loadTermo);
 // load Imagem por ID da imagem
 pacientesRoutes.get('/loadtermoid/:id', pacienteController.loadTermoById);
 // delete termo de paciente
 pacientesRoutes.delete('/deletetermo/:id', pacienteController.deleteTermo);
 
-pacientesRoutes.put('/transfer/:id', pacienteController.pacientTransfer);
+pacientesRoutes.put('/transfer/:id', checkJWT,pacienteController.pacientTransfer);
 
 export { pacientesRoutes };
